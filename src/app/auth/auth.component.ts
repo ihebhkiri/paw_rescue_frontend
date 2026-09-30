@@ -1,22 +1,22 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonIcon } from '@ionic/angular';
+import { AuthLayoutComponent } from './layout/auth-layout.component';
+import { RouterLink } from '@angular/router';
 import {
-  arrowForwardOutline, chevronDownOutline, eyeOffOutline, eyeOutline,
-  globeOutline, heart, home, lockClosedOutline, logoApple, mailOutline, megaphone, paw,
+  arrowForwardOutline, eyeOffOutline, eyeOutline, lockClosedOutline, logoApple, mailOutline,
 } from 'ionicons/icons';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
-  imports: [ReactiveFormsModule, IonIcon],
+  imports: [ReactiveFormsModule, IonIcon, AuthLayoutComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {
   readonly icons = {
-    arrowForwardOutline, chevronDownOutline, eyeOffOutline, eyeOutline,
-    globeOutline, heart, home, lockClosedOutline, logoApple, mailOutline, megaphone, paw,
+    arrowForwardOutline, eyeOffOutline, eyeOutline, lockClosedOutline, logoApple, mailOutline,
   };
   readonly passwordVisible = signal(false);
   readonly feedback = signal('');

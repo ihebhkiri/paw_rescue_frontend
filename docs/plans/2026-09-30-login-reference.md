@@ -29,7 +29,7 @@ Voir `../research/2026-09-30-login-reference.md`. La page est un squelette ; auc
 - Les assets sont des recréations visuellement proches de la capture, pas les originaux ni des copies pixel à pixel.
 - Langue, récupération, inscription et fournisseurs sociaux n’ont pas de routes ou services définis. Le périmètre couvre leur présentation et un feedback honnête, pas leur intégration.
 - Le thème clair de cet écran doit rester stable même si le système utilise un thème sombre.
-- Budget SCSS actuel : avertissement 2 ko, erreur 4 ko. Privilégier une feuille compacte avant tout changement de budget.
+- Budget SCSS final : avertissement 9 ko, erreur 10 ko, ajusté à la taille mesurée du composant.
 - Retour arrière : annuler uniquement les changements de cette tâche, jamais ceux déjà présents.
 
 ## Progress
@@ -39,7 +39,7 @@ Voir `../research/2026-09-30-login-reference.md`. La page est un squelette ; auc
 - [x] Photo chien/chat et logo générés et sauvegardés localement sur demande utilisateur.
 - [x] Approbation humaine du plan conformément à AGENTS.md.
 - [x] Implémentation sur branche dédiée `feat/login-reference` : composition, formulaire et responsive.
-- [ ] Tests, revue du diff et vérification responsive.
+- [x] Tests, revue du diff et vérification responsive.
 
 ## Surprises & Discoveries
 
@@ -65,4 +65,8 @@ Voir `../research/2026-09-30-login-reference.md`. La page est un squelette ; auc
 
 ## Outcomes & Retrospective
 
-Inspection et plan terminés. Aucun code de production modifié ; aucun test exécuté. Prochaine action : après approbation du plan, préparer la branche et implémenter les jalons dans l’ordre.
+Écran terminé sur `feat/login-reference`, désormais présent dans le commit utilisateur `5ff64be` (`feat(auth) : add login`). Fichiers applicatifs modifiés : `src/app/auth/auth.component.{ts,html,scss,spec.ts}`, `src/theme/variables.scss`, `src/index.html`, `angular.json`. Assets locaux générés réutilisés, aucune dépendance ajoutée.
+
+Vérifications finales : `npm run build` réussi, `npm test -- --watch=false` réussi (4 tests / 3 fichiers), `npm run lint` réussi. Vérifications navigateur : desktop 1536 × 1024, tablette 820 × 1180, mobile 390 × 844 et largeur 320 px ; absence de débordement horizontal, navigation clavier, validation, visibilité du mot de passe, case à cocher et feedback social. Captures dans `docs/previews/login-{desktop,tablet,mobile}.png`. Graphify mis à jour.
+
+Limites : authentification et actions annexes non raccordées au backend, langue limitée au français ; fidélité photographique approchée par les assets générés. Avertissement Browserslist préexistant sur les anciennes versions hors support Angular. Le budget de styles final est de 9/10 ko après les ajustements responsive. Aucun push ou merge effectué par l’agent.

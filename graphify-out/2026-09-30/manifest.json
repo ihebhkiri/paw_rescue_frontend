@@ -1,0 +1,152 @@
+{
+  "angular.json": {
+    "mtime": 1790781907.351869,
+    "seen": 1790782080.8680763,
+    "ast_hash": "e983b6d59dba5c2b8f8032f9c7375763",
+    "semantic_hash": ""
+  },
+  "capacitor.config.ts": {
+    "mtime": 1790771223.2326145,
+    "seen": 1790782080.8680856,
+    "ast_hash": "c7b217159a97ea47e2363d8d0265311a",
+    "semantic_hash": ""
+  },
+  "eslint.config.js": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.8680897,
+    "ast_hash": "a2afe6c21cab48b53659249ca4286843",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1790771223.4108357,
+    "seen": 1790782080.8680916,
+    "ast_hash": "fcaa53b5dbc4b95d976422066732f91a",
+    "semantic_hash": ""
+  },
+  "src/app/app.component.spec.ts": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.8680937,
+    "ast_hash": "0a477dee3759af8f958109bcc30c2425",
+    "semantic_hash": ""
+  },
+  "src/app/app.component.ts": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.868095,
+    "ast_hash": "4285040cf2325aef2826563041505b6b",
+    "semantic_hash": ""
+  },
+  "src/app/app.routes.ts": {
+    "mtime": 1790771587.958662,
+    "seen": 1790782080.8680973,
+    "ast_hash": "c8588ce1cd04a1e53dcf9b9a2f04be53",
+    "semantic_hash": ""
+  },
+  "src/app/auth/auth.component.spec.ts": {
+    "mtime": 1790781849.8249383,
+    "seen": 1790782080.8680992,
+    "ast_hash": "4da9ead63905b38588dea8301e4f8d54",
+    "semantic_hash": ""
+  },
+  "src/app/auth/auth.component.ts": {
+    "mtime": 1790781803.621585,
+    "seen": 1790782080.8681011,
+    "ast_hash": "885488f40c385786938ec41e46bad012",
+    "semantic_hash": ""
+  },
+  "src/app/auth/service/auth.spec.ts": {
+    "mtime": 1790771462.366133,
+    "seen": 1790782080.8681026,
+    "ast_hash": "6c963d9d125dacae9cacace338bc3ed1",
+    "semantic_hash": ""
+  },
+  "src/app/auth/service/auth.ts": {
+    "mtime": 1790771462.3671277,
+    "seen": 1790782080.8681045,
+    "ast_hash": "e85eee0c8b55b241fa9fef41260e785e",
+    "semantic_hash": ""
+  },
+  "src/environments/environment.prod.ts": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.868107,
+    "ast_hash": "6de221395114600b523995704b7d1caa",
+    "semantic_hash": ""
+  },
+  "src/environments/environment.ts": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.8681085,
+    "ast_hash": "c141562af7e49205b518b4910a92fb5e",
+    "semantic_hash": ""
+  },
+  "src/main.ts": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.8681102,
+    "ast_hash": "73ce56bd847257cf8c1b527ee27344a4",
+    "semantic_hash": ""
+  },
+  "src/test-setup.ts": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.8681116,
+    "ast_hash": "5b8a55a8bac764125aa56a4c964b2e33",
+    "semantic_hash": ""
+  },
+  "docs/plans/2026-09-30-login-reference.md": {
+    "mtime": 1790781909.2927694,
+    "seen": 1790782080.8681135,
+    "ast_hash": "702877163961eebc73da7aab23c18d89",
+    "semantic_hash": ""
+  },
+  "docs/research/2026-09-30-generated-assets.md": {
+    "mtime": 1790781287.6926513,
+    "seen": 1790782080.868115,
+    "ast_hash": "9dc4f3ffbc424a9f18fe927d14207662",
+    "semantic_hash": ""
+  },
+  "docs/research/2026-09-30-login-reference.md": {
+    "mtime": 1790781042.1085405,
+    "seen": 1790782080.8681161,
+    "ast_hash": "fe6091c08dc40d317d568ac386fcf4cd",
+    "semantic_hash": ""
+  },
+  "src/app/app.component.html": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.868118,
+    "ast_hash": "ec4d9b62e08469c15ccc114353b3385f",
+    "semantic_hash": ""
+  },
+  "src/app/auth/auth.component.html": {
+    "mtime": 1790781669.276941,
+    "seen": 1790782080.8681192,
+    "ast_hash": "a6e0ea16dcc34f02006563c767a2a8ee",
+    "semantic_hash": ""
+  },
+  "src/index.html": {
+    "mtime": 1790782074.1943488,
+    "seen": 1790782080.8681211,
+    "ast_hash": "b56b33d241a54755a4c1941ed60d28b3",
+    "semantic_hash": ""
+  },
+  "src/assets/icon/favicon.png": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.8681228,
+    "ast_hash": "988be98f12b400c41a22b59b82cfeab6",
+    "semantic_hash": ""
+  },
+  "src/assets/images/auth/login-animals.png": {
+    "mtime": 1790781201.4137251,
+    "seen": 1790782080.8681262,
+    "ast_hash": "3eecb8b232cdbfa80a74aa1fcad0881b",
+    "semantic_hash": ""
+  },
+  "src/assets/images/logo/pawrescue-logo.png": {
+    "mtime": 1790781238.493579,
+    "seen": 1790782080.8681285,
+    "ast_hash": "348d2008fd1f351b767861a3eed88669",
+    "semantic_hash": ""
+  },
+  "src/assets/shapes.svg": {
+    "mtime": 1790084953.0,
+    "seen": 1790782080.8681304,
+    "ast_hash": "e535ce83da20a4b7719ca3d45195ebd5",
+    "semantic_hash": ""
+  }
+}
