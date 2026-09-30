@@ -1,0 +1,67 @@
+<main class="auth-screen">
+  <svg class="clip-definitions" aria-hidden="true" focusable="false">
+    <defs><clipPath id="hero-curve" clipPathUnits="objectBoundingBox"><path d="M0,0 H.76 C.88,.17 .86,.30 .82,.45 C.75,.64 .79,.70 .88,.82 C.96,.92 .96,.97 .945,1 H0 Z" /></clipPath></defs>
+  </svg>
+  <div class="hero-edge" aria-hidden="true"></div>
+  <div class="hero-photo" aria-hidden="true"></div>
+  <header class="brand">
+    <img src="assets/images/logo/pawrescue-logo.png" alt="" width="96" height="96" />
+    <div><p class="brand-name">PawRescue <span>AI</span></p><p class="brand-description">Plateforme intelligente de secours,<br />de suivi et d’adoption des animaux</p></div>
+  </header>
+  <aside class="hero-copy" aria-label="Notre mission">
+    <h2>Pour un monde<br />meilleur pour<br />tous les animaux.</h2>
+    <div class="mission-line"></div>
+    <ul class="features">
+      <li><span class="feature-icon report"><ion-icon [icon]="icons.megaphone" aria-hidden="true" /></span><strong>Signaler</strong><small>un animal</small></li>
+      <li><span class="feature-icon rescue"><ion-icon [icon]="icons.heart" aria-hidden="true" /></span><strong>Secourir</strong><small>en cas d’urgence</small></li>
+      <li><span class="feature-icon adopt"><ion-icon [icon]="icons.home" aria-hidden="true" /></span><strong>Adopter</strong><small>et offrir un foyer</small></li>
+      <li><span class="feature-icon support"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M18 15s-8-5-8-9a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-8 9-8 9ZM3 21l5-4h5l5 3h5c3 0 3 3 1 4l-9 5-7-2H3zm1-2H0v11h4z" fill="currentColor" /></svg></span><strong>Soutenir</strong><small>par un don</small></li>
+    </ul>
+  </aside>
+  <div class="hero-note" aria-hidden="true"><span>Ils comptent<br />sur nous !</span><svg viewBox="0 0 420 160"><path d="M31 39C6 15 20 1 29 21 44-3 59 14 31 39c64 62 148 110 298 71" /><path d="m314 106 15 4-11 10" /></svg></div>
+  <div class="language">
+    <ion-icon [icon]="icons.globeOutline" aria-hidden="true" />
+    <select aria-label="Langue"><option value="fr">FR</option></select>
+    <ion-icon [icon]="icons.chevronDownOutline" aria-hidden="true" />
+  </div>
+  <section class="login-panel" aria-labelledby="login-title">
+    <ion-icon class="paw-watermark" [icon]="icons.paw" aria-hidden="true" />
+    <div class="login-content">
+      <h1 id="login-title">Connexion</h1>
+      <p class="welcome">Ravi de vous revoir !<br />Connectez-vous à votre compte pour continuer.</p>
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="field-group">
+          <label class="sr-only" for="email">Adresse e-mail</label>
+          <div class="field" [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
+            <ion-icon [icon]="icons.mailOutline" aria-hidden="true" />
+            <input id="email" type="email" formControlName="email" placeholder="Adresse e-mail" autocomplete="username" inputmode="email" required [attr.aria-invalid]="form.controls.email.touched && form.controls.email.invalid" [attr.aria-describedby]="form.controls.email.touched && form.controls.email.invalid ? 'email-error' : null" />
+          </div>
+          @if (form.controls.email.touched && form.controls.email.invalid) { <small id="email-error" class="error">Saisissez une adresse e-mail valide.</small> }
+        </div>
+        <div class="field-group">
+          <label class="sr-only" for="password">Mot de passe</label>
+          <div class="field" [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
+            <ion-icon [icon]="icons.lockClosedOutline" aria-hidden="true" />
+            <input id="password" [type]="passwordVisible() ? 'text' : 'password'" formControlName="password" placeholder="Mot de passe" autocomplete="current-password" required [attr.aria-invalid]="form.controls.password.touched && form.controls.password.invalid" [attr.aria-describedby]="form.controls.password.touched && form.controls.password.invalid ? 'password-error' : null" />
+            <button class="visibility" type="button" (click)="passwordVisible.set(!passwordVisible())" [attr.aria-label]="passwordVisible() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'" [attr.aria-pressed]="passwordVisible()"><ion-icon [icon]="passwordVisible() ? icons.eyeOffOutline : icons.eyeOutline" aria-hidden="true" /></button>
+          </div>
+          @if (form.controls.password.touched && form.controls.password.invalid) { <small id="password-error" class="error">Saisissez votre mot de passe.</small> }
+        </div>
+        <div class="form-options">
+          <label class="remember"><input type="checkbox" formControlName="rememberMe" />Se souvenir de moi</label>
+          <button type="button" class="text-action forgot" (click)="showUnavailable('La récupération du mot de passe')">Mot de passe oublié ?</button>
+        </div>
+        <button class="sign-in" type="submit">Se connecter<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
+      </form>
+      <div class="divider"><span>ou continuer avec</span></div>
+      <div class="social-buttons">
+        <button type="button" aria-label="Se connecter avec Google" (click)="showUnavailable('La connexion avec Google')">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285f4" d="M43.6 24.5c0-1.5-.1-3-.4-4.5H24v8.5h11a9.4 9.4 0 0 1-4.1 6.2v5.2h6.7c3.9-3.6 6-8.8 6-15.4" /><path fill="#34a853" d="M24 44c5.4 0 10-1.8 13.4-4.9l-6.7-5.2c-1.8 1.2-4.1 1.9-6.7 1.9-5.2 0-9.6-3.5-11.2-8.2H6v5.4A20 20 0 0 0 24 44" /><path fill="#fbbc05" d="M12.8 27.6a12 12 0 0 1 0-7.2V15H6a20 20 0 0 0 0 18z" /><path fill="#ea4335" d="M24 12.2c3 0 5.6 1 7.7 3l5.8-5.8A19.3 19.3 0 0 0 24 4 20 20 0 0 0 6 15l6.8 5.4A11.9 11.9 0 0 1 24 12.2" /></svg>Google
+        </button>
+        <button type="button" aria-label="Se connecter avec Apple" (click)="showUnavailable('La connexion avec Apple')"><ion-icon [icon]="icons.logoApple" aria-hidden="true" />Apple</button>
+      </div>
+      <p class="register">Vous n’avez pas de compte ? <button type="button" class="text-action" (click)="showUnavailable('L’inscription')">S’inscrire</button></p>
+      <p class="feedback" role="status">{{ feedback() }}</p>
+    </div>
+  </section>
+</main>

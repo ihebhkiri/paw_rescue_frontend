@@ -1,0 +1,19 @@
+{
+  "0": "dependencies",
+  "1": "development",
+  "2": "app",
+  "3": "devDependencies",
+  "4": "options",
+  "5": "package.json",
+  "6": "AppComponent",
+  "7": "Reproduction de la connexion PawRescue — plan",
+  "8": "lint",
+  "9": "Assets générés",
+  "10": "Auth",
+  "11": "eslint.config.js",
+  "12": "capacitor.config.ts",
+  "13": "research/2026-09-30-login-reference.md",
+  "14": "environment.ts",
+  "15": "environment.prod.ts",
+  "16": "test-setup.ts"
+}
