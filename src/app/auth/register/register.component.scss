@@ -72,6 +72,27 @@ button:hover, a:hover { filter: brightness(.94); }
 .error { display: block; margin: 6px 0 0 4px; color: var(--auth-error); font-size: 13px; }
 .field.invalid { border-color: var(--auth-error); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.welcome { white-space: pre-line; }
+h1:focus { outline: none; }
+.preview-notice { margin: 0 0 16px; color: var(--auth-muted); font-size: 12px; line-height: 1.4; }
+.professional-screen h1 { font-size: clamp(30px, 2.8vw, 46px); }
+.role-badge { align-self: flex-start; padding: 3px 8px; border-radius: 12px; font-size: 11px; color: var(--auth-green); background: #e1f3eb; }
+.three-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-inline: 0; }
+.three-steps::before { left: 16.67%; right: 16.67%; }
+.three-steps.second-step::before { background: linear-gradient(to right, var(--auth-green) 50%, var(--auth-border) 50%); }
+.three-steps.third-step::before { background: var(--auth-green); }
+.three-steps li { font-size: 13px; }
+.confirmation { padding-top: 28px; text-align: center; }
+.confirmation-icon { position: relative; display: grid; place-items: center; width: 106px; height: 106px; margin: 0 auto 24px; border-radius: 50%; }
+.confirmation-icon svg { width: 56px; height: 56px; }
+.confirmation-icon ion-icon { position: absolute; right: -4px; bottom: 0; padding: 7px; border: 4px solid white; border-radius: 50%; font-size: 25px; color: var(--auth-green); background: #e1f3eb; }
+.pending { display: inline-flex; align-items: center; gap: 8px; padding: 10px 15px; margin: 0 0 20px; border-radius: 24px; color: var(--auth-green); background: #eaf6f0; font-size: 15px; font-weight: 600; }
+.confirmation-info { text-align: left; padding: 20px; }
+.confirmation-info p { margin: 0; line-height: 1.65; }
+.confirmation-info strong { font-weight: 500; }
+.helper { margin: 24px 0; color: var(--auth-muted); font-size: 16px; line-height: 1.5; }
+.confirmation .primary { text-decoration: none; font-size: 18px; }
+.contact-link { border: 0; background: none; color: var(--auth-green); font: inherit; min-height: 44px; margin-top: 14px; text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 1199px) {
   h1 { font-size: 38px; }
   .desktop-break { display: none; }

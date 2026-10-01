@@ -1,16 +1,16 @@
-# Graph Report - pawrescue-ionic  (2026-09-30)
+# Graph Report - pawrescue-ionic  (2026-10-01)
 
 ## Corpus Check
-- 29 files · ~124,131 words
+- 34 files · ~396,294 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 232 nodes · 241 edges · 19 communities (12 shown, 7 thin omitted)
+- 265 nodes · 274 edges · 24 communities (16 shown, 8 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5ff64bec`
+- Built from commit: `3962c4b0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,18 +33,23 @@
 - environment.prod.ts
 - RegisterComponent
 - Inscription — état actuel vérifié
+- Parcours professionnel — plan d’implémentation
+- AppComponent
+- lint
+- check-registration.cjs
+- research/2026-10-01-professional-verification.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `RegisterComponent` - 12 edges
+1. `RegisterComponent` - 15 edges
 2. `options` - 10 edges
 3. `Reproduction de la connexion PawRescue — plan` - 10 edges
-4. `Inscription PawRescue en deux étapes — plan d’implémentation` - 9 edges
-5. `app` - 7 edges
-6. `development` - 7 edges
-7. `scripts` - 7 edges
-8. `architect` - 6 edges
-9. `production` - 6 edges
-10. `Inscription — état actuel vérifié` - 6 edges
+4. `Parcours professionnel — plan d’implémentation` - 10 edges
+5. `VerificationComponent` - 9 edges
+6. `Inscription PawRescue en deux étapes — plan d’implémentation` - 9 edges
+7. `app` - 7 edges
+8. `development` - 7 edges
+9. `scripts` - 7 edges
+10. `architect` - 6 edges
 
 ## Surprising Connections (you probably didn't know these)
 - None detected - all connections are within the same source files.
@@ -52,7 +57,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (19 total, 7 thin omitted)
+## Communities (24 total, 8 thin omitted)
 
 ### Community 0 - "dependencies"
 Cohesion: 0.06
@@ -60,7 +65,7 @@ Nodes (31): @angular/common, @angular/compiler, @angular/core, @angular/forms, @
 
 ### Community 1 - "development"
 Cohesion: 0.07
-Nodes (34): architect, build, extract-i18n, lint, serve, test, builder, configurations (+26 more)
+Nodes (34): architect, build, extract-i18n, serve, test, builder, configurations, defaultConfiguration (+26 more)
 
 ### Community 2 - "app"
 Cohesion: 0.08
@@ -71,16 +76,16 @@ Cohesion: 0.08
 Nodes (25): @angular/build, @angular/compiler-cli, angular-eslint, @angular/language-service, @capacitor/cli, eslint, @ionic/angular-toolkit, jsdom (+17 more)
 
 ### Community 4 - "options"
-Cohesion: 0.11
-Nodes (19): options, options, assets, browser, buildTarget, index, inlineStyleLanguage, outputPath (+11 more)
+Cohesion: 0.15
+Nodes (13): options, assets, browser, index, inlineStyleLanguage, outputPath, polyfills, scripts (+5 more)
 
 ### Community 5 - "package.json"
 Cohesion: 0.14
 Nodes (13): author, description, homepage, name, private, scripts, build, lint (+5 more)
 
 ### Community 6 - "register.component.ts"
-Cohesion: 0.13
-Nodes (9): AppComponent, Component, routes, AuthComponent, Component, AuthLayoutComponent, Component, AccountFieldName (+1 more)
+Cohesion: 0.11
+Nodes (9): AuthComponent, Component, AuthLayoutComponent, Component, AccountFieldName, RegistrationRole, Component, VerificationComponent (+1 more)
 
 ### Community 7 - "Reproduction de la connexion PawRescue — plan"
 Cohesion: 0.18
@@ -98,25 +103,41 @@ Nodes (3): Assets générés, Logo — src/assets/images/logo/pawrescue-logo.png
 Cohesion: 0.29
 Nodes (6): Inscription — état actuel vérifié, Risques et éléments non disponibles, Références visuelles, Sources, Système actuel, Vérification de départ
 
+### Community 19 - "Parcours professionnel — plan d’implémentation"
+Cohesion: 0.18
+Nodes (10): Conception et comportement actuel, Critères d’acceptation, Decision Log, Fichiers et jalons, Objectif, Outcomes & Retrospective, Parcours professionnel — plan d’implémentation, Progress (+2 more)
+
+### Community 20 - "AppComponent"
+Cohesion: 0.36
+Nodes (3): AppComponent, Component, routes
+
+### Community 21 - "lint"
+Cohesion: 0.33
+Nodes (6): lint, builder, options, lintFilePatterns, src/**/*.html, src/**/*.ts
+
+### Community 22 - "check-registration.cjs"
+Cohesion: 0.33
+Nodes (5): assert, { chromium }, fs, path, states
+
 ## Knowledge Gaps
-- **119 isolated node(s):** `$schema`, `version`, `newProjectRoot`, `projectType`, `styleext` (+114 more)
+- **135 isolated node(s):** `$schema`, `version`, `newProjectRoot`, `projectType`, `styleext` (+130 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `architect` connect `development` to `app`?**
-  _High betweenness centrality (0.069) - this node is a cross-community bridge._
+- **Why does `architect` connect `development` to `app`, `lint`?**
+  _High betweenness centrality (0.053) - this node is a cross-community bridge._
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+  _High betweenness centrality (0.046) - this node is a cross-community bridge._
 - **Why does `app` connect `app` to `development`?**
-  _High betweenness centrality (0.051) - this node is a cross-community bridge._
+  _High betweenness centrality (0.039) - this node is a cross-community bridge._
 - **What connects `$schema`, `version`, `newProjectRoot` to the rest of the system?**
-  _119 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _135 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
 - **Should `development` be split into smaller, more focused modules?**
-  _Cohesion score 0.0659536541889483 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0677361853832442 - nodes in this community are weakly interconnected._
 - **Should `app` be split into smaller, more focused modules?**
   _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._

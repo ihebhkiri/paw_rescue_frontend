@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { RegisterComponent } from './register.component';
 
 describe('RegisterComponent', () => {
@@ -71,12 +71,35 @@ describe('RegisterComponent', () => {
     fixture.detectChanges();
     expect(component.form.controls.selectedRole.value).toBe('VETERINARIAN');
     component.submit();
-    expect(component.feedback()).toContain('Aucun compte n’a été créé');
+    expect(component.currentStep()).toBe(3);
+    expect(component.feedback()).toBe('');
 
     component.account.controls.password.setValue('changed');
     component.submit();
     expect(component.currentStep()).toBe(1);
     expect(component.feedback()).toBe('');
+  });
+
+  it('keeps volunteers at two steps and professionals at three', () => {
+    component.account.setValue(validAccount);
+    component.continue();
+    component.form.controls.selectedRole.setValue('VOLUNTEER');
+    fixture.detectChanges();
+    expect(page.querySelectorAll('.stepper li')).toHaveLength(2);
+    expect(page.textContent).toContain('Inscription rapide');
+    component.submit();
+    expect(component.feedback()).toContain('Aucun compte n’a été créé');
+    for (const role of ['VETERINARIAN', 'SHELTER'] as const) {
+      component.form.controls.selectedRole.setValue(role);
+      component.submit();
+      fixture.detectChanges();
+      expect(page.querySelectorAll('.stepper li')).toHaveLength(3);
+      expect(page.querySelector('[aria-current="step"]')?.textContent).toContain('Vérification');
+      component.confirmPreview();
+      expect(component.currentStep()).toBe(3);
+      component.back();
+      expect(component.currentStep()).toBe(2);
+    }
   });
 
   it('toggles passwords independently and keeps accessible input labels', () => {
@@ -98,4 +121,25 @@ describe('RegisterComponent', () => {
     expect(page.querySelector('[role="status"]')!.textContent).toContain('ne sont pas encore disponibles');
     expect(page.querySelector('a[routerLink="/auth"]')).not.toBeNull();
   });
+});
+
+describe('Registration confirmation previews', () => {
+  for (const role of ['vet', 'shelter']) {
+    it(`shows the ${role} confirmation without a numbered step and links to login`, async () => {
+      await TestBed.configureTestingModule({
+        imports: [RegisterComponent], providers: [provideRouter([]), {
+          provide: ActivatedRoute, useValue: { snapshot: { queryParamMap: convertToParamMap({ preview: `${role}-confirmation` }) } },
+        }],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(RegisterComponent);
+      fixture.detectChanges();
+      const page: HTMLElement = fixture.nativeElement;
+      expect(page.querySelector('h1')?.textContent).toBe('Compte en cours de vérification');
+      expect(page.querySelector('.stepper')).toBeNull();
+      expect(page.querySelector('.confirmation a.primary')?.getAttribute('href')).toBe('/auth');
+      expect(page.textContent).toContain('1 à 3 jours ouvrés');
+      expect(page.textContent).toContain('Aperçu de démonstration');
+      expect(page.querySelector('.welcome')?.textContent).toContain(role === 'vet' ? 'vétérinaire' : 'refuge / association');
+    });
+  }
 });

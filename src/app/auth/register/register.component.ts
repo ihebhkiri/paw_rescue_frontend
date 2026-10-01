@@ -1,22 +1,24 @@
 import {
   afterNextRender, ChangeDetectionStrategy, Component, ElementRef,
-  inject, Injector, signal, viewChild,
+  computed, inject, Injector, isDevMode, signal, viewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { IonIcon } from '@ionic/angular';
 import {
   arrowBackOutline, arrowForwardOutline, checkmarkOutline, eyeOffOutline,
-  eyeOutline, informationCircleOutline, lockClosedOutline, mailOutline, personOutline,
+  eyeOutline, informationCircleOutline, lockClosedOutline, mailOutline, personOutline, timeOutline,
 } from 'ionicons/icons';
 import { AuthLayoutComponent } from '../layout/auth-layout.component';
+import { VerificationComponent } from './verification.component';
 
 type RegistrationRole = 'VOLUNTEER' | 'VETERINARIAN' | 'SHELTER';
 type AccountFieldName = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, RouterLink, IonIcon, AuthLayoutComponent],
+  imports: [ReactiveFormsModule, RouterLink, IonIcon, AuthLayoutComponent, VerificationComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,10 +27,12 @@ export class RegisterComponent {
   private readonly injector = inject(Injector);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly stepTitle = viewChild<ElementRef<HTMLElement>>('stepTitle');
-  readonly currentStep = signal<1 | 2>(1);
+  readonly currentStep = signal<1 | 2 | 3 | 'confirmation'>(1);
+  private readonly requestedPreview = isDevMode() ? inject(ActivatedRoute).snapshot.queryParamMap.get('preview') : null;
+  readonly preview = ['volunteer', 'veterinarian', 'vet-verification', 'shelter-verification', 'vet-confirmation', 'shelter-confirmation'].includes(this.requestedPreview ?? '') ? this.requestedPreview : null;
   readonly feedback = signal('');
   readonly visibility = signal({ password: false, confirmPassword: false });
-  readonly icons = { arrowBackOutline, arrowForwardOutline, checkmarkOutline, eyeOffOutline, eyeOutline, informationCircleOutline };
+  readonly icons = { arrowBackOutline, arrowForwardOutline, checkmarkOutline, eyeOffOutline, eyeOutline, informationCircleOutline, timeOutline, mailOutline };
   readonly fields: ReadonlyArray<{
     name: AccountFieldName; label: string; icon: string; autocomplete: string;
   }> = [
@@ -41,7 +45,7 @@ export class RegisterComponent {
   readonly roles: ReadonlyArray<{ value: RegistrationRole; title: string; description: string }> = [
     { value: 'VOLUNTEER', title: 'Bénévole', description: 'Je donne de mon temps' },
     { value: 'VETERINARIAN', title: 'Vétérinaire', description: 'Je soigne et j’accompagne' },
-    { value: 'SHELTER', title: 'Refuge', description: 'Je gère un refuge ou une association' },
+    { value: 'SHELTER', title: 'Refuge / Association', description: 'Je gère un refuge ou une association' },
   ];
   readonly account = new FormGroup({
     firstName: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern(/\S/)] }),
@@ -58,6 +62,36 @@ export class RegisterComponent {
     account: this.account,
     selectedRole: new FormControl<RegistrationRole | null>(null, Validators.required),
   });
+  readonly selectedRole = toSignal(this.form.controls.selectedRole.valueChanges, { initialValue: null });
+  readonly professional = computed(() => this.selectedRole() === 'VETERINARIAN' || this.selectedRole() === 'SHELTER');
+  readonly roleInformation = computed(() => {
+    switch (this.selectedRole()) {
+      case 'VOLUNTEER': return 'Le compte bénévole ne nécessite pas de vérification supplémentaire.';
+      case 'VETERINARIAN': return 'Les comptes vétérinaires nécessitent une vérification professionnelle avant l’activation complète.';
+      case 'SHELTER': return 'Les comptes refuge ou association nécessitent une vérification de l’organisation.';
+      default: return 'Choisissez le rôle qui correspond à votre engagement.';
+    }
+  });
+  readonly title = computed(() => {
+    if (this.currentStep() === 'confirmation') return 'Compte en cours de vérification';
+    if (this.currentStep() === 3) return this.selectedRole() === 'VETERINARIAN'
+      ? 'Vérification vétérinaire' : 'Vérification de l’organisation';
+    return 'Créer un compte';
+  });
+  readonly subtitle = computed(() => {
+    if (this.currentStep() === 'confirmation') return `Merci pour votre inscription en tant que ${this.selectedRole() === 'VETERINARIAN' ? 'vétérinaire' : 'refuge / association'}.\nVotre compte est en cours de vérification par notre équipe.`;
+    if (this.currentStep() === 3) return this.selectedRole() === 'VETERINARIAN'
+      ? 'Merci de fournir vos informations professionnelles afin de valider votre compte.'
+      : 'Merci de fournir les informations de votre refuge ou association afin de valider votre compte.';
+    return 'Rejoignez la communauté PawRescue AI\net faites la différence pour les animaux.';
+  });
+
+  constructor() {
+    const state = this.preview;
+    if (!state) return;
+    this.form.controls.selectedRole.setValue(state.startsWith('shelter') ? 'SHELTER' : state === 'volunteer' ? 'VOLUNTEER' : 'VETERINARIAN');
+    this.currentStep.set(state.endsWith('confirmation') ? 'confirmation' : state.endsWith('verification') ? 3 : 2);
+  }
 
   fieldError(name: AccountFieldName): string {
     const control = this.account.controls[name];
@@ -89,7 +123,7 @@ export class RegisterComponent {
   }
 
   back(): void {
-    this.goToStep(1);
+    this.goToStep(this.currentStep() === 3 ? 2 : 1);
   }
 
   submit(): void {
@@ -98,11 +132,15 @@ export class RegisterComponent {
       return;
     }
     this.form.markAllAsTouched();
-    if (this.account.invalid) {
+    if (this.account.invalid && !this.preview) {
       this.goToStep(1);
       return;
     }
     if (this.form.controls.selectedRole.invalid) return;
+    if (this.professional()) {
+      this.goToStep(3);
+      return;
+    }
     // Integrate the registration API here when available; never persist passwords locally.
     this.feedback.set('La création de compte n’est pas encore disponible. Aucun compte n’a été créé.');
   }
@@ -111,7 +149,15 @@ export class RegisterComponent {
     this.feedback.set('Les conditions d’utilisation et la politique de confidentialité ne sont pas encore disponibles.');
   }
 
-  private goToStep(step: 1 | 2): void {
+  confirmPreview(): void {
+    if (this.preview && this.professional()) this.goToStep('confirmation');
+  }
+
+  contactTeam(): void {
+    this.feedback.set('Le canal de contact de notre équipe n’est pas encore disponible.');
+  }
+
+  private goToStep(step: 1 | 2 | 3 | 'confirmation'): void {
     this.feedback.set('');
     this.currentStep.set(step);
     afterNextRender(() => {
