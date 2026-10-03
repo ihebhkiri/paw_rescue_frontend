@@ -1,4 +1,5 @@
 <form (submit)="$event.preventDefault(); submit()" novalidate>
+  <fieldset [disabled]="busy()">
   <div class="fields" [class.organization]="role() === 'SHELTER'">
     @for (field of fields(); track field.name) {
       @let error = fieldError(field);
@@ -23,13 +24,14 @@
       <span>{{ document()?.name || 'Télécharger un document' }}</span>
       <input id="verification-document" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" (change)="selectDocument($event)" required [attr.aria-invalid]="!!documentError()" [attr.aria-describedby]="documentError() ? 'document-help document-error' : 'document-help'" />
     </div>
-    <small id="document-help">{{ role() === 'VETERINARIAN' ? 'Carte professionnelle ou document officiel' : 'Extrait RNE ou document officiel de l’association' }} — PDF, JPG ou PNG · 10 Mo maximum</small>
+    <small id="document-help">{{ role() === 'VETERINARIAN' ? 'Carte professionnelle ou document officiel' : 'Extrait RNE ou document officiel de l’association' }} — PDF, JPG ou PNG · 5 Mo maximum</small>
     @if (documentError()) { <small class="error" id="document-error">{{ documentError() }}</small> }
   </div>
   <p class="information"><ion-icon [icon]="icons.informationCircleOutline" aria-hidden="true" />{{ role() === 'VETERINARIAN' ? 'Votre compte sera créé avec le statut : En attente de validation.' : 'Votre compte sera activé après validation par l’équipe PawRescue.' }}</p>
   <div class="actions">
     <button type="button" class="secondary" (click)="goBack.emit()"><ion-icon [icon]="icons.arrowBackOutline" aria-hidden="true" />Retour</button>
-    <button type="submit" class="primary">Soumettre pour vérification<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
+    <button type="submit" class="primary" [attr.aria-busy]="busy()">{{ busy() ? 'Envoi…' : 'Soumettre pour vérification' }}<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
   </div>
   <p class="feedback" role="status">{{ feedback() }}</p>
+  </fieldset>
 </form>

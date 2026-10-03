@@ -9,11 +9,11 @@
   "7": "Reproduction de la connexion PawRescue — plan",
   "8": "Inscription PawRescue en deux étapes — plan d’implémentation",
   "9": "Assets générés",
-  "10": "Auth",
+  "10": "Login et signup Django",
   "11": "eslint.config.js",
   "12": "capacitor.config.ts",
   "13": "research/2026-09-30-login-reference.md",
-  "14": "environment.ts",
+  "14": "VerificationComponent",
   "15": "environment.prod.ts",
   "16": "test-setup.ts",
   "17": "RegisterComponent",
@@ -22,5 +22,6 @@
   "20": "AppComponent",
   "21": "lint",
   "22": "check-registration.cjs",
-  "23": "research/2026-10-01-professional-verification.md"
+  "23": "research/2026-10-01-professional-verification.md",
+  "24": "research/2026-10-01-django-auth-integration.md"
 }

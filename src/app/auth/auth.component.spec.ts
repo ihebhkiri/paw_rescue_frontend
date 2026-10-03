@@ -1,3 +1,6 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { environment } from '../../environments/environment';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthComponent } from './auth.component';
 import { provideRouter } from '@angular/router';
@@ -8,7 +11,7 @@ describe('AuthComponent', () => {
   let page: HTMLElement;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [AuthComponent], providers: [provideRouter([])] }).compileComponents();
+    await TestBed.configureTestingModule({ imports: [AuthComponent], providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])] }).compileComponents();
     fixture = TestBed.createComponent(AuthComponent);
     component = fixture.componentInstance;
     page = fixture.nativeElement;
@@ -32,7 +35,11 @@ describe('AuthComponent', () => {
     fixture.detectChanges();
     expect(component.form.valid).toBe(true);
     expect(page.querySelector('.error')).toBeNull();
-    expect(page.querySelector('[role="status"]')!.textContent).toContain('La connexion n’est pas encore disponible.');
+    const request = TestBed.inject(HttpTestingController).expectOne(`${environment.authApiUrl}/token/`);
+    expect(request.request.body).toEqual({ email: 'person@example.com', password: 'test-password' });
+    request.flush({ non_field_errors: ['Identifiants invalides.'] }, { status: 400, statusText: 'Bad Request' });
+    expect(component.feedback()).toBe('Identifiants invalides.');
+    expect(component.busy()).toBe(false);
   });
 
   it('toggles password visibility without losing the value and binds rememberMe', () => {
@@ -51,6 +58,6 @@ describe('AuthComponent', () => {
     expect(password.type).toBe('password');
     expect(component.form.controls.password.value).toBe('a-test-password');
     page.querySelector<HTMLInputElement>('[type="checkbox"]')!.click();
-    expect(component.form.controls.rememberMe.value).toBe(true);
+    expect(component.form.controls.rememberMe.disabled).toBe(true);
   });
 });

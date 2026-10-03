@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
+import { AuthService } from './service/auth';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonIcon } from '@ionic/angular';
 import { AuthLayoutComponent } from './layout/auth-layout.component';
@@ -15,6 +18,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {
+  private readonly auth = inject(AuthService);
+  private readonly destroyRef = inject(DestroyRef);
+  readonly busy = signal(false);
   readonly icons = {
     arrowForwardOutline, eyeOffOutline, eyeOutline, lockClosedOutline, logoApple, mailOutline,
   };
@@ -26,14 +32,24 @@ export class AuthComponent {
       validators: [Validators.required, Validators.email],
     }),
     password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    rememberMe: new FormControl(false, { nonNullable: true }),
+    rememberMe: new FormControl({ value: false, disabled: true }, { nonNullable: true }),
   });
 
   submit(): void {
+    if (this.busy()) return;
     this.feedback.set('');
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
-    this.showUnavailable('La connexion');
+    this.busy.set(true);
+    const { email, password } = this.form.getRawValue();
+    this.auth.login(email, password).pipe(takeUntilDestroyed(this.destroyRef), finalize(() => this.busy.set(false))).subscribe({
+      next: () => {
+        this.form.controls.password.reset();
+        this.passwordVisible.set(false);
+        this.feedback.set('Connexion réussie.');
+      },
+      error: (error: unknown) => this.feedback.set(this.auth.errorMessage(error)),
+    });
   }
 
   showUnavailable(action: string): void {

@@ -21,10 +21,10 @@
           @if (form.controls.password.touched && form.controls.password.invalid) { <small id="password-error" class="error">Saisissez votre mot de passe.</small> }
         </div>
         <div class="form-options">
-          <label class="remember"><input type="checkbox" formControlName="rememberMe" />Se souvenir de moi</label>
+          <label class="remember"><input type="checkbox" formControlName="rememberMe" title="La connexion persistante n’est pas encore disponible" />Se souvenir de moi</label>
           <button type="button" class="text-action forgot" (click)="showUnavailable('La récupération du mot de passe')">Mot de passe oublié ?</button>
         </div>
-        <button class="sign-in" type="submit">Se connecter<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
+        <button class="sign-in" type="submit" [disabled]="busy()" [attr.aria-busy]="busy()">{{ busy() ? 'Connexion…' : 'Se connecter' }}<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
       </form>
       <div class="divider"><span>ou continuer avec</span></div>
       <div class="social-buttons">

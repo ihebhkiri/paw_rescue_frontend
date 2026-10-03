@@ -1,3 +1,6 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { environment } from '../../../environments/environment';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { RegisterComponent } from './register.component';
@@ -13,7 +16,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegisterComponent], providers: [provideRouter([])],
+      imports: [RegisterComponent], providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
@@ -80,26 +83,47 @@ describe('RegisterComponent', () => {
     expect(component.feedback()).toBe('');
   });
 
-  it('keeps volunteers at two steps and professionals at three', () => {
+  for (const role of ['VOLUNTEER', 'SHELTER', 'VETERINARIAN'] as const) {
+    it(`submits ${role} to Django and waits for success`, () => {
+      component.account.setValue(validAccount);
+      component.continue();
+      component.form.controls.selectedRole.setValue(role);
+      fixture.detectChanges();
+      component.submit();
+      if (role !== 'VOLUNTEER') {
+        expect(component.currentStep()).toBe(3);
+        const data = new FormData();
+        data.set('verification_document', new File(['proof'], 'proof.pdf'));
+        component.signup(data);
+      }
+      expect(component.busy()).toBe(true);
+      component.submit();
+      const http = TestBed.inject(HttpTestingController);
+      const request = http.expectOne(`${environment.authApiUrl}/register/`);
+      const body = request.request.body;
+      expect(body instanceof FormData ? body.get('role') : body.role).toBe(
+        role === 'VOLUNTEER' ? 'benevole' : role === 'SHELTER' ? 'refuge' : 'veterinaire');
+      request.flush({ user: { id: 1, profile: role === 'VOLUNTEER' ? null : { verification_status: 'pending' } } });
+      fixture.detectChanges();
+      expect(component.currentStep()).toBe(role === 'VOLUNTEER' ? 'created' : 'confirmation');
+      expect(page.querySelector('.stepper')).toBeNull();
+      expect(page.querySelector('.confirmation a')?.getAttribute('href')).toBe('/auth');
+      expect(component.busy()).toBe(false);
+      http.verify();
+    });
+  }
+
+  it('preserves account values after a rejected signup', () => {
     component.account.setValue(validAccount);
     component.continue();
     component.form.controls.selectedRole.setValue('VOLUNTEER');
-    fixture.detectChanges();
-    expect(page.querySelectorAll('.stepper li')).toHaveLength(2);
-    expect(page.textContent).toContain('Inscription rapide');
     component.submit();
-    expect(component.feedback()).toContain('Aucun compte n’a été créé');
-    for (const role of ['VETERINARIAN', 'SHELTER'] as const) {
-      component.form.controls.selectedRole.setValue(role);
-      component.submit();
-      fixture.detectChanges();
-      expect(page.querySelectorAll('.stepper li')).toHaveLength(3);
-      expect(page.querySelector('[aria-current="step"]')?.textContent).toContain('Vérification');
-      component.confirmPreview();
-      expect(component.currentStep()).toBe(3);
-      component.back();
-      expect(component.currentStep()).toBe(2);
-    }
+    TestBed.inject(HttpTestingController).expectOne(`${environment.authApiUrl}/register/`).flush(
+      { email: ['Adresse déjà utilisée.'] }, { status: 400, statusText: 'Bad Request' });
+    expect(component.account.getRawValue()).toEqual(validAccount);
+    expect(component.feedback()).toBe('Adresse déjà utilisée.');
+    expect(component.busy()).toBe(false);
+    expect(component.form.enabled).toBe(true);
   });
 
   it('toggles passwords independently and keeps accessible input labels', () => {
@@ -127,7 +151,7 @@ describe('Registration confirmation previews', () => {
   for (const role of ['vet', 'shelter']) {
     it(`shows the ${role} confirmation without a numbered step and links to login`, async () => {
       await TestBed.configureTestingModule({
-        imports: [RegisterComponent], providers: [provideRouter([]), {
+        imports: [RegisterComponent], providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([]), {
           provide: ActivatedRoute, useValue: { snapshot: { queryParamMap: convertToParamMap({ preview: `${role}-confirmation` }) } },
         }],
       }).compileComponents();

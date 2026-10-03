@@ -1,0 +1,11 @@
+services:
+  frontend:
+    build: .
+    image: pawrescue-web
+    ports:
+      - "127.0.0.1:8081:80"
+    environment:
+      API_UPSTREAM: ${API_UPSTREAM:-http://host.docker.internal:8080}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

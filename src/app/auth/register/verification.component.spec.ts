@@ -25,6 +25,8 @@ describe('VerificationComponent', () => {
       fixture.componentRef.setInput('role', role);
       fixture.detectChanges();
       let confirmations = 0;
+      const submissions: FormData[] = [];
+      component.submitted.subscribe(data => submissions.push(data));
       component.confirmed.subscribe(() => confirmations++);
       component.submit();
       expect(confirmations).toBe(0);
@@ -35,7 +37,10 @@ describe('VerificationComponent', () => {
       selectFile(new File(['document'], 'proof.pdf', { type: 'application/pdf' }));
       component.submit();
       expect(confirmations).toBe(0);
-      expect(component.feedback()).toContain('aucun document n’a été envoyé');
+      expect(submissions).toHaveLength(1);
+      expect(submissions[0].get(role === 'SHELTER' ? 'name' : 'license_number')).toBe('Information professionnelle');
+      expect(submissions[0].get(role === 'SHELTER' ? 'official_email' : 'clinic_name')).toBe(role === 'SHELTER' ? 'contact@example.com' : 'Information professionnelle');
+      expect(submissions[0].get('verification_document')).toBeInstanceOf(File);
       fixture.componentRef.setInput('preview', true);
       fixture.detectChanges();
       const phone = component.fields().find(field => field.name === 'phone')!;
@@ -54,8 +59,8 @@ describe('VerificationComponent', () => {
     expect(component.documentError()).toContain('PDF, JPG ou PNG');
     selectFile(new File([], 'empty.pdf', { type: 'application/pdf' }));
     expect(component.document()).toBeNull();
-    selectFile(new File([new Uint8Array(10 * 1024 * 1024 + 1)], 'large.pdf', { type: 'application/pdf' }));
-    expect(component.documentError()).toContain('10 Mo');
+    selectFile(new File([new Uint8Array(5 * 1024 * 1024 + 1)], 'large.pdf', { type: 'application/pdf' }));
+    expect(component.documentError()).toContain('5 Mo');
     selectFile(new File(['document'], 'proof.pdf', { type: 'application/pdf' }));
     expect(component.document()?.name).toBe('proof.pdf');
     fixture.componentRef.setInput('role', 'SHELTER');

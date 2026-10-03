@@ -1,16 +1,16 @@
 # Graph Report - pawrescue-ionic  (2026-10-01)
 
 ## Corpus Check
-- 34 files · ~396,294 words
+- 36 files · ~443,519 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 265 nodes · 274 edges · 24 communities (16 shown, 8 thin omitted)
+- 285 nodes · 306 edges · 25 communities (18 shown, 7 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3962c4b0`
+- Built from commit: `7e395469`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -25,11 +25,11 @@
 - Reproduction de la connexion PawRescue — plan
 - Inscription PawRescue en deux étapes — plan d’implémentation
 - Assets générés
-- Auth
+- Login et signup Django
 - eslint.config.js
 - capacitor.config.ts
 - research/2026-09-30-login-reference.md
-- environment.ts
+- VerificationComponent
 - environment.prod.ts
 - RegisterComponent
 - Inscription — état actuel vérifié
@@ -38,18 +38,19 @@
 - lint
 - check-registration.cjs
 - research/2026-10-01-professional-verification.md
+- research/2026-10-01-django-auth-integration.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `RegisterComponent` - 15 edges
+1. `RegisterComponent` - 16 edges
 2. `options` - 10 edges
 3. `Reproduction de la connexion PawRescue — plan` - 10 edges
-4. `Parcours professionnel — plan d’implémentation` - 10 edges
-5. `VerificationComponent` - 9 edges
-6. `Inscription PawRescue en deux étapes — plan d’implémentation` - 9 edges
-7. `app` - 7 edges
-8. `development` - 7 edges
-9. `scripts` - 7 edges
-10. `architect` - 6 edges
+4. `Login et signup Django` - 10 edges
+5. `Parcours professionnel — plan d’implémentation` - 10 edges
+6. `VerificationComponent` - 9 edges
+7. `Inscription PawRescue en deux étapes — plan d’implémentation` - 9 edges
+8. `Auth` - 8 edges
+9. `app` - 7 edges
+10. `development` - 7 edges
 
 ## Surprising Connections (you probably didn't know these)
 - None detected - all connections are within the same source files.
@@ -57,7 +58,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (24 total, 8 thin omitted)
+## Communities (25 total, 7 thin omitted)
 
 ### Community 0 - "dependencies"
 Cohesion: 0.06
@@ -84,8 +85,8 @@ Cohesion: 0.14
 Nodes (13): author, description, homepage, name, private, scripts, build, lint (+5 more)
 
 ### Community 6 - "register.component.ts"
-Cohesion: 0.11
-Nodes (9): AuthComponent, Component, AuthLayoutComponent, Component, AccountFieldName, RegistrationRole, Component, VerificationComponent (+1 more)
+Cohesion: 0.13
+Nodes (12): Injectable, AuthComponent, Component, AuthLayoutComponent, Component, AccountFieldName, RegistrationRole, Auth (+4 more)
 
 ### Community 7 - "Reproduction de la connexion PawRescue — plan"
 Cohesion: 0.18
@@ -98,6 +99,14 @@ Nodes (13): 1. Décor commun et navigation, 2. Informations du compte, 3. Rôle 
 ### Community 9 - "Assets générés"
 Cohesion: 0.50
 Nodes (3): Assets générés, Logo — src/assets/images/logo/pawrescue-logo.png, Photo — src/assets/images/auth/login-animals.png
+
+### Community 10 - "Login et signup Django"
+Cohesion: 0.18
+Nodes (10): Comportement vérifié, Critères, Decision Log, Fichiers et jalons, Login et signup Django, Objectif et approbation, Outcomes & Retrospective, Progress (+2 more)
+
+### Community 14 - "VerificationComponent"
+Cohesion: 0.20
+Nodes (3): Component, VerificationComponent, VerificationField
 
 ### Community 18 - "Inscription — état actuel vérifié"
 Cohesion: 0.29
@@ -120,21 +129,21 @@ Cohesion: 0.33
 Nodes (5): assert, { chromium }, fs, path, states
 
 ## Knowledge Gaps
-- **135 isolated node(s):** `$schema`, `version`, `newProjectRoot`, `projectType`, `styleext` (+130 more)
+- **146 isolated node(s):** `$schema`, `version`, `newProjectRoot`, `projectType`, `styleext` (+141 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `architect` connect `development` to `app`, `lint`?**
-  _High betweenness centrality (0.053) - this node is a cross-community bridge._
-- **Why does `dependencies` connect `dependencies` to `package.json`?**
   _High betweenness centrality (0.046) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `dependencies` to `package.json`?**
+  _High betweenness centrality (0.040) - this node is a cross-community bridge._
 - **Why does `app` connect `app` to `development`?**
-  _High betweenness centrality (0.039) - this node is a cross-community bridge._
+  _High betweenness centrality (0.034) - this node is a cross-community bridge._
 - **What connects `$schema`, `version`, `newProjectRoot` to the rest of the system?**
-  _135 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _146 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
 - **Should `development` be split into smaller, more focused modules?**

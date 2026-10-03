@@ -4,8 +4,8 @@
     <h1 #stepTitle tabindex="-1" id="registration-title">{{ title() }}</h1>
     <p class="welcome">{{ subtitle() }}</p>
 
-    @if (currentStep() !== 'confirmation') {
-    <ol class="stepper" aria-label="Étapes de l’inscription" [class.second-step]="currentStep() !== 1" [class.three-steps]="professional()" [class.third-step]="currentStep() === 3">
+    @if (currentStep() !== 'confirmation' && currentStep() !== 'created') {
+    <ol class="stepper" aria-label="Étapes de l’inscription" [class.second-step]="currentStep() !== 1" [class.three-steps]="isProfessional()" [class.third-step]="currentStep() === 3">
       <li [class.active]="currentStep() === 1" [attr.aria-current]="currentStep() === 1 ? 'step' : null">
         <span class="step-number completed" aria-hidden="true">
           @if (currentStep() === 1) { 1 } @else { <ion-icon [icon]="icons.checkmarkOutline" /> }
@@ -15,7 +15,7 @@
       <li [class.active]="currentStep() === 2" [attr.aria-current]="currentStep() === 2 ? 'step' : null">
         <span class="step-number" [class.completed]="currentStep() === 3" aria-hidden="true">@if (currentStep() === 3) { <ion-icon [icon]="icons.checkmarkOutline" /> } @else { 2 }</span><span>Votre rôle</span>
       </li>
-      @if (professional()) {
+      @if (isProfessional()) {
         <li [class.active]="currentStep() === 3" [attr.aria-current]="currentStep() === 3 ? 'step' : null">
           <span class="step-number" aria-hidden="true">3</span><span>Vérification</span>
         </li>
@@ -90,7 +90,7 @@
                 }
               </span>
               <span class="role-copy"><strong>{{ role.title }}</strong><span>{{ role.description }}</span>
-                @if (selectedRole() === role.value) { <small class="role-badge">{{ role.value === 'VOLUNTEER' ? 'Inscription rapide' : 'Vérification requise' }}</small> }
+                @if (selectedRole() === role.value) { <small class="role-badge">{{ isProfessional() ? 'Vérification requise' : 'Inscription rapide' }}</small> }
               </span>
               <input type="radio" name="selectedRole" formControlName="selectedRole" [value]="role.value" required />
             </label>
@@ -101,14 +101,14 @@
         </fieldset>
         <p class="information"><ion-icon [icon]="icons.informationCircleOutline" aria-hidden="true" />{{ roleInformation() }}</p>
         <div class="actions">
-          <button class="secondary" type="button" (click)="back()"><ion-icon [icon]="icons.arrowBackOutline" aria-hidden="true" />Retour</button>
-          <button class="primary" type="submit">{{ professional() ? 'Continuer' : 'Créer un compte' }}<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
+          <button class="secondary" type="button" (click)="back()" [disabled]="busy()"><ion-icon [icon]="icons.arrowBackOutline" aria-hidden="true" />Retour</button>
+          <button class="primary" type="submit" [disabled]="busy()" [attr.aria-busy]="busy()">{{ busy() ? 'Inscription…' : isProfessional() ? 'Continuer' : 'Créer un compte' }}<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
         </div>
       }
     </form>
     }
     @if (selectedRole() === 'VETERINARIAN' || selectedRole() === 'SHELTER') {
-      <app-verification [hidden]="currentStep() !== 3" [role]="selectedRole() === 'VETERINARIAN' ? 'VETERINARIAN' : 'SHELTER'" [preview]="!!preview" (goBack)="back()" (confirmed)="confirmPreview()" />
+      <app-verification [hidden]="currentStep() !== 3" [role]="selectedRole() === 'VETERINARIAN' ? 'VETERINARIAN' : 'SHELTER'" [preview]="!!preview" [busy]="busy()" (goBack)="back()" (confirmed)="confirmPreview()" (submitted)="signup($event)" />
     }
     @if (currentStep() === 'confirmation') {
       <div class="confirmation">
@@ -126,6 +126,8 @@
         <a class="primary" routerLink="/auth">Aller à la page de connexion<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></a>
         <button type="button" class="contact-link" (click)="contactTeam()">Contacter notre équipe</button>
       </div>
+    } @else if (currentStep() === 'created') {
+      <div class="confirmation"><a class="primary" routerLink="/auth">Aller à la page de connexion<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></a></div>
     } @else {
     <p class="login-link" [class.with-lines]="currentStep() === 1"><span>Vous avez déjà un compte ? <a routerLink="/auth">Se connecter</a></span></p>
     }

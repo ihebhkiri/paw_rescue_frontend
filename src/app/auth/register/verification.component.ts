@@ -12,6 +12,14 @@ interface VerificationField {
   options?: readonly string[];
 }
 
+const FIELD_NAME_MAPPING: Record<string, string> = {
+  orderNumber: 'license_number',
+  clinic: 'clinic_name',
+  organization: 'name',
+  officialEmail: 'official_email',
+  representative: 'representative_name',
+};
+
 @Component({
   selector: 'app-verification',
   imports: [ReactiveFormsModule, IonIcon],
@@ -23,6 +31,8 @@ export class VerificationComponent implements OnChanges {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly role = input.required<'VETERINARIAN' | 'SHELTER'>();
   readonly preview = input(false);
+  readonly busy = input(false);
+  readonly submitted = output<FormData>();
   readonly goBack = output<void>();
   readonly confirmed = output<void>();
   readonly icons = { arrowBackOutline, arrowForwardOutline, cloudUploadOutline, informationCircleOutline };
@@ -88,8 +98,8 @@ export class VerificationComponent implements OnChanges {
     // Client-side checks are UX only; the future upload API must inspect the actual file content.
     if (!/\.(pdf|jpe?g|png)$/i.test(file.name) || (file.type && !['application/pdf', 'image/jpeg', 'image/png'].includes(file.type))) {
       this.documentError.set('Choisissez un document PDF, JPG ou PNG.');
-    } else if (file.size === 0 || file.size > 10 * 1024 * 1024) {
-      this.documentError.set('Le document doit être non vide et ne pas dépasser 10 Mo.');
+    } else if (file.size === 0 || file.size > 5 * 1024 * 1024) {
+      this.documentError.set('Le document doit être non vide et ne pas dépasser 5 Mo.');
     } else {
       this.document.set(file);
     }
@@ -97,6 +107,7 @@ export class VerificationComponent implements OnChanges {
   }
 
   submit(): void {
+    if (this.busy()) return;
     this.feedback.set('');
     this.fields().forEach(field => field.control.markAsTouched());
     if (!this.document()) this.documentError.set(this.documentError() || 'Ajoutez votre justificatif.');
@@ -109,8 +120,13 @@ export class VerificationComponent implements OnChanges {
       this.confirmed.emit();
       return;
     }
-    // Emit confirmation only after a successful registration API response when it is integrated.
-    this.feedback.set('La soumission n’est pas encore disponible. Aucun compte n’a été créé et aucun document n’a été envoyé.');
+    const data = new FormData();
+    for (const field of this.fields()) {
+      const backendName = FIELD_NAME_MAPPING[field.name] ?? field.name;
+      data.set(backendName, field.control.value.trim());
+    }
+    data.set('verification_document', this.document()!);
+    this.submitted.emit(data);
   }
 
   private requiredText(): FormControl<string> {

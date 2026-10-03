@@ -1,350 +1,380 @@
 {
   "angular.json": {
     "mtime": 1790782311.7332728,
-    "seen": 1790841154.8827,
+    "seen": 1790884273.6355338,
     "ast_hash": "c81a79148c885b20f27cdadeaddd2ade",
     "semantic_hash": ""
   },
   "capacitor.config.ts": {
     "mtime": 1790771223.2326145,
-    "seen": 1790841154.8827178,
+    "seen": 1790884273.635542,
     "ast_hash": "c7b217159a97ea47e2363d8d0265311a",
     "semantic_hash": ""
   },
   "eslint.config.js": {
     "mtime": 1790084953.0,
-    "seen": 1790841154.8827345,
+    "seen": 1790884273.6355479,
     "ast_hash": "a2afe6c21cab48b53659249ca4286843",
     "semantic_hash": ""
   },
   "package.json": {
     "mtime": 1790771223.4108357,
-    "seen": 1790841154.8827412,
+    "seen": 1790884273.63555,
     "ast_hash": "fcaa53b5dbc4b95d976422066732f91a",
     "semantic_hash": ""
   },
   "src/app/app.component.spec.ts": {
     "mtime": 1790084953.0,
-    "seen": 1790841154.882747,
+    "seen": 1790884273.6355517,
     "ast_hash": "0a477dee3759af8f958109bcc30c2425",
     "semantic_hash": ""
   },
   "src/app/app.component.ts": {
     "mtime": 1790084953.0,
-    "seen": 1790841154.8827522,
+    "seen": 1790884273.6355534,
     "ast_hash": "4285040cf2325aef2826563041505b6b",
     "semantic_hash": ""
   },
   "src/app/app.routes.ts": {
     "mtime": 1790799411.027654,
-    "seen": 1790841154.8827577,
+    "seen": 1790884273.6355548,
     "ast_hash": "ab3ca458d8f070e597d7913127a26ca8",
     "semantic_hash": ""
   },
   "src/app/auth/auth.component.spec.ts": {
-    "mtime": 1790799418.3186035,
-    "seen": 1790841154.882763,
-    "ast_hash": "a970f3b969f76341694095c63d895c57",
+    "mtime": 1790883670.8061874,
+    "seen": 1790884273.635556,
+    "ast_hash": "6f5ff82517e2de0fb6734613e1ff8aa3",
     "semantic_hash": ""
   },
   "src/app/auth/auth.component.ts": {
-    "mtime": 1790799413.1800516,
-    "seen": 1790841154.8827884,
-    "ast_hash": "3247456729a86a549a52f7f83d771684",
+    "mtime": 1790883545.1939733,
+    "seen": 1790884273.6355577,
+    "ast_hash": "a18a0b0bd36a7bdea0c37136e8bb6945",
     "semantic_hash": ""
   },
   "src/app/auth/service/auth.spec.ts": {
-    "mtime": 1790771462.366133,
-    "seen": 1790841154.8828185,
-    "ast_hash": "6c963d9d125dacae9cacace338bc3ed1",
+    "mtime": 1790883590.3792067,
+    "seen": 1790884273.6355674,
+    "ast_hash": "38a829783a48d3314557c7ebe23b7a8a",
     "semantic_hash": ""
   },
   "src/app/auth/service/auth.ts": {
-    "mtime": 1790771462.3671277,
-    "seen": 1790841154.8828232,
-    "ast_hash": "e85eee0c8b55b241fa9fef41260e785e",
+    "mtime": 1790883244.1536415,
+    "seen": 1790884273.6355689,
+    "ast_hash": "77ba9c0207d90789f033087eb846dc02",
     "semantic_hash": ""
   },
   "src/environments/environment.prod.ts": {
-    "mtime": 1790084953.0,
-    "seen": 1790841154.8828278,
-    "ast_hash": "6de221395114600b523995704b7d1caa",
+    "mtime": 1790883249.6142993,
+    "seen": 1790884273.6355705,
+    "ast_hash": "15e135e567b4c0584417036a60f096b5",
     "semantic_hash": ""
   },
   "src/environments/environment.ts": {
-    "mtime": 1790084953.0,
-    "seen": 1790841154.8828323,
-    "ast_hash": "c141562af7e49205b518b4910a92fb5e",
+    "mtime": 1790883247.777354,
+    "seen": 1790884273.6355717,
+    "ast_hash": "516e5e31bdc893add98577fbaf67e491",
     "semantic_hash": ""
   },
   "src/main.ts": {
-    "mtime": 1790084953.0,
-    "seen": 1790841154.882837,
-    "ast_hash": "73ce56bd847257cf8c1b527ee27344a4",
+    "mtime": 1790883245.721498,
+    "seen": 1790884273.6355731,
+    "ast_hash": "bd4e29a11a768f7d83d097bb1b189598",
     "semantic_hash": ""
   },
   "src/test-setup.ts": {
     "mtime": 1790084953.0,
-    "seen": 1790841154.8828423,
+    "seen": 1790884273.6355748,
     "ast_hash": "5b8a55a8bac764125aa56a4c964b2e33",
     "semantic_hash": ""
   },
   "docs/plans/2026-09-30-login-reference.md": {
     "mtime": 1790784988.4524431,
-    "seen": 1790841154.8828475,
+    "seen": 1790884273.6355777,
     "ast_hash": "b2918f1fe46c9a7d0700c1d50bf787b5",
     "semantic_hash": ""
   },
   "docs/research/2026-09-30-generated-assets.md": {
     "mtime": 1790781287.6926513,
-    "seen": 1790841154.8828669,
+    "seen": 1790884273.6355853,
     "ast_hash": "9dc4f3ffbc424a9f18fe927d14207662",
     "semantic_hash": ""
   },
   "docs/research/2026-09-30-login-reference.md": {
     "mtime": 1790781042.1085405,
-    "seen": 1790841154.882872,
+    "seen": 1790884273.6355867,
     "ast_hash": "fe6091c08dc40d317d568ac386fcf4cd",
     "semantic_hash": ""
   },
   "src/app/app.component.html": {
     "mtime": 1790084953.0,
-    "seen": 1790841154.8828864,
+    "seen": 1790884273.6355934,
     "ast_hash": "ec4d9b62e08469c15ccc114353b3385f",
     "semantic_hash": ""
   },
   "src/app/auth/auth.component.html": {
-    "mtime": 1790799414.8177063,
-    "seen": 1790841154.8828914,
-    "ast_hash": "9d739be22088a9fa6ff98aca62088e05",
+    "mtime": 1790883253.4804971,
+    "seen": 1790884273.635595,
+    "ast_hash": "fb6e8568e724fa8b453e75a2eb2bdca1",
     "semantic_hash": ""
   },
   "src/index.html": {
     "mtime": 1790782074.1943488,
-    "seen": 1790841154.882911,
+    "seen": 1790884273.635601,
     "ast_hash": "b56b33d241a54755a4c1941ed60d28b3",
     "semantic_hash": ""
   },
   "src/assets/icon/favicon.png": {
     "mtime": 1790084953.0,
-    "seen": 1790841154.8830142,
+    "seen": 1790884273.635634,
     "ast_hash": "988be98f12b400c41a22b59b82cfeab6",
     "semantic_hash": ""
   },
   "src/assets/images/auth/login-animals.png": {
     "mtime": 1790781201.4137251,
-    "seen": 1790841154.8830185,
+    "seen": 1790884273.6356354,
     "ast_hash": "3eecb8b232cdbfa80a74aa1fcad0881b",
     "semantic_hash": ""
   },
   "src/assets/images/logo/pawrescue-logo.png": {
     "mtime": 1790781238.493579,
-    "seen": 1790841154.8830235,
+    "seen": 1790884273.6356375,
     "ast_hash": "348d2008fd1f351b767861a3eed88669",
     "semantic_hash": ""
   },
   "src/assets/shapes.svg": {
     "mtime": 1790084953.0,
-    "seen": 1790841154.8830285,
+    "seen": 1790884273.63564,
     "ast_hash": "e535ce83da20a4b7719ca3d45195ebd5",
     "semantic_hash": ""
   },
   "src/app/auth/layout/auth-layout.component.ts": {
     "mtime": 1790785219.2187412,
-    "seen": 1790841154.882793,
+    "seen": 1790884273.6355598,
     "ast_hash": "706754f9645626357a7fd6b9089c1bbc",
     "semantic_hash": ""
   },
   "src/app/auth/register/register.component.spec.ts": {
-    "mtime": 1790840834.423841,
-    "seen": 1790841154.8827987,
-    "ast_hash": "33d839c8fded1c33968a8e3b5b5236fb",
+    "mtime": 1790883670.8156173,
+    "seen": 1790884273.6355615,
+    "ast_hash": "bada3e52e32e263b19046b72f7ff12fb",
     "semantic_hash": ""
   },
   "src/app/auth/register/register.component.ts": {
-    "mtime": 1790840830.1164372,
-    "seen": 1790841154.8828037,
-    "ast_hash": "41253f79bfdfaee735452baab77a3613",
+    "mtime": 1790883355.9838603,
+    "seen": 1790884273.635563,
+    "ast_hash": "5ae77f1a5bab3fd81800872b8d8dcaaa",
     "semantic_hash": ""
   },
   "docs/plans/2026-09-30-registration.md": {
     "mtime": 1790800111.2520623,
-    "seen": 1790841154.8828526,
+    "seen": 1790884273.635579,
     "ast_hash": "16663a16b3b8f324975029d4bafcf407",
     "semantic_hash": ""
   },
   "docs/research/2026-09-30-registration.md": {
     "mtime": 1790784989.7317672,
-    "seen": 1790841154.8828762,
+    "seen": 1790884273.6355884,
     "ast_hash": "178c8f6fab720def5aca09c6c3fe5242",
     "semantic_hash": ""
   },
   "src/app/auth/layout/auth-layout.component.html": {
     "mtime": 1790785217.069649,
-    "seen": 1790841154.882896,
+    "seen": 1790884273.6355963,
     "ast_hash": "fe1cffc5d93d1d477f7202ec3e37c517",
     "semantic_hash": ""
   },
   "src/app/auth/register/register.component.html": {
-    "mtime": 1790840831.62366,
-    "seen": 1790841154.882901,
-    "ast_hash": "d2206dd6df43163fb0fc00914720fb10",
+    "mtime": 1790883357.8041234,
+    "seen": 1790884273.6355982,
+    "ast_hash": "4531c2aa11389c7d4d44a950697c468b",
     "semantic_hash": ""
   },
   "docs/previews/login-desktop.png": {
     "mtime": 1790782382.8283231,
-    "seen": 1790841154.8829212,
+    "seen": 1790884273.6356046,
     "ast_hash": "19f08e71d311f0ee18c254adb2b35b07",
     "semantic_hash": ""
   },
   "docs/previews/login-mobile.png": {
     "mtime": 1790782399.0853004,
-    "seen": 1790841154.882926,
+    "seen": 1790884273.6356063,
     "ast_hash": "df405f8c1d87bc778f7ab261a995c5f7",
     "semantic_hash": ""
   },
   "docs/previews/login-tablet.png": {
     "mtime": 1790782389.6413798,
-    "seen": 1790841154.8829317,
+    "seen": 1790884273.6356075,
     "ast_hash": "8f6c27848c04d82443d5cf9e92ce26de",
     "semantic_hash": ""
   },
   "docs/previews/register-step-1-desktop.png": {
     "mtime": 1790800060.3274825,
-    "seen": 1790841154.8829362,
+    "seen": 1790884273.6356106,
     "ast_hash": "dd3ed985662e2b50e7a2fdc4cc7f44c7",
     "semantic_hash": ""
   },
   "docs/previews/register-step-1-mobile.png": {
     "mtime": 1790800119.0653057,
-    "seen": 1790841154.8829405,
+    "seen": 1790884273.635612,
     "ast_hash": "f4b3293fc46c1960028b5ab22979a159",
     "semantic_hash": ""
   },
   "docs/previews/register-step-2-desktop.png": {
     "mtime": 1790799937.5520277,
-    "seen": 1790841154.8829453,
+    "seen": 1790884273.6356134,
     "ast_hash": "7cb02cd5c15573c96c9fff084a169d72",
     "semantic_hash": ""
   },
   "docs/previews/register-step-2-mobile.png": {
     "mtime": 1790799991.9982636,
-    "seen": 1790841154.8829515,
+    "seen": 1790884273.6356149,
     "ast_hash": "4be2fbffe97208e7ef4c02880558eedb",
     "semantic_hash": ""
   },
   "docs/previews/check-registration.cjs": {
     "mtime": 1790841114.4620955,
-    "seen": 1790841154.8827276,
+    "seen": 1790884273.6355455,
     "ast_hash": "32e95f5bd2d1afeeed13f1a3fb38828a",
     "semantic_hash": ""
   },
   "src/app/auth/register/verification.component.spec.ts": {
-    "mtime": 1790840835.9221232,
-    "seen": 1790841154.8828082,
-    "ast_hash": "9159679a215f6848b04bf0e3a69096ba",
+    "mtime": 1790883670.8166306,
+    "seen": 1790884273.6355643,
+    "ast_hash": "bf1a018064e81a8b3d09afedaa87ed93",
     "semantic_hash": ""
   },
   "src/app/auth/register/verification.component.ts": {
-    "mtime": 1790840833.0072968,
-    "seen": 1790841154.8828135,
-    "ast_hash": "891d3cb001e1d53ab0d260160a1f70d5",
+    "mtime": 1790883359.8767905,
+    "seen": 1790884273.6355658,
+    "ast_hash": "d712c2148750950fd2adc4b84595b320",
     "semantic_hash": ""
   },
   "docs/plans/2026-10-01-professional-verification.md": {
-    "mtime": 1790840458.0412323,
-    "seen": 1790841154.8828578,
-    "ast_hash": "dc07b6c2376714f46b7b07dfcd842ce0",
+    "mtime": 1790841272.244934,
+    "seen": 1790884273.6355822,
+    "ast_hash": "d42fad1b9f382822b98ff8559dd5b34c",
     "semantic_hash": ""
   },
   "docs/research/2026-10-01-professional-verification.md": {
     "mtime": 1790840456.3185964,
-    "seen": 1790841154.8828812,
+    "seen": 1790884273.6355917,
     "ast_hash": "a8d7494cb209e8aef609c219dc76f69d",
     "semantic_hash": ""
   },
   "src/app/auth/register/verification.component.html": {
-    "mtime": 1790840701.7303083,
-    "seen": 1790841154.8829062,
-    "ast_hash": "e5a78094967cae6ddfb84e58757384ea",
+    "mtime": 1790883361.9017453,
+    "seen": 1790884273.6355996,
+    "ast_hash": "6cb3a484ac05fed140cb6d7725e5dcd3",
     "semantic_hash": ""
   },
   "docs/previews/login-after-registration.png": {
     "mtime": 1790800053.1661663,
-    "seen": 1790841154.8829153,
+    "seen": 1790884273.635603,
     "ast_hash": "1bd3bf7eb2f421dbd3a90ca29158bb29",
     "semantic_hash": ""
   },
   "docs/previews/shelter-confirmation-desktop.png": {
     "mtime": 1790841131.8837242,
-    "seen": 1790841154.8829575,
+    "seen": 1790884273.6356163,
     "ast_hash": "94669875a576aa1f413b84b64d986f20",
     "semantic_hash": ""
   },
   "docs/previews/shelter-confirmation-mobile.png": {
     "mtime": 1790841141.5672028,
-    "seen": 1790841154.8829627,
+    "seen": 1790884273.6356177,
     "ast_hash": "dcf733e9d4493454a98e98368d0cdf4d",
     "semantic_hash": ""
   },
   "docs/previews/shelter-verification-desktop.png": {
     "mtime": 1790841128.8844624,
-    "seen": 1790841154.8829672,
+    "seen": 1790884273.6356194,
     "ast_hash": "375cfb1fd3a6a0b2161ed733c1f1bda8",
     "semantic_hash": ""
   },
   "docs/previews/shelter-verification-mobile.png": {
     "mtime": 1790841140.0663345,
-    "seen": 1790841154.8829725,
+    "seen": 1790884273.6356208,
     "ast_hash": "589fdbf49bfa7884d14c8d9d39f42572",
     "semantic_hash": ""
   },
   "docs/previews/vet-confirmation-desktop.png": {
     "mtime": 1790841130.054984,
-    "seen": 1790841154.882977,
+    "seen": 1790884273.6356225,
     "ast_hash": "498ff9b535ce88a372fd6a536a80110e",
     "semantic_hash": ""
   },
   "docs/previews/vet-confirmation-mobile.png": {
     "mtime": 1790841140.8018389,
-    "seen": 1790841154.8829818,
+    "seen": 1790884273.6356242,
     "ast_hash": "5ca9af5883954385ad04bbf07d942fc0",
     "semantic_hash": ""
   },
   "docs/previews/vet-verification-desktop.png": {
     "mtime": 1790841127.9630566,
-    "seen": 1790841154.8829873,
+    "seen": 1790884273.6356254,
     "ast_hash": "44063632c53fb4a7e1d3415ac5c86a47",
     "semantic_hash": ""
   },
   "docs/previews/vet-verification-mobile.png": {
     "mtime": 1790841139.163483,
-    "seen": 1790841154.882992,
+    "seen": 1790884273.635627,
     "ast_hash": "4d86394a7440808925375046e6990d24",
     "semantic_hash": ""
   },
   "docs/previews/veterinarian-desktop.png": {
     "mtime": 1790841126.9328878,
-    "seen": 1790841154.8829966,
+    "seen": 1790884273.6356285,
     "ast_hash": "ad36df115928fc19203083571f0f9ae6",
     "semantic_hash": ""
   },
   "docs/previews/veterinarian-mobile.png": {
     "mtime": 1790841138.3741646,
-    "seen": 1790841154.8830009,
+    "seen": 1790884273.63563,
     "ast_hash": "d5f5e57a4c4b53b790260e31f74ae72d",
     "semantic_hash": ""
   },
   "docs/previews/volunteer-desktop.png": {
     "mtime": 1790841125.426206,
-    "seen": 1790841154.8830047,
+    "seen": 1790884273.6356313,
     "ast_hash": "f831101b42bc11d86d03336882243b3a",
     "semantic_hash": ""
   },
   "docs/previews/volunteer-mobile.png": {
     "mtime": 1790841137.6632712,
-    "seen": 1790841154.883009,
+    "seen": 1790884273.6356328,
     "ast_hash": "d0afec30edd2f83e68784670dac18771",
+    "semantic_hash": ""
+  },
+  "compose.yaml": {
+    "mtime": 1790878897.985741,
+    "seen": 1790884273.635576,
+    "ast_hash": "c613f8f8e01c1fda9aa9bcc417fadbb8",
+    "semantic_hash": ""
+  },
+  "docs/plans/2026-10-01-django-auth-integration.md": {
+    "mtime": 1790883748.8584802,
+    "seen": 1790884273.6355808,
+    "ast_hash": "2973e2af68cf78c72377a64b9b11b9f7",
+    "semantic_hash": ""
+  },
+  "docs/previews/professional-registration.html": {
+    "mtime": 1790841147.9532301,
+    "seen": 1790884273.6355836,
+    "ast_hash": "eddd32e874d74a47c8ac3c9a925e3192",
+    "semantic_hash": ""
+  },
+  "docs/research/2026-10-01-django-auth-integration.md": {
+    "mtime": 1790883026.2589242,
+    "seen": 1790884273.63559,
+    "ast_hash": "3ce1c71363acb315ac96f9eda66dea79",
+    "semantic_hash": ""
+  },
+  "docs/previews/professional-registration-overview.png": {
+    "mtime": 1790841277.8993008,
+    "seen": 1790884273.635609,
+    "ast_hash": "e4b2fdf1f51880598ca066f3f21929a3",
     "semantic_hash": ""
   }
 }

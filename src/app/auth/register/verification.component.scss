@@ -1,4 +1,5 @@
 :host { display: block; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
 :host([hidden]) { display: none; }
 * { box-sizing: border-box; }
 input, select, button { font: inherit; }
