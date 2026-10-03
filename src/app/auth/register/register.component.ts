@@ -9,7 +9,8 @@ import { finalize } from 'rxjs';
 import { AuthService } from '../service/auth';
 import { SignupRequest } from '../models/auth-request.model';
 import { UserRole, toBackendRole } from '../models/user-role.model';
-import { IonIcon } from '@ionic/angular';
+import { RegisterStep, ROLES } from '../models/register.model';
+import { IonButton, IonCheckbox, IonContent, IonIcon, IonInput, IonRadio, IonRadioGroup, IonSpinner } from '@ionic/angular';
 import {
   arrowBackOutline, arrowForwardOutline, checkmarkOutline, eyeOffOutline,
   eyeOutline, informationCircleOutline, lockClosedOutline, mailOutline, personOutline, timeOutline,
@@ -19,15 +20,9 @@ import { VerificationComponent } from './verification.component';
 
 type AccountFieldName = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword';
 
-const ROLES: ReadonlyArray<{ value: UserRole; title: string; description: string }> = [
-  { value: 'VOLUNTEER', title: 'Bénévole', description: 'Je donne de mon temps' },
-  { value: 'VETERINARIAN', title: 'Vétérinaire', description: "Je soigne et j'accompagne" },
-  { value: 'SHELTER', title: 'Refuge / Association', description: 'Je gère un refuge ou une association' },
-];
-
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, RouterLink, IonIcon, AuthLayoutComponent, VerificationComponent],
+  imports: [ReactiveFormsModule, RouterLink, IonButton, IonCheckbox, IonContent, IonIcon, IonInput, IonRadio, IonRadioGroup, IonSpinner, AuthLayoutComponent, VerificationComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,16 +32,17 @@ export class RegisterComponent {
   private readonly destroyRef = inject(DestroyRef);
   readonly busy = signal(false);
   private readonly injector = inject(Injector);
-  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly content = viewChild.required(IonContent);
   private readonly stepTitle = viewChild<ElementRef<HTMLElement>>('stepTitle');
-  readonly currentStep = signal<1 | 2 | 3 | 'confirmation' | 'created'>(1);
+  readonly currentStep = signal<RegisterStep>(1);
   private readonly requestedPreview = isDevMode() ? inject(ActivatedRoute).snapshot.queryParamMap.get('preview') : null;
   readonly preview = ['volunteer', 'veterinarian', 'vet-verification', 'shelter-verification', 'vet-confirmation', 'shelter-confirmation'].includes(this.requestedPreview ?? '') ? this.requestedPreview : null;
   readonly feedback = signal('');
-  readonly visibility = signal({ password: false, confirmPassword: false });
+  private readonly passwordVisible = signal(false);
+  private readonly confirmPasswordVisible = signal(false);
   readonly icons = { arrowBackOutline, arrowForwardOutline, checkmarkOutline, eyeOffOutline, eyeOutline, informationCircleOutline, timeOutline, mailOutline };
-  readonly fields: ReadonlyArray<{
-    name: AccountFieldName; label: string; icon: string; autocomplete: string;
+  readonly accountFields: ReadonlyArray<{
+    name: AccountFieldName; label: string; icon: string; autocomplete: 'given-name' | 'family-name' | 'email' | 'new-password';
   }> = [
     { name: 'firstName', label: 'Prénom', icon: personOutline, autocomplete: 'given-name' },
     { name: 'lastName', label: 'Nom', icon: personOutline, autocomplete: 'family-name' },
@@ -71,7 +67,7 @@ export class RegisterComponent {
     selectedRole: new FormControl<UserRole | null>(null, Validators.required),
   });
   readonly selectedRole = toSignal(this.form.controls.selectedRole.valueChanges, { initialValue: null });
-  readonly isProfessional = computed(() => {
+  readonly requiresVerification = computed(() => {
     const role = this.selectedRole();
     return role === 'VETERINARIAN' || role === 'SHELTER';
   });
@@ -98,6 +94,14 @@ export class RegisterComponent {
       : 'Merci de fournir les informations de votre refuge ou association afin de valider votre compte.';
     return 'Rejoignez la communauté PawRescue AI\net faites la différence pour les animaux.';
   });
+  readonly isAccountOrRoleStep = computed(() => this.currentStep() === 1 || this.currentStep() === 2);
+  readonly isConfirmationOrCreated = computed(() => this.currentStep() === 'confirmation' || this.currentStep() === 'created');
+  readonly isProfessionalScreen = computed(() => this.currentStep() === 3 || this.currentStep() === 'confirmation');
+  readonly stepAriaCurrent = computed(() => {
+    const step = this.currentStep();
+    if (step === 1 || step === 2 || step === 3) return 'step';
+    return null;
+  });
 
   constructor() {
     const state = this.preview;
@@ -120,13 +124,15 @@ export class RegisterComponent {
     return name === 'password' || name === 'confirmPassword';
   }
 
-  inputType(name: AccountFieldName): string {
-    if (this.isPassword(name)) return this.visibility()[name] ? 'text' : 'password';
+  inputType(name: AccountFieldName): 'text' | 'email' | 'password' {
+    if (name === 'password') return this.passwordVisible() ? 'text' : 'password';
+    if (name === 'confirmPassword') return this.confirmPasswordVisible() ? 'text' : 'password';
     return name === 'email' ? 'email' : 'text';
   }
 
   toggleVisibility(name: AccountFieldName): void {
-    if (this.isPassword(name)) this.visibility.update(value => ({ ...value, [name]: !value[name] }));
+    if (name === 'password') this.passwordVisible.update(v => !v);
+    else if (name === 'confirmPassword') this.confirmPasswordVisible.update(v => !v);
   }
 
   continue(): void {
@@ -142,7 +148,7 @@ export class RegisterComponent {
   }
 
   submit(): void {
-    if (this.busy() || this.currentStep() === 'confirmation' || this.currentStep() === 'created') return;
+    if (this.busy() || this.isConfirmationOrCreated()) return;
     if (this.currentStep() === 1) {
       this.continue();
       return;
@@ -153,7 +159,7 @@ export class RegisterComponent {
       return;
     }
     if (this.form.controls.selectedRole.invalid) return;
-    if (this.isProfessional()) {
+    if (this.requiresVerification()) {
       this.goToStep(3);
       return;
     }
@@ -161,15 +167,15 @@ export class RegisterComponent {
       this.feedback.set("Aperçu uniquement : aucun compte n'a été créé.");
       return;
     }
-    this.signup();
+    this.submitRegistration();
   }
 
-  signup(professionalData?: FormData): void {
-    if (this.preview || this.busy() || this.currentStep() === 'created' || this.currentStep() === 'confirmation') return;
+  submitRegistration(verificationData?: FormData): void {
+    if (this.preview || this.busy() || this.isConfirmationOrCreated()) return;
     this.account.markAllAsTouched();
     if (this.account.invalid) { this.goToStep(1); return; }
     const role = this.selectedRole();
-    if (!role || (this.isProfessional() && !professionalData)) return;
+    if (!role || (this.requiresVerification() && !verificationData)) return;
     const account = this.account.getRawValue();
     const body: SignupRequest = {
       email: account.email.trim(),
@@ -178,11 +184,11 @@ export class RegisterComponent {
       last_name: account.lastName.trim(),
       role: toBackendRole(role),
     };
-    if (professionalData) for (const [key, value] of Object.entries(body)) professionalData.set(key, value);
+    if (verificationData) for (const [key, value] of Object.entries(body)) verificationData.set(key, value);
     this.feedback.set('');
     this.busy.set(true);
     this.form.disable();
-    this.auth.signup(professionalData ?? body).pipe(
+    this.auth.signup(verificationData ?? body).pipe(
       takeUntilDestroyed(this.destroyRef), finalize(() => { this.busy.set(false); this.form.enable(); }),
     ).subscribe({
       next: response => {
@@ -199,18 +205,18 @@ export class RegisterComponent {
   }
 
   confirmPreview(): void {
-    if (this.preview && this.isProfessional()) this.goToStep('confirmation');
+    if (this.preview && this.requiresVerification()) this.goToStep('confirmation');
   }
 
   contactTeam(): void {
     this.feedback.set("Le canal de contact de notre équipe n'est pas encore disponible.");
   }
 
-  private goToStep(step: 1 | 2 | 3 | 'confirmation' | 'created'): void {
+  private goToStep(step: RegisterStep): void {
     this.feedback.set('');
     this.currentStep.set(step);
     afterNextRender(() => {
-      this.host.nativeElement.scrollTop = 0;
+      void this.content().scrollToTop(0);
       this.stepTitle()?.nativeElement.focus({ preventScroll: true });
     }, { injector: this.injector });
   }

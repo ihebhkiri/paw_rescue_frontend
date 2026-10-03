@@ -1,0 +1,86 @@
+// Shared auth controls, including projected content. Keep overlays scoped separately.
+.auth-content {
+  --background: var(--auth-surface);
+  --color: var(--auth-ink);
+  --padding-top: var(--ion-safe-area-top, 0px);
+  --padding-bottom: var(--ion-safe-area-bottom, 0px);
+  --padding-start: var(--ion-safe-area-left, 0px);
+  --padding-end: var(--ion-safe-area-right, 0px);
+  color-scheme: light;
+  font-family: Arial, Helvetica, sans-serif;
+
+  *, *::before, *::after { box-sizing: border-box; }
+  section, form, .field-group { min-width: 0; }
+  ion-icon, ion-spinner { flex-shrink: 0; }
+  ion-input.input-fill-outline, ion-select {
+    --background: var(--auth-surface);
+    --color: var(--auth-ink);
+    --border-color: var(--auth-border);
+    --border-radius: 15px;
+    --highlight-color-focused: var(--auth-green);
+    --highlight-color-valid: var(--auth-green);
+    --highlight-color-invalid: var(--auth-error);
+    --placeholder-color: var(--auth-muted);
+    --placeholder-opacity: 1;
+    min-width: 0;
+    font-size: 16px;
+  }
+  ion-input ion-icon { color: var(--auth-muted); font-size: 24px; }
+  ion-input.group-error { --border-color: var(--auth-error); --highlight-color-valid: var(--auth-error); --highlight-color-focused: var(--auth-error); }
+  ion-button {
+    --border-radius: 16px;
+    --box-shadow: none;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    min-width: 0;
+    min-height: 48px;
+    margin: 0;
+    font: inherit;
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: normal;
+  }
+  ion-button.primary {
+    --background: var(--auth-primary-gradient);
+    --background-hover: var(--auth-green);
+    --background-activated: var(--auth-green);
+    --color: #fff;
+    min-height: 60px;
+  }
+  ion-button.secondary {
+    --background: var(--auth-surface);
+    --color: var(--auth-ink);
+    --border-color: var(--auth-border);
+    --border-width: 1px;
+    --border-style: solid;
+    min-height: 56px;
+  }
+  ion-button[fill='clear'] { --color: var(--auth-green); --padding-start: 4px; --padding-end: 4px; min-height: 44px; }
+  ion-button.visibility { width: 44px; min-height: 44px; --color: var(--auth-muted); }
+  ion-button::part(native):focus-visible, a:focus-visible, .upload:focus-within { outline: 3px solid var(--auth-green); outline-offset: 3px; }
+  ion-checkbox { --checkbox-background: var(--auth-surface); --checkbox-background-checked: var(--auth-green); --border-color: var(--auth-green); --border-color-checked: var(--auth-green); --checkmark-color: #fff; --size: 24px; min-height: 44px; }
+  ion-checkbox::part(label) { white-space: normal; }
+  ion-radio { --color: var(--auth-border); --color-checked: var(--auth-green); }
+  ion-spinner { width: 22px; height: 22px; }
+  a { color: var(--auth-green); }
+  .feedback { margin: 16px 0 0; color: var(--auth-muted); line-height: 1.5; overflow-wrap: anywhere; }
+  .feedback:empty { display: none; }
+  .error { display: block; margin: 6px 0 0; color: var(--auth-error); font-size: 13px; }
+  .error:empty { display: none; }
+  .actions { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (min-width: 480px) { .actions { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); } }
+}
+
+.auth-select-alert {
+  color-scheme: light;
+  --background: var(--auth-surface);
+  --ion-background-color: var(--auth-surface);
+  --ion-text-color: var(--auth-ink);
+  --ion-color-primary: var(--auth-green);
+  --ion-color-step-550: var(--auth-muted);
+  --ion-color-step-850: var(--auth-ink);
+}

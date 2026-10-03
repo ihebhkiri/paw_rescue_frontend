@@ -4,16 +4,18 @@
     @for (field of fields(); track field.name) {
       @let error = fieldError(field);
       <div class="field-group">
-        <label [for]="'verification-' + field.name">{{ field.label }}</label>
         @if (field.options; as options) {
-          <select [id]="'verification-' + field.name" [formControl]="field.control" required [attr.aria-invalid]="!!error" [attr.aria-describedby]="error ? 'error-' + field.name : null">
-            <option value="" disabled>{{ field.placeholder }}</option>
-            @for (option of options; track option) { <option [value]="option">{{ option }}</option> }
-          </select>
+          <ion-select [id]="'verification-' + field.name" [formControl]="field.control" [label]="field.label"
+            labelPlacement="stacked" fill="outline" mode="md" [placeholder]="field.placeholder" [errorText]="error"
+            interface="alert" [interfaceOptions]="{ cssClass: 'auth-select-alert', header: field.label }" okText="Valider" cancelText="Annuler" aria-required="true">
+            @for (option of options; track option) { <ion-select-option [value]="option">{{ option }}</ion-select-option> }
+          </ion-select>
         } @else {
-          <input [id]="'verification-' + field.name" [type]="field.type || 'text'" [formControl]="field.control" [placeholder]="field.placeholder" required [attr.aria-invalid]="!!error" [attr.aria-describedby]="error ? 'error-' + field.name : null" />
+          <ion-input [id]="'verification-' + field.name" [type]="field.type || 'text'" [formControl]="field.control"
+            [label]="field.label" labelPlacement="stacked" fill="outline" mode="md" [placeholder]="field.placeholder"
+            [inputmode]="field.type === 'tel' ? 'tel' : field.type === 'email' ? 'email' : 'text'"
+            [autocomplete]="field.type === 'tel' ? 'tel' : field.type === 'email' ? 'email' : 'off'" required [errorText]="error" />
         }
-        @if (error) { <small class="error" [id]="'error-' + field.name">{{ error }}</small> }
       </div>
     }
   </div>
@@ -29,8 +31,8 @@
   </div>
   <p class="information"><ion-icon [icon]="icons.informationCircleOutline" aria-hidden="true" />{{ role() === 'VETERINARIAN' ? 'Votre compte sera créé avec le statut : En attente de validation.' : 'Votre compte sera activé après validation par l’équipe PawRescue.' }}</p>
   <div class="actions">
-    <button type="button" class="secondary" (click)="goBack.emit()"><ion-icon [icon]="icons.arrowBackOutline" aria-hidden="true" />Retour</button>
-    <button type="submit" class="primary" [attr.aria-busy]="busy()">{{ busy() ? 'Envoi…' : 'Soumettre pour vérification' }}<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
+    <ion-button [disabled]="busy()" type="button" class="secondary" (click)="goBack.emit()"><ion-icon slot="start" [icon]="icons.arrowBackOutline" aria-hidden="true" />Retour</ion-button>
+    <ion-button [disabled]="busy()" type="submit" class="primary" [attr.aria-busy]="busy()">@if (busy()) { <ion-spinner slot="start" name="crescent" aria-hidden="true" /> }{{ busy() ? 'Envoi…' : 'Soumettre pour vérification' }}<ion-icon slot="end" [icon]="icons.arrowForwardOutline" aria-hidden="true" /></ion-button>
   </div>
   <p class="feedback" role="status">{{ feedback() }}</p>
   </fieldset>

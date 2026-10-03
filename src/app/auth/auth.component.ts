@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { AuthService } from './service/auth';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonIcon } from '@ionic/angular';
+import { IonButton, IonCheckbox, IonContent, IonIcon, IonInput, IonSpinner } from '@ionic/angular';
 import { AuthLayoutComponent } from './layout/auth-layout.component';
 import { RouterLink } from '@angular/router';
 import {
@@ -14,7 +14,7 @@ import {
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
-  imports: [ReactiveFormsModule, IonIcon, AuthLayoutComponent, RouterLink],
+  imports: [ReactiveFormsModule, IonButton, IonCheckbox, IonContent, IonIcon, IonInput, IonSpinner, AuthLayoutComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {

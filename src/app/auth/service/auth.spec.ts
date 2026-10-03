@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { Auth } from './auth';
+import { AuthService } from './auth';
 import { environment } from '../../../environments/environment';
 
 describe('Auth HTTP contract', () => {
-  let auth: Auth;
+  let auth: AuthService;
   let http: HttpTestingController;
   beforeEach(() => {
     TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
-    auth = TestBed.inject(Auth);
+    auth = TestBed.inject(AuthService);
     http = TestBed.inject(HttpTestingController);
   });
   afterEach(() => http.verify());

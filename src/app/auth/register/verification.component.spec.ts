@@ -68,4 +68,30 @@ describe('VerificationComponent', () => {
     expect(component.document()).toBeNull();
     expect(component.fields()).toHaveLength(8);
   });
+
+  it('binds Ionic input/select events and disables every control while submitting', () => {
+    const page: HTMLElement = fixture.nativeElement;
+    const input = page.querySelector<HTMLIonInputElement>('#verification-orderNumber')!;
+    input.value = '12345';
+    input.dispatchEvent(new CustomEvent('ionInput', { detail: { value: input.value } }));
+    input.dispatchEvent(new CustomEvent('ionBlur'));
+    expect(component.fields()[0].control.value).toBe('12345');
+    expect(component.fields()[0].control.touched).toBe(true);
+    const select = page.querySelector<HTMLIonSelectElement>('#verification-governorate')!;
+    select.value = 'Tunis';
+    select.dispatchEvent(new CustomEvent('ionChange', { detail: { value: 'Tunis' } }));
+    expect(component.fields()[1].control.value).toBe('Tunis');
+    fixture.componentRef.setInput('busy', true);
+    fixture.detectChanges();
+    expect(input.disabled).toBe(true);
+    expect(select.disabled).toBe(true);
+    expect(page.querySelector<HTMLIonButtonElement>('ion-button.primary')!.disabled).toBe(true);
+    expect(page.querySelector<HTMLInputElement>('input[type=file]')!.matches(':disabled')).toBe(true);
+    fixture.componentRef.setInput('busy', false);
+    fixture.detectChanges();
+    expect(input.disabled).toBe(false);
+    expect(select.disabled).toBe(false);
+    expect(component.fields()[0].control.value).toBe('12345');
+    expect(component.fields()[1].control.value).toBe('Tunis');
+  });
 });

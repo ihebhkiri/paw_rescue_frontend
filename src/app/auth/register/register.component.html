@@ -1,81 +1,89 @@
+<ion-content class="auth-content">
 <app-auth-layout variant="register">
-  <section aria-labelledby="registration-title" [class.professional-screen]="currentStep() === 3 || currentStep() === 'confirmation'">
+  <section aria-labelledby="registration-title" [class.professional-screen]="isProfessionalScreen()">
     @if (preview) { <p class="preview-notice">Aperçu de démonstration — aucun compte ni document envoyé</p> }
     <h1 #stepTitle tabindex="-1" id="registration-title">{{ title() }}</h1>
     <p class="welcome">{{ subtitle() }}</p>
 
-    @if (currentStep() !== 'confirmation' && currentStep() !== 'created') {
-    <ol class="stepper" aria-label="Étapes de l’inscription" [class.second-step]="currentStep() !== 1" [class.three-steps]="isProfessional()" [class.third-step]="currentStep() === 3">
-      <li [class.active]="currentStep() === 1" [attr.aria-current]="currentStep() === 1 ? 'step' : null">
+    @if (!isConfirmationOrCreated()) {
+    <ol class="stepper" aria-label="Étapes de l’inscription" [class.second-step]="currentStep() !== 1" [class.three-steps]="requiresVerification()" [class.third-step]="currentStep() === 3">
+      <li [class.active]="currentStep() === 1" [attr.aria-current]="currentStep() === 1 ? stepAriaCurrent() : null">
         <span class="step-number completed" aria-hidden="true">
           @if (currentStep() === 1) { 1 } @else { <ion-icon [icon]="icons.checkmarkOutline" /> }
         </span>
         <span>Informations du compte</span>
       </li>
-      <li [class.active]="currentStep() === 2" [attr.aria-current]="currentStep() === 2 ? 'step' : null">
+      <li [class.active]="currentStep() === 2" [attr.aria-current]="currentStep() === 2 ? stepAriaCurrent() : null">
         <span class="step-number" [class.completed]="currentStep() === 3" aria-hidden="true">@if (currentStep() === 3) { <ion-icon [icon]="icons.checkmarkOutline" /> } @else { 2 }</span><span>Votre rôle</span>
       </li>
-      @if (isProfessional()) {
-        <li [class.active]="currentStep() === 3" [attr.aria-current]="currentStep() === 3 ? 'step' : null">
+      @if (requiresVerification()) {
+        <li [class.active]="currentStep() === 3" [attr.aria-current]="currentStep() === 3 ? stepAriaCurrent() : null">
           <span class="step-number" aria-hidden="true">3</span><span>Vérification</span>
         </li>
       }
     </ol>
     }
 
-    @if (currentStep() === 1 || currentStep() === 2) {
+    @if (isAccountOrRoleStep()) {
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
       @if (currentStep() === 1) {
         <h2 class="sr-only">Informations du compte</h2>
         <div class="account-fields" formGroupName="account">
-          @for (field of fields; track field.name) {
+          @for (field of accountFields; track field.name) {
             @let error = fieldError(field.name);
             <div class="field-group" [class.half-width]="field.name === 'firstName' || field.name === 'lastName'">
-              <label class="sr-only" [for]="'register-' + field.name">{{ field.label }}</label>
-              <div class="field" [class.invalid]="error">
-                <ion-icon [icon]="field.icon" aria-hidden="true" />
-                <input
-                  [id]="'register-' + field.name"
-                  [type]="inputType(field.name)"
-                  [formControlName]="field.name"
-                  [placeholder]="field.label"
-                  [autocomplete]="field.autocomplete"
-                  required
-                />
+              <ion-input
+                [id]="'register-' + field.name"
+                [type]="inputType(field.name)"
+                [clearOnEdit]="false"
+                [formControlName]="field.name"
+                [label]="field.label"
+                labelPlacement="stacked" fill="outline" mode="md"
+                [autocomplete]="field.autocomplete"
+                [inputmode]="field.name === 'email' ? 'email' : 'text'"
+                [autocapitalize]="isPassword(field.name) || field.name === 'email' ? 'off' : 'words'"
+                [errorText]="field.name === 'confirmPassword' ? '' : error"
+                [attr.aria-describedby]="field.name === 'confirmPassword' ? 'confirmPassword-error' : null"
+                [class.group-error]="!!error && account.controls[field.name].valid"
+                required>
+                <ion-icon slot="start" [icon]="field.icon" aria-hidden="true" />
                 @if (isPassword(field.name)) {
-                  <button type="button" class="visibility"
+                  <ion-button slot="end" fill="clear" type="button" class="visibility"
                     (click)="toggleVisibility(field.name)"
                     [attr.aria-label]="(inputType(field.name) === 'password' ? 'Afficher : ' : 'Masquer : ') + field.label"
                     [attr.aria-pressed]="inputType(field.name) === 'text'">
-                    <ion-icon [icon]="inputType(field.name) === 'password' ? icons.eyeOutline : icons.eyeOffOutline" aria-hidden="true" />
-                  </button>
+                    <ion-icon slot="icon-only" [icon]="inputType(field.name) === 'password' ? icons.eyeOutline : icons.eyeOffOutline" aria-hidden="true" />
+                  </ion-button>
                 }
-              </div>
-              @if (error) { <small class="error" [id]="field.name + '-error'">{{ error }}</small> }
+              </ion-input>
+              @if (field.name === 'confirmPassword') {
+                <!-- Password equality is a group error; Ionic only renders control errors. -->
+                <small id="confirmPassword-error" class="error" role="alert">{{ error }}</small>
+              }
             </div>
           }
           <div class="terms-group">
-            <div class="terms">
-              <input id="accept-terms" type="checkbox" formControlName="acceptTerms" required
-                aria-label="J’accepte les Conditions d’utilisation et la Politique de confidentialité">
-               <div>
-                <label for="accept-terms">J’accepte les </label>
-                <button type="button" class="legal-link" (click)="showLegalUnavailable()">Conditions d’utilisation</button>
-                <span> et la </span>
-                <button type="button" class="legal-link" (click)="showLegalUnavailable()">Politique de confidentialité</button>
-              </div>
+            <ion-checkbox id="accept-terms" formControlName="acceptTerms" labelPlacement="end" justify="start"
+              [attr.aria-describedby]="account.controls.acceptTerms.touched && account.controls.acceptTerms.invalid ? 'terms-error' : null">
+              J’accepte les conditions d’utilisation et la politique de confidentialité.
+            </ion-checkbox>
+            <div class="legal-actions">
+              <ion-button type="button" fill="clear" class="legal-link" (click)="showLegalUnavailable()">Conditions d’utilisation</ion-button>
+              <ion-button type="button" fill="clear" class="legal-link" (click)="showLegalUnavailable()">Politique de confidentialité</ion-button>
             </div>
             @if (account.controls.acceptTerms.touched && account.controls.acceptTerms.invalid) {
               <small class="error" id="terms-error">Vous devez accepter les conditions pour continuer.</small>
             }
           </div>
         </div>
-        <button class="primary continue" type="submit">Continuer<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
+        <ion-button class="primary continue" type="submit">Continuer<ion-icon slot="end" [icon]="icons.arrowForwardOutline" aria-hidden="true" /></ion-button>
       } @else {
         <fieldset class="role-options" [attr.aria-describedby]="form.controls.selectedRole.touched && form.controls.selectedRole.invalid ? 'role-error' : null">
-          <legend><span>Quel est votre rôle ?</span></legend>
+          <legend id="role-title">Quel est votre rôle ?</legend>
+          <ion-radio-group formControlName="selectedRole" aria-labelledby="role-title" [attr.aria-describedby]="form.controls.selectedRole.touched && form.controls.selectedRole.invalid ? 'role-error' : null">
           @for (role of roles; track role.value) {
-            <label class="role-card" [class.selected]="form.controls.selectedRole.value === role.value">
+            <ion-radio class="role-card" mode="md" [value]="role.value" [disabled]="busy()" labelPlacement="start" justify="space-between" [class.selected]="form.controls.selectedRole.value === role.value">
+              <span class="role-label">
               <span class="role-icon" [class]="'role-icon ' + role.value" aria-hidden="true">
                 @switch (role.value) {
                   @case ('VOLUNTEER') {
@@ -90,25 +98,26 @@
                 }
               </span>
               <span class="role-copy"><strong>{{ role.title }}</strong><span>{{ role.description }}</span>
-                @if (selectedRole() === role.value) { <small class="role-badge">{{ isProfessional() ? 'Vérification requise' : 'Inscription rapide' }}</small> }
+                @if (selectedRole() === role.value) { <small class="role-badge">{{ requiresVerification() ? 'Vérification requise' : 'Inscription rapide' }}</small> }
               </span>
-              <input type="radio" name="selectedRole" formControlName="selectedRole" [value]="role.value" required />
-            </label>
+              </span>
+            </ion-radio>
           }
+          </ion-radio-group>
           @if (form.controls.selectedRole.touched && form.controls.selectedRole.invalid) {
             <small class="error" id="role-error">Choisissez un rôle pour continuer.</small>
           }
         </fieldset>
         <p class="information"><ion-icon [icon]="icons.informationCircleOutline" aria-hidden="true" />{{ roleInformation() }}</p>
         <div class="actions">
-          <button class="secondary" type="button" (click)="back()" [disabled]="busy()"><ion-icon [icon]="icons.arrowBackOutline" aria-hidden="true" />Retour</button>
-          <button class="primary" type="submit" [disabled]="busy()" [attr.aria-busy]="busy()">{{ busy() ? 'Inscription…' : isProfessional() ? 'Continuer' : 'Créer un compte' }}<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></button>
+          <ion-button class="secondary" type="button" (click)="back()" [disabled]="busy()"><ion-icon slot="start" [icon]="icons.arrowBackOutline" aria-hidden="true" />Retour</ion-button>
+          <ion-button class="primary" type="submit" [disabled]="busy()" [attr.aria-busy]="busy()">@if (busy()) { <ion-spinner slot="start" name="crescent" aria-hidden="true" /> }{{ busy() ? 'Inscription…' : requiresVerification() ? 'Continuer' : 'Créer un compte' }}<ion-icon slot="end" [icon]="icons.arrowForwardOutline" aria-hidden="true" /></ion-button>
         </div>
       }
     </form>
     }
     @if (selectedRole() === 'VETERINARIAN' || selectedRole() === 'SHELTER') {
-      <app-verification [hidden]="currentStep() !== 3" [role]="selectedRole() === 'VETERINARIAN' ? 'VETERINARIAN' : 'SHELTER'" [preview]="!!preview" [busy]="busy()" (goBack)="back()" (confirmed)="confirmPreview()" (submitted)="signup($event)" />
+      <app-verification [hidden]="currentStep() !== 3" [role]="selectedRole() === 'VETERINARIAN' ? 'VETERINARIAN' : 'SHELTER'" [preview]="!!preview" [busy]="busy()" (goBack)="back()" (confirmed)="confirmPreview()" (submitted)="submitRegistration($event)" />
     }
     @if (currentStep() === 'confirmation') {
       <div class="confirmation">
@@ -123,14 +132,15 @@
         <p class="pending"><ion-icon [icon]="icons.timeOutline" aria-hidden="true" />Statut : En attente de validation</p>
         <div class="information confirmation-info"><ion-icon [icon]="icons.mailOutline" aria-hidden="true" /><p>Vous recevrez un e-mail dès que votre compte aura été validé.<br /><strong>Ce processus prend généralement 1 à 3 jours ouvrés.</strong></p></div>
         <p class="helper">En attendant, vous pouvez revenir à la page de connexion.</p>
-        <a class="primary" routerLink="/auth">Aller à la page de connexion<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></a>
-        <button type="button" class="contact-link" (click)="contactTeam()">Contacter notre équipe</button>
+        <ion-button class="primary" expand="block" routerLink="/auth">Aller à la page de connexion<ion-icon slot="end" [icon]="icons.arrowForwardOutline" aria-hidden="true" /></ion-button>
+        <ion-button type="button" class="contact-link" fill="clear" (click)="contactTeam()">Contacter notre équipe</ion-button>
       </div>
     } @else if (currentStep() === 'created') {
-      <div class="confirmation"><a class="primary" routerLink="/auth">Aller à la page de connexion<ion-icon [icon]="icons.arrowForwardOutline" aria-hidden="true" /></a></div>
+      <div class="confirmation"><ion-button class="primary" expand="block" routerLink="/auth">Aller à la page de connexion<ion-icon slot="end" [icon]="icons.arrowForwardOutline" aria-hidden="true" /></ion-button></div>
     } @else {
     <p class="login-link" [class.with-lines]="currentStep() === 1"><span>Vous avez déjà un compte ? <a routerLink="/auth">Se connecter</a></span></p>
     }
     <p class="feedback" role="status">{{ feedback() }}</p>
   </section>
 </app-auth-layout>
+</ion-content>

@@ -1,72 +1,24 @@
-:host {
-  display: block;
-  overflow-y: auto;
-  color-scheme: light;
-  color: var(--auth-ink);
-  background: var(--auth-surface);
-  font-family: Arial, Helvetica, sans-serif;
-}
-* { box-sizing: border-box; }
-button, input, select { font: inherit; }
-button { cursor: pointer; }
-button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid var(--auth-green); outline-offset: 4px; }
-ion-icon { flex-shrink: 0; }
-h1 { font-size: clamp(44px, 4vw, 62px); line-height: 1.2; font-weight: 750; letter-spacing: -1.5px; margin: 0 0 12px -6px; }
-.welcome { font-size: clamp(17px, 1.4vw, 22px); line-height: 1.5; margin: 0 0 38px -6px; color: var(--auth-muted); }
-.field-group + .field-group { margin-top: 19px; }
-.field { display: flex; align-items: center; gap: 26px; height: 69px; padding: 0 19px; border: 1px solid var(--auth-border); border-radius: 16px; background: var(--auth-surface); color: var(--auth-muted); }
-.field:focus-within { border-color: var(--auth-green); box-shadow: 0 0 0 2px #00816d1a; }
-.field ion-icon { font-size: 28px; }
-.field input { width: 100%; min-width: 0; height: 100%; border: 0; outline: none; background: transparent; color: var(--auth-ink); font-size: 20px; }
-.field input::placeholder { color: var(--auth-muted); opacity: 1; }
-.visibility { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; margin-right: -7px; padding: 0; border: 0; background: none; color: inherit; }
-.form-options { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 26px 0 29px; font-size: 18px; }
-.remember { display: flex; align-items: center; gap: 17px; color: var(--auth-muted); cursor: pointer; }
-.remember input { appearance: none; width: 27px; height: 27px; flex-shrink: 0; margin: 0; border: 2px solid var(--auth-green); border-radius: 5px; background: white; cursor: pointer; }
-.remember input:checked { background: var(--auth-green); }
-.remember input:checked::after { content: ''; display: block; width: 7px; height: 14px; margin: 2px 0 0 7px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg); }
-.text-action { padding: 0; border: 0; background: none; color: var(--auth-green); }
-.forgot { text-decoration: underline; font-size: 17px; }
-.sign-in { display: flex; justify-content: center; align-items: center; gap: 20px; width: 100%; min-height: 70px; border: 0; border-radius: 21px; background: linear-gradient(110deg, #308f79, #11786b); color: white; font-size: 23px; font-weight: 600; }
-.sign-in ion-icon { font-size: 30px; }
-button:hover { filter: brightness(.94); }
-.divider { display: flex; align-items: center; gap: 22px; margin: 31px 0 22px; color: var(--auth-muted); font-size: 18px; }
+:host { display: flex; flex-direction: column; }
+h1 { font-size: 36px; line-height: 1.2; font-weight: 750; letter-spacing: -1px; margin: 0 0 12px; }
+.welcome { font-size: 17px; line-height: 1.5; margin: 0 0 28px; color: var(--auth-muted); }
+.field-group + .field-group { margin-top: 20px; }
+.form-options { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; margin: 20px 0; font-size: 14px; }
+.remember { color: var(--auth-muted); }
+.forgot { font-size: 14px; text-decoration: underline; }
+.sign-in { font-size: 20px; }
+.divider { display: flex; align-items: center; gap: 16px; margin: 28px 0 20px; color: var(--auth-muted); font-size: 16px; }
 .divider::before, .divider::after { content: ''; height: 1px; background: var(--auth-border); flex: 1; }
-.social-buttons { display: flex; gap: 15px; }
-.social-buttons button { display: flex; justify-content: center; align-items: center; gap: 20px; flex: 1; height: 65px; border: 1px solid var(--auth-border); border-radius: 16px; background: var(--auth-surface); color: var(--auth-ink); font-size: 18px; }
-.social-buttons svg, .social-buttons ion-icon { width: 30px; height: 30px; }
-.social-buttons ion-icon { color: #111; }
-.register { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 24px; margin: 35px 0 0; color: var(--auth-muted); font-size: 21px; line-height: 1.5; }
+.social-buttons { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.social-buttons svg, .social-buttons ion-icon { width: 26px; height: 26px; }
+.social-buttons svg { margin-inline-end: 8px; }
+.social-buttons ion-icon { color: var(--auth-ink); }
+.register { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 12px; margin: 24px 0 0; color: var(--auth-muted); font-size: 16px; line-height: 1.5; }
 .register a { font-weight: 700; text-decoration: none; }
-.register a:focus-visible { outline: 3px solid var(--auth-green); outline-offset: 4px; }
-.feedback { margin: 16px 0 0; color: var(--auth-muted); line-height: 1.5; }
-.feedback:empty { display: none; }
-.error { display: block; margin: 6px 0 0 4px; color: var(--auth-error); }
-.field.invalid { border-color: var(--auth-error); }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-@media (min-width: 768px) and (max-width: 1199px) {
-.field { gap: 12px; }
-.form-options { align-items: flex-start; font-size: 14px; gap: 10px; }
-.remember { gap: 8px; }
-.forgot { font-size: 14px; }
-.register { font-size: 17px; gap: 8px; }
-}
-@media (min-width: 768px) and (max-width: 991px) { .welcome { font-size: 17px; } }
-@media (max-width: 767px) {
-h1 { font-size: 43px; margin-left: 0; }
-.welcome { font-size: 17px; margin: 0 0 32px; }
-.field { height: 62px; gap: 14px; padding: 0 14px; }
-.field input { font-size: 17px; }
-.form-options { font-size: 14px; gap: 10px; }
-.remember { gap: 9px; }
-.remember input { width: 23px; height: 23px; }
-.remember input:checked::after { margin-left: 5px; }
-.forgot { font-size: 14px; }
-.sign-in { min-height: 62px; font-size: 20px; }
-.register { font-size: 17px; gap: 8px 12px; }
-}
-@media (max-width: 379px) {
-.form-options { flex-wrap: wrap; gap: 18px; }
-.social-buttons { flex-direction: column; }
-.social-buttons button { flex: auto; }
+@media (min-width: 380px) { .social-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1200px) {
+  h1 { font-size: clamp(44px, 4vw, 62px); }
+  .welcome { font-size: 22px; margin-bottom: 36px; }
+  .form-options, .forgot { font-size: 17px; }
+  .sign-in { min-height: 70px; font-size: 23px; }
+  .register { font-size: 20px; }
 }

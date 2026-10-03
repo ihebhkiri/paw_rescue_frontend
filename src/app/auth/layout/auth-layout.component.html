@@ -25,8 +25,7 @@
   <div class="hero-note" aria-hidden="true"><span>Ils comptent<br />sur nous !</span><svg viewBox="0 0 420 160"><path d="M31 39C6 15 20 1 29 21 44-3 59 14 31 39c64 62 148 110 298 71" /><path d="m314 106 15 4-11 10" /></svg></div>
   <div class="language">
     <ion-icon [icon]="icons.globeOutline" aria-hidden="true" />
-    <select aria-label="Langue"><option value="fr">FR</option></select>
-    <ion-icon [icon]="icons.chevronDownOutline" aria-hidden="true" />
+    <ion-select aria-label="Langue" value="fr" interface="alert" [interfaceOptions]="{ cssClass: 'auth-select-alert', header: 'Langue' }" okText="Valider" cancelText="Annuler"><ion-select-option value="fr">FR</ion-select-option></ion-select>
   </div>
 
 <ion-icon class="paw-watermark" [icon]="icons.paw" aria-hidden="true" />

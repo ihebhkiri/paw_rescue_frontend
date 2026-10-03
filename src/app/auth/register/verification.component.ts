@@ -1,16 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, OnChanges, output, signal, SimpleChanges } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonIcon } from '@ionic/angular';
+import { IonButton, IonIcon, IonInput, IonSelect, IonSelectOption, IonSpinner } from '@ionic/angular';
 import { arrowBackOutline, arrowForwardOutline, cloudUploadOutline, informationCircleOutline } from 'ionicons/icons';
-
-interface VerificationField {
-  name: string;
-  label: string;
-  placeholder: string;
-  control: FormControl<string>;
-  type?: 'tel' | 'email';
-  options?: readonly string[];
-}
+import { VerificationField, GOVERNORATES } from '../models/register.model';
 
 const FIELD_NAME_MAPPING: Record<string, string> = {
   orderNumber: 'license_number',
@@ -22,7 +14,7 @@ const FIELD_NAME_MAPPING: Record<string, string> = {
 
 @Component({
   selector: 'app-verification',
-  imports: [ReactiveFormsModule, IonIcon],
+  imports: [ReactiveFormsModule, IonButton, IonIcon, IonInput, IonSelect, IonSelectOption, IonSpinner],
   templateUrl: './verification.component.html',
   styleUrl: './verification.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,14 +31,9 @@ export class VerificationComponent implements OnChanges {
   readonly feedback = signal('');
   readonly document = signal<File | null>(null);
   readonly documentError = signal('');
-  readonly governorates = [
-    'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba', 'Kairouan',
-    'Kasserine', 'Kébili', 'Le Kef', 'Mahdia', 'La Manouba', 'Médenine', 'Monastir',
-    'Nabeul', 'Sfax', 'Sidi Bouzid', 'Siliana', 'Sousse', 'Tataouine', 'Tozeur', 'Tunis', 'Zaghouan',
-  ];
   private readonly governorate: VerificationField = {
-    name: 'governorate', label: 'Gouvernorat', placeholder: 'Sélectionnez un gouvernorat', options: this.governorates,
-    control: new FormControl('', { nonNullable: true, validators: [Validators.required, control => this.governorates.includes(control.value) ? null : { option: true }] }),
+    name: 'governorate', label: 'Gouvernorat', placeholder: 'Sélectionnez un gouvernorat', options: GOVERNORATES,
+    control: new FormControl('', { nonNullable: true, validators: [Validators.required, control => GOVERNORATES.includes(control.value as any) ? null : { option: true }] }),
   };
   private readonly phone: VerificationField = {
     name: 'phone', label: 'Téléphone', placeholder: '+216 XX XXX XXX', type: 'tel',
@@ -71,6 +58,12 @@ export class VerificationComponent implements OnChanges {
   readonly fields = computed(() => this.role() === 'VETERINARIAN' ? this.veterinarianFields : this.shelterFields);
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['busy'] || changes['role']) {
+      for (const field of this.fields()) {
+        if (this.busy()) field.control.disable({ emitEvent: false });
+        else field.control.enable({ emitEvent: false });
+      }
+    }
     if (changes['role'] && !changes['role'].firstChange) {
       this.document.set(null);
       this.documentError.set('');
@@ -113,7 +106,14 @@ export class VerificationComponent implements OnChanges {
     if (!this.document()) this.documentError.set(this.documentError() || 'Ajoutez votre justificatif.');
     if (this.fields().some(field => field.control.invalid) || !this.document()) {
       const invalid = this.fields().find(field => field.control.invalid);
-      this.host.nativeElement.querySelector<HTMLElement>(invalid ? `#verification-${invalid.name}` : '#verification-document')?.focus();
+      if (invalid?.options) {
+        // ion-select has no setFocus API; focus its native trigger in the shadow root.
+        this.host.nativeElement.querySelector<HTMLIonSelectElement>(`#verification-${invalid.name}`)?.shadowRoot?.querySelector('button')?.focus();
+      } else if (invalid) {
+        void this.host.nativeElement.querySelector<HTMLIonInputElement>(`#verification-${invalid.name}`)?.setFocus();
+      } else {
+        this.host.nativeElement.querySelector<HTMLInputElement>('#verification-document')?.focus();
+      }
       return;
     }
     if (this.preview()) {

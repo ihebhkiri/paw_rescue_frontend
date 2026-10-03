@@ -19,10 +19,13 @@ describe('AuthComponent', () => {
   });
 
   it('validates only after interaction and never reports a successful login without a backend', () => {
-    expect(page.querySelector('.error')).toBeNull();
-    page.querySelector<HTMLButtonElement>('.sign-in')!.click();
+    expect(component.form.touched).toBe(false);
+    page.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     fixture.detectChanges();
-    expect(page.querySelectorAll('.error')).toHaveLength(2);
+    expect(component.form.controls.email.touched).toBe(true);
+    expect(component.form.controls.password.touched).toBe(true);
+    expect(page.querySelector<HTMLIonInputElement>('#email')!.errorText).toBe('Saisissez une adresse e-mail valide.');
+    expect(page.querySelector<HTMLIonInputElement>('#password')!.errorText).toBe('Saisissez votre mot de passe.');
     expect(component.feedback()).toBe('');
 
     component.form.setValue({ email: 'incorrect', password: 'test-password', rememberMe: true });
@@ -34,7 +37,7 @@ describe('AuthComponent', () => {
     component.submit();
     fixture.detectChanges();
     expect(component.form.valid).toBe(true);
-    expect(page.querySelector('.error')).toBeNull();
+    expect(component.form.controls.email.valid).toBe(true);
     const request = TestBed.inject(HttpTestingController).expectOne(`${environment.authApiUrl}/token/`);
     expect(request.request.body).toEqual({ email: 'person@example.com', password: 'test-password' });
     request.flush({ non_field_errors: ['Identifiants invalides.'] }, { status: 400, statusText: 'Bad Request' });
@@ -43,10 +46,12 @@ describe('AuthComponent', () => {
   });
 
   it('toggles password visibility without losing the value and binds rememberMe', () => {
-    const password = page.querySelector<HTMLInputElement>('#password')!;
+    const password = page.querySelector<HTMLIonInputElement>('#password')!;
     password.value = 'a-test-password';
-    password.dispatchEvent(new Event('input'));
-    const toggle = page.querySelector<HTMLButtonElement>('.visibility')!;
+    password.dispatchEvent(new CustomEvent('ionInput', { detail: { value: password.value } }));
+    password.dispatchEvent(new CustomEvent('ionBlur'));
+    expect(component.form.controls.password.touched).toBe(true);
+    const toggle = page.querySelector<HTMLIonButtonElement>('.visibility')!;
     expect(password.type).toBe('password');
     toggle.click();
     fixture.detectChanges();
@@ -57,7 +62,8 @@ describe('AuthComponent', () => {
     fixture.detectChanges();
     expect(password.type).toBe('password');
     expect(component.form.controls.password.value).toBe('a-test-password');
-    page.querySelector<HTMLInputElement>('[type="checkbox"]')!.click();
+    expect(password.clearOnEdit).toBe(false);
+    expect(page.querySelector<HTMLIonCheckboxElement>('ion-checkbox')!.disabled).toBe(true);
     expect(component.form.controls.rememberMe.disabled).toBe(true);
   });
 });

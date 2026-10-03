@@ -25,7 +25,7 @@ describe('RegisterComponent', () => {
   });
 
   it('blocks incomplete, whitespace-only, mismatched and unaccepted account information', () => {
-    expect(page.querySelector('.error')).toBeNull();
+    expect(page.querySelector('#confirmPassword-error')!.textContent).toBe('');
     component.continue();
     fixture.detectChanges();
     expect(component.currentStep()).toBe(1);
@@ -55,17 +55,19 @@ describe('RegisterComponent', () => {
     component.account.setValue(validAccount);
     component.continue();
     fixture.detectChanges();
-    expect(page.querySelectorAll('input[type="radio"]:checked')).toHaveLength(0);
+    expect(page.querySelector<HTMLIonRadioGroupElement>('ion-radio-group')!.value).toBeNull();
     component.submit();
     fixture.detectChanges();
     expect(page.querySelector('#role-error')).not.toBeNull();
     expect(component.feedback()).toBe('');
 
-    const radios = page.querySelectorAll<HTMLInputElement>('input[type="radio"]');
-    radios[0].click();
-    radios[1].click();
+    const group = page.querySelector<HTMLIonRadioGroupElement>('ion-radio-group')!;
+    for (const value of ['VOLUNTEER', 'VETERINARIAN']) {
+      group.value = value;
+      group.dispatchEvent(new CustomEvent('ionChange', { detail: { value } }));
+    }
     fixture.detectChanges();
-    expect(page.querySelectorAll('input[type="radio"]:checked')).toHaveLength(1);
+    expect(page.querySelectorAll('ion-radio.selected')).toHaveLength(1);
     expect(component.form.controls.selectedRole.value).toBe('VETERINARIAN');
     component.back();
     fixture.detectChanges();
@@ -94,7 +96,7 @@ describe('RegisterComponent', () => {
         expect(component.currentStep()).toBe(3);
         const data = new FormData();
         data.set('verification_document', new File(['proof'], 'proof.pdf'));
-        component.signup(data);
+        component.submitRegistration(data);
       }
       expect(component.busy()).toBe(true);
       component.submit();
@@ -107,7 +109,7 @@ describe('RegisterComponent', () => {
       fixture.detectChanges();
       expect(component.currentStep()).toBe(role === 'VOLUNTEER' ? 'created' : 'confirmation');
       expect(page.querySelector('.stepper')).toBeNull();
-      expect(page.querySelector('.confirmation a')?.getAttribute('href')).toBe('/auth');
+      expect(page.querySelector('.confirmation ion-button.primary')?.getAttribute('href')).toBe('/auth');
       expect(component.busy()).toBe(false);
       http.verify();
     });
@@ -126,17 +128,33 @@ describe('RegisterComponent', () => {
     expect(component.form.enabled).toBe(true);
   });
 
+  it('shows the group password error beside confirmation without changing the validator', () => {
+    component.account.setValue({ ...validAccount, confirmPassword: 'different' });
+    component.continue();
+    fixture.detectChanges();
+    expect(component.account.controls.confirmPassword.valid).toBe(true);
+    expect(component.account.hasError('passwordMismatch')).toBe(true);
+    expect(page.querySelector('#confirmPassword-error')!.textContent).toBe('Les mots de passe doivent être identiques.');
+    expect(component.currentStep()).toBe(1);
+    component.account.controls.confirmPassword.setValue(validAccount.password);
+    fixture.detectChanges();
+    expect(page.querySelector('#confirmPassword-error')!.textContent).toBe('');
+    expect(component.account.valid).toBe(true);
+  });
+
   it('toggles passwords independently and keeps accessible input labels', () => {
     component.account.setValue(validAccount);
     fixture.detectChanges();
-    const password = page.querySelector<HTMLInputElement>('#register-password')!;
-    const confirmation = page.querySelector<HTMLInputElement>('#register-confirmPassword')!;
-    page.querySelector<HTMLButtonElement>('[aria-label="Afficher : Mot de passe"]')!.click();
+    const password = page.querySelector<HTMLIonInputElement>('#register-password')!;
+    const confirmation = page.querySelector<HTMLIonInputElement>('#register-confirmPassword')!;
+    page.querySelector<HTMLIonButtonElement>('#register-password .visibility')!.click();
     fixture.detectChanges();
+    expect(password.label).toBe('Mot de passe');
+    expect(confirmation.label).toBe('Confirmer le mot de passe');
     expect(password.type).toBe('text');
     expect(confirmation.type).toBe('password');
     expect(password.value).toBe(validAccount.password);
-    page.querySelector<HTMLButtonElement>('[aria-label="Afficher : Confirmer le mot de passe"]')!.click();
+    page.querySelector<HTMLIonButtonElement>('#register-confirmPassword .visibility')!.click();
     fixture.detectChanges();
     expect(confirmation.type).toBe('text');
     expect(confirmation.value).toBe(validAccount.confirmPassword);
@@ -160,7 +178,7 @@ describe('Registration confirmation previews', () => {
       const page: HTMLElement = fixture.nativeElement;
       expect(page.querySelector('h1')?.textContent).toBe('Compte en cours de vérification');
       expect(page.querySelector('.stepper')).toBeNull();
-      expect(page.querySelector('.confirmation a.primary')?.getAttribute('href')).toBe('/auth');
+      expect(page.querySelector('.confirmation ion-button.primary')?.getAttribute('href')).toBe('/auth');
       expect(page.textContent).toContain('1 à 3 jours ouvrés');
       expect(page.textContent).toContain('Aperçu de démonstration');
       expect(page.querySelector('.welcome')?.textContent).toContain(role === 'vet' ? 'vétérinaire' : 'refuge / association');

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { IonIcon } from '@ionic/angular';
-import { chevronDownOutline, globeOutline, heart, home, megaphone, paw } from 'ionicons/icons';
+import { IonIcon, IonSelect, IonSelectOption } from '@ionic/angular';
+import { globeOutline, heart, home, megaphone, paw } from 'ionicons/icons';
 
 let nextLayoutId = 0;
 
 @Component({
   selector: 'app-auth-layout',
-  imports: [IonIcon],
+  imports: [IonIcon, IonSelect, IonSelectOption],
   templateUrl: './auth-layout.component.html',
   styleUrl: './auth-layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,5 +17,5 @@ export class AuthLayoutComponent {
   // Ionic keeps routed pages mounted, so each SVG clip needs its own id.
   readonly curveId = `auth-curve-${nextLayoutId++}`;
   readonly clipPath = `url(#${this.curveId})`;
-  readonly icons = { chevronDownOutline, globeOutline, heart, home, megaphone, paw };
+  readonly icons = { globeOutline, heart, home, megaphone, paw };
 }
