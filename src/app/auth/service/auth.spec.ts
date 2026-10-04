@@ -32,6 +32,14 @@ describe('Auth HTTP contract', () => {
     expect(auth.tokens()).toBeNull();
   });
 
+  it('clears an authenticated session on logout without inventing a server request', () => {
+    auth.login('person@example.com', 'password').subscribe();
+    http.expectOne(`${environment.authApiUrl}/token/`).flush({ access: 'access-token', refresh: 'refresh-token' });
+    expect(auth.tokens()).not.toBeNull();
+    auth.logout();
+    expect(auth.tokens()).toBeNull();
+  });
+
   it('sends multipart signup unchanged without creating a session', () => {
     const body = new FormData();
     body.set('role', 'veterinaire');

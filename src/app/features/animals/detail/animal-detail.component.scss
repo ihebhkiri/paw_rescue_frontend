@@ -1,0 +1,42 @@
+:host { display: flex; flex-direction: column; font-family: Arial, sans-serif; color: var(--animal-ink); color-scheme: light; }
+.detail-content { --background: #fff; --color: var(--animal-ink); }
+.animal-detail { max-width: 640px; margin: auto; }
+.hero { position: relative; aspect-ratio: 1.23; background: var(--animal-soft); }
+.hero-photo { width: 100%; height: 100%; object-fit: cover; object-position: center 42%; display: block; }
+.hero-actions { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 12px); left: max(14px, env(safe-area-inset-left, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); display: flex; justify-content: space-between; align-items: center; }
+.right-actions { display: flex; gap: 7px; }
+ion-back-button, .round-action { margin: 0; width: 44px; height: 44px; min-height: 44px; --border-radius: 50%; --background: #fff; --color: var(--animal-text); --padding-start: 0; --padding-end: 0; --box-shadow: none; }
+ion-back-button { display: block; border-radius: 50%; background: white; }
+.round-action ion-icon { font-size: 26px; }
+.favorite.active { --color: var(--animal-red); }
+.photo-count { position: absolute; bottom: 34px; right: 14px; padding: 6px 9px; border-radius: 20px; background: #0007; color: #fff; font-size: 13px; }
+.photo-indicators { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; }
+.photo-indicators ion-button { width: 44px; min-height: 44px; margin: 0; --padding-start: 0; --padding-end: 0; --border-radius: 50%; }
+.photo-indicators span { width: 9px; height: 9px; border-radius: 50%; background: #ffffffa6; }
+.photo-indicators .active { background: #fff; }
+.detail-panel { position: relative; margin-top: -20px; border-radius: 22px 22px 0 0; background: #fff; padding: 14px max(16px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+h1 { margin: 0 0 12px; font-size: 34px; font-weight: 700; letter-spacing: -.7px; }
+.animal-meta { display: flex; gap: 26px; color: var(--animal-text); font-size: 14px; }
+.animal-meta span { display: flex; align-items: center; gap: 10px; }
+.animal-meta ion-icon { font-size: 21px; color: var(--animal-blue); }
+.animal-meta span:last-child ion-icon { color: var(--animal-text); }
+.status-chips { display: flex; gap: 9px; margin: 17px 0 18px; }
+ion-chip { flex: 1; justify-content: center; min-width: 0; margin: 0; padding: 0 7px; min-height: 39px; border-radius: 19px; font-size: 13px; white-space: nowrap; }
+ion-chip ion-icon { flex-shrink: 0; margin: 0 7px 0 0; font-size: 21px; color: inherit; }
+.vaccinated { --background: #edf6ff; --color: var(--animal-blue); }
+.sterilized { --background: #fff6eb; --color: #aa5900; }
+.sociable { --background: #eafaf1; --color: #087647; }
+h2 { font-size: 21px; font-weight: 700; margin: 0 0 8px; letter-spacing: -.4px; }
+.description { margin: 0; font-size: 15px; line-height: 1.45; color: var(--animal-text); }
+.animal-facts { border-top: 1px solid #e0e5ee; padding-top: 8px; margin: 15px 0 17px; font-size: 14px; color: var(--animal-text); }
+.animal-facts div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center; min-height: 35px; }
+dt { display: flex; align-items: center; gap: 13px; }
+dt ion-icon { font-size: 22px; flex-shrink: 0; }
+dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
+.adopt-button { margin: 0; min-height: 56px; --border-radius: 32px; --background: var(--animal-green); --background-activated: #06a85b; --color: #fff; --box-shadow: none; --padding-start: 15px; --padding-end: 15px; font-size: 19px; font-weight: 700; text-transform: none; letter-spacing: 0; }
+.adopt-button ion-icon { font-size: 25px; }
+.adopt-button ion-icon[slot='start'] { margin-right: 10px; }
+.adopt-button ion-icon[slot='end'] { margin-left: 15px; }
+.not-found { padding: calc(24px + env(safe-area-inset-top, 0px)) 20px; }
+@media (min-width: 412px) { .detail-panel { padding-left: 20px; padding-right: 20px; } .description { font-size: 16px; } ion-chip { font-size: 14px; } }
+@media (min-width: 600px) { h1 { font-size: 42px; } .description { font-size: 18px; } .animal-facts { font-size: 16px; } }

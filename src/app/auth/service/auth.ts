@@ -11,6 +11,8 @@ export class AuthService {
   private readonly session = signal<LoginResponse | null>(null);
   readonly tokens = this.session.asReadonly();
 
+  logout(): void { this.session.set(null); }
+
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${environment.authApiUrl}/token/`, { email: email.trim(), password }).pipe(
       map(response => {

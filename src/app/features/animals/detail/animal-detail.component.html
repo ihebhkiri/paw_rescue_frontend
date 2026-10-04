@@ -1,0 +1,57 @@
+<ion-content class="detail-content">
+  @if (animal(); as pet) {
+    <main class="animal-detail">
+      <div class="hero">
+        <img class="hero-photo" [src]="pet.images[photoIndex()]" [alt]="pet.name + ' — photo ' + (photoIndex() + 1)" fetchpriority="high" />
+        <div class="hero-actions">
+          <ion-back-button defaultHref="/home" text="" aria-label="Retour à l’accueil" />
+          <div class="right-actions">
+            <ion-button class="round-action favorite" fill="clear" [class.active]="animals.favorites().has(pet.id)"
+              [attr.aria-label]="(animals.favorites().has(pet.id) ? 'Retirer des favoris : ' : 'Ajouter aux favoris : ') + pet.name"
+              [attr.aria-pressed]="animals.favorites().has(pet.id)" (click)="animals.toggleFavorite(pet.id)">
+              <ion-icon slot="icon-only" [icon]="animals.favorites().has(pet.id) ? icons.heart : icons.heartOutline" />
+            </ion-button>
+            <ion-button class="round-action" fill="clear" aria-label="Plus d’informations" (click)="message.set('Toutes les informations disponibles sont présentées sur cette fiche.')">
+              <ion-icon slot="icon-only" [icon]="icons.ellipsisVertical" />
+            </ion-button>
+          </div>
+        </div>
+        @if (pet.images.length > 1) {
+          <div class="photo-indicators" role="group" aria-label="Photos de l’animal">
+            @for (photo of pet.images; track photo) {
+              <ion-button fill="clear" [attr.aria-label]="'Afficher la photo ' + ($index + 1)" [attr.aria-pressed]="photoIndex() === $index" (click)="photoIndex.set($index)"><span [class.active]="photoIndex() === $index"></span></ion-button>
+            }
+          </div>
+        }
+        <span class="photo-count" aria-live="polite">{{ photoIndex() + 1 }}/{{ pet.images.length }}</span>
+      </div>
+      <section class="detail-panel" aria-labelledby="animal-name">
+        <h1 id="animal-name">{{ pet.name }}</h1>
+        <div class="animal-meta">
+          <span><ion-icon [icon]="icons.calendarOutline" />{{ pet.age }}</span>
+          <span><ion-icon [icon]="pet.gender === 'Mâle' ? icons.maleOutline : icons.femaleOutline" />{{ pet.gender }}</span>
+          <span><ion-icon [icon]="icons.pawOutline" />{{ pet.type }}</span>
+        </div>
+        <div class="status-chips" aria-label="Informations de santé et de comportement">
+          @if (pet.vaccinated) { <ion-chip class="vaccinated"><ion-icon [icon]="icons.medicalOutline" /><span>Vacciné</span></ion-chip> }
+          @if (pet.sterilized) { <ion-chip class="sterilized"><ion-icon [icon]="icons.shieldCheckmarkOutline" /><span>Stérilisé</span></ion-chip> }
+          @if (pet.sociable) { <ion-chip class="sociable"><ion-icon [icon]="icons.peopleOutline" /><span>Sociable</span></ion-chip> }
+        </div>
+        <h2>À propos de {{ pet.gender === 'Femelle' ? 'elle' : 'lui' }}</h2>
+        <p class="description">{{ pet.description }}</p>
+        <dl class="animal-facts">
+          <div><dt><ion-icon [icon]="icons.locationOutline" />Localisation</dt><dd>{{ pet.location }}</dd></div>
+          <div><dt><ion-icon [icon]="icons.heartOutline" />Santé</dt><dd>{{ pet.health }}</dd></div>
+          <div><dt><ion-icon [icon]="icons.documentTextOutline" />Caractère</dt><dd>{{ pet.character }}</dd></div>
+          <div><dt><ion-icon [icon]="icons.peopleOutline" />Compatible</dt><dd>{{ pet.compatibility }}</dd></div>
+        </dl>
+        <ion-button class="adopt-button" expand="block" (click)="message.set('Les demandes d’adoption ne sont pas encore disponibles.')">
+          <ion-icon slot="start" [icon]="icons.paw" />Demander l’adoption<ion-icon slot="end" [icon]="icons.arrowForwardOutline" />
+        </ion-button>
+      </section>
+    </main>
+  } @else {
+    <main class="not-found"><h1>Animal introuvable</h1><p>Cette fiche n’est pas disponible.</p><ion-button routerLink="/home">Retour à l’accueil</ion-button></main>
+  }
+</ion-content>
+<ion-toast [isOpen]="!!message()" [message]="message()" [duration]="3000" position="top" (didDismiss)="message.set('')" />

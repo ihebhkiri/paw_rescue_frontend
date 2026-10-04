@@ -2,6 +2,21 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'profile',
+    title: 'Mon profil — PawRescue',
+    loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent),
+  },
+  {
+    path: 'home',
+    title: 'Animaux à adopter — PawRescue',
+    loadComponent: () => import('./features/animals/home/home.component').then(m => m.HomeComponent),
+  },
+  {
+    path: 'animals/:id',
+    title: 'Fiche animal — PawRescue',
+    loadComponent: () => import('./features/animals/detail/animal-detail.component').then(m => m.AnimalDetailComponent),
+  },
+  {
     path: 'auth/register',
     title: 'Créer un compte — PawRescue AI',
     loadComponent: () => import('./auth/register/register.component').then((m) => m.RegisterComponent),

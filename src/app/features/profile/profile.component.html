@@ -1,0 +1,35 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start"><ion-back-button defaultHref="/home" text="" [icon]="icons.chevronBackOutline" aria-label="Retour" /></ion-buttons>
+    <ion-title>Mon profil</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="profile-content">
+  <main class="profile-page">
+    <section class="identity" aria-label="Profil utilisateur">
+      <ion-avatar><img src="assets/images/profile-avatar.webp" alt="" /></ion-avatar>
+      <div class="identity-text"><h1>{{ name }}</h1><p>{{ role }}</p></div>
+      <ion-button class="edit" fill="clear" aria-label="Modifier le profil" (click)="unavailable('Modifier le profil')"><ion-icon slot="icon-only" [icon]="icons.pencil" /></ion-button>
+    </section>
+    <section class="availability" aria-labelledby="availability-title">
+      <h2 id="availability-title">Disponibilité</h2>
+      <ion-select aria-label="Disponibilité" interface="alert" [interfaceOptions]="{ header: 'Disponibilité' }" cancelText="Annuler" okText="Confirmer"
+        [value]="available()" [toggleIcon]="icons.chevronDownOutline" (ionChange)="available.set($event.detail.value === true)">
+        <span slot="start" class="status-dot" [class.unavailable]="!available()" aria-hidden="true"></span>
+        <ion-select-option [value]="true">Disponible</ion-select-option>
+        <ion-select-option [value]="false">Indisponible</ion-select-option>
+      </ion-select>
+    </section>
+    <ion-list aria-label="Options du profil" lines="full">
+      @for (item of menu; track item.label) {
+        <ion-item button [detail]="true" [detailIcon]="icons.chevronForwardOutline" (click)="unavailable(item.label)">
+          <ion-icon slot="start" [icon]="item.icon" aria-hidden="true" /><ion-label>{{ item.label }}</ion-label>
+        </ion-item>
+      }
+      <ion-item class="logout" button [detail]="true" [detailIcon]="icons.chevronForwardOutline" aria-label="Se déconnecter" (click)="logout()">
+        <ion-icon slot="start" [icon]="icons.logOutOutline" aria-hidden="true" /><ion-label>Se déconnecter</ion-label>
+      </ion-item>
+    </ion-list>
+  </main>
+</ion-content>
+<ion-toast [isOpen]="!!message()" [message]="message()" [duration]="2500" position="bottom" (didDismiss)="message.set('')" />
