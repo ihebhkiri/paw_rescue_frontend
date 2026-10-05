@@ -1,0 +1,27 @@
+<ion-content>
+  <main class="report-page">
+    <header class="page-header">
+      <ion-back-button defaultHref="/notifications" text="" [icon]="icons.chevronBackOutline" aria-label="Retour aux notifications" />
+      <h1>Détail du signalement</h1>
+    </header>
+    @if (report(); as detail) {
+      <div class="report-photo">
+        <img [src]="detail.image" alt="Chat gris tigré en extérieur" />
+        @if (detail.urgency === 'URGENT') { <span class="urgency">Urgent</span> }
+      </div>
+      <section class="report-copy" aria-labelledby="report-title">
+        <h2 id="report-title">{{ detail.title }}</h2>
+        <div class="location"><ion-icon [icon]="icons.location" aria-hidden="true" /><div><p>{{ detail.address }}</p><p class="distance">{{ detail.distance }}</p></div></div>
+        <p class="description">{{ detail.description }}</p>
+      </section>
+      <div class="map-preview" role="img" [attr.aria-label]="'Carte indicative, non interactive : ' + detail.address">
+        <span class="map-streets" aria-hidden="true"></span>
+        <ion-icon [icon]="icons.location" aria-hidden="true" />
+      </div>
+      <ion-button class="participate" expand="block" (click)="participate()">Participer à la mission</ion-button>
+    } @else {
+      <section class="not-found" role="status"><h2>Signalement introuvable</h2><p>Ce signalement n’est pas disponible.</p><ion-button routerLink="/notifications">Retour aux notifications</ion-button></section>
+    }
+  </main>
+</ion-content>
+<ion-toast [isOpen]="!!message()" [message]="message()" [duration]="4500" position="top" (didDismiss)="message.set('')" />

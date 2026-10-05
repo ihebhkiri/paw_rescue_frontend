@@ -57,7 +57,7 @@
   <nav aria-label="Navigation principale">
     <a routerLink="/home" aria-current="page"><ion-icon [icon]="icons.home" aria-hidden="true" /><span>Accueil</span></a>
     <ion-button fill="clear" (click)="showAll()"><span class="nav-item"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><span>Animaux</span></span></ion-button>
-    <ion-button fill="clear" aria-label="Notifications, 2 non lues" (click)="unavailable('La liste des notifications')"><span class="nav-item"><span class="notification-icon"><ion-icon [icon]="icons.notificationsOutline" aria-hidden="true" /><ion-badge aria-hidden="true">2</ion-badge></span><span>Notifications</span></span></ion-button>
+    <ion-button fill="clear" aria-label="Notifications, 2 non lues" routerLink="/notifications"><span class="nav-item"><span class="notification-icon"><ion-icon [icon]="icons.notificationsOutline" aria-hidden="true" /><ion-badge aria-hidden="true">2</ion-badge></span><span>Notifications</span></span></ion-button>
     <ion-button fill="clear" (click)="unavailable('Les missions')"><span class="nav-item"><ion-icon [icon]="icons.clipboardOutline" aria-hidden="true" /><span>Missions</span></span></ion-button>
     <ion-button fill="clear" routerLink="/profile"><span class="nav-item"><ion-icon [icon]="icons.personOutline" aria-hidden="true" /><span>Profil</span></span></ion-button>
   </nav>

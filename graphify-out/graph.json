@@ -56,19 +56,6 @@
       "norm_label": "registercomponent"
     },
     {
-      "label": "AppComponent",
-      "file_type": "code",
-      "source_file": "src/app/app.component.ts",
-      "source_location": "L9",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "id": "src_app_app_component_appcomponent",
-      "community": 20,
-      "community_name": "app.routes.ts",
-      "norm_label": "appcomponent"
-    },
-    {
       "label": "Animal",
       "file_type": "code",
       "source_file": "src/app/features/animals/animals.ts",
@@ -78,7 +65,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_animals_animal",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "animal"
     },
     {
@@ -91,7 +78,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_animals_animals",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "animals"
     },
     {
@@ -104,7 +91,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_animals_animaltype",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "animaltype"
     },
     {
@@ -117,7 +104,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_detail_animal_detail_component_animaldetailcomponent",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "animaldetailcomponent"
     },
     {
@@ -130,8 +117,60 @@
       "_origin": "ast",
       "id": "src_app_features_animals_home_home_component_homecomponent",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "homecomponent"
+    },
+    {
+      "label": "AppComponent",
+      "file_type": "code",
+      "source_file": "src/app/app.component.ts",
+      "source_location": "L9",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_app_app_component_appcomponent",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "appcomponent"
+    },
+    {
+      "label": "NotificationCategory",
+      "file_type": "code",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_app_features_notifications_notifications_component_notificationcategory",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "notificationcategory"
+    },
+    {
+      "label": "NotificationItem",
+      "file_type": "code",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_app_features_notifications_notifications_component_notificationitem",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "notificationitem"
+    },
+    {
+      "label": "NotificationsComponent",
+      "file_type": "code",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L26",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_app_features_notifications_notifications_component_notificationscomponent",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "notificationscomponent"
     },
     {
       "label": "ProfileComponent",
@@ -142,9 +181,35 @@
       "_callable_class": true,
       "_origin": "ast",
       "id": "src_app_features_profile_profile_component_profilecomponent",
-      "community": 20,
+      "community": 21,
       "community_name": "app.routes.ts",
       "norm_label": "profilecomponent"
+    },
+    {
+      "label": "ReportDetailComponent",
+      "file_type": "code",
+      "source_file": "src/app/features/reports/report-detail.component.ts",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_app_features_reports_report_detail_component_reportdetailcomponent",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "reportdetailcomponent"
+    },
+    {
+      "label": "ReportDetail",
+      "file_type": "code",
+      "source_file": "src/app/features/reports/reports.ts",
+      "source_location": "L1",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_app_features_reports_reports_reportdetail",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "reportdetail"
     },
     {
       "label": "MainActivity",
@@ -351,6 +416,18 @@
       "norm_label": "open()"
     },
     {
+      "label": "toBackendRole()",
+      "file_type": "code",
+      "source_file": "src/app/auth/models/user-role.model.ts",
+      "source_location": "L4",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_auth_models_user_role_model_tobackendrole",
+      "community": 17,
+      "community_name": "RegisterComponent",
+      "norm_label": "tobackendrole()"
+    },
+    {
       "label": ".back()",
       "file_type": "code",
       "source_file": "src/app/auth/register/register.component.ts",
@@ -507,18 +584,6 @@
       "norm_label": ".togglevisibility()"
     },
     {
-      "label": ".constructor()",
-      "file_type": "code",
-      "source_file": "src/app/app.component.ts",
-      "source_location": "L10",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_app_component_appcomponent_constructor",
-      "community": 20,
-      "community_name": "app.routes.ts",
-      "norm_label": ".constructor()"
-    },
-    {
       "label": ".find()",
       "file_type": "code",
       "source_file": "src/app/features/animals/animals.ts",
@@ -527,7 +592,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_animals_animals_find",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": ".find()"
     },
     {
@@ -539,7 +604,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_animals_animals_togglefavorite",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": ".togglefavorite()"
     },
     {
@@ -551,7 +616,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_home_home_component_homecomponent_showall",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": ".showall()"
     },
     {
@@ -563,6 +628,30 @@
       "_origin": "ast",
       "id": "src_app_features_animals_home_home_component_homecomponent_unavailable",
       "community": 20,
+      "community_name": "Animals",
+      "norm_label": ".unavailable()"
+    },
+    {
+      "label": ".constructor()",
+      "file_type": "code",
+      "source_file": "src/app/app.component.ts",
+      "source_location": "L10",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_app_component_appcomponent_constructor",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": ".constructor()"
+    },
+    {
+      "label": ".unavailable()",
+      "file_type": "code",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L43",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_features_notifications_notifications_component_notificationscomponent_unavailable",
+      "community": 21,
       "community_name": "app.routes.ts",
       "norm_label": ".unavailable()"
     },
@@ -574,7 +663,7 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_app_features_profile_profile_component_profilecomponent_logout",
-      "community": 20,
+      "community": 21,
       "community_name": "app.routes.ts",
       "norm_label": ".logout()"
     },
@@ -586,9 +675,21 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_app_features_profile_profile_component_profilecomponent_unavailable",
-      "community": 20,
+      "community": 21,
       "community_name": "app.routes.ts",
       "norm_label": ".unavailable()"
+    },
+    {
+      "label": ".participate()",
+      "file_type": "code",
+      "source_file": "src/app/features/reports/report-detail.component.ts",
+      "source_location": "L20",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_features_reports_report_detail_component_reportdetailcomponent_participate",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": ".participate()"
     },
     {
       "label": "layout()",
@@ -711,6 +812,30 @@
       "norm_label": "open()"
     },
     {
+      "label": "layout()",
+      "file_type": "code",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L17",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "scripts_check_notifications_mobile_layout",
+      "community": 35,
+      "community_name": "check-notifications-mobile.cjs",
+      "norm_label": "layout()"
+    },
+    {
+      "label": "openNotifications()",
+      "file_type": "code",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L29",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "scripts_check_notifications_mobile_opennotifications",
+      "community": 35,
+      "community_name": "check-notifications-mobile.cjs",
+      "norm_label": "opennotifications()"
+    },
+    {
       "label": ".showUnavailable()",
       "file_type": "code",
       "source_file": "src/app/auth/auth.component.ts",
@@ -733,18 +858,6 @@
       "community": 6,
       "community_name": "register.component.ts",
       "norm_label": ".submit()"
-    },
-    {
-      "label": "toBackendRole()",
-      "file_type": "code",
-      "source_file": "src/app/auth/models/user-role.model.ts",
-      "source_location": "L4",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_auth_models_user_role_model_tobackendrole",
-      "community": 6,
-      "community_name": "register.component.ts",
-      "norm_label": "tobackendrole()"
     },
     {
       "label": ".errorMessage()",
@@ -905,10 +1018,21 @@
       "norm_label": "@capacitor/core"
     },
     {
-      "label": "@capacitor/haptics",
+      "label": "@capacitor/geolocation",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L25",
+      "_origin": "ast",
+      "id": "package_dependencies_capacitor_geolocation",
+      "community": 0,
+      "community_name": "dependencies",
+      "norm_label": "@capacitor/geolocation"
+    },
+    {
+      "label": "@capacitor/haptics",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "package_dependencies_capacitor_haptics",
       "community": 0,
@@ -919,7 +1043,7 @@
       "label": "@capacitor/keyboard",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_dependencies_capacitor_keyboard",
       "community": 0,
@@ -930,7 +1054,7 @@
       "label": "@capacitor/status-bar",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "package_dependencies_capacitor_status_bar",
       "community": 0,
@@ -941,7 +1065,7 @@
       "label": "@ionic/angular",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_dependencies_ionic_angular",
       "community": 0,
@@ -952,7 +1076,7 @@
       "label": "ionicons",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_dependencies_ionicons",
       "community": 0,
@@ -963,7 +1087,7 @@
       "label": "rxjs",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_dependencies_rxjs",
       "community": 0,
@@ -974,7 +1098,7 @@
       "label": "tslib",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_dependencies_tslib",
       "community": 0,
@@ -1081,10 +1205,21 @@
       "norm_label": "@capacitor/core"
     },
     {
-      "label": "@capacitor/haptics",
+      "label": "@capacitor/geolocation",
       "file_type": "concept",
       "source_file": "package.json",
       "source_location": "L25",
+      "_origin": "ast",
+      "id": "capacitor_geolocation",
+      "community": 0,
+      "community_name": "dependencies",
+      "norm_label": "@capacitor/geolocation"
+    },
+    {
+      "label": "@capacitor/haptics",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "capacitor_haptics",
       "community": 0,
@@ -1095,7 +1230,7 @@
       "label": "@capacitor/keyboard",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "capacitor_keyboard",
       "community": 0,
@@ -1106,7 +1241,7 @@
       "label": "@capacitor/status-bar",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "capacitor_status_bar",
       "community": 0,
@@ -1117,7 +1252,7 @@
       "label": "@ionic/angular",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "ionic_angular",
       "community": 0,
@@ -1128,7 +1263,7 @@
       "label": "ionicons",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "ionicons",
       "community": 0,
@@ -1139,7 +1274,7 @@
       "label": "rxjs",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "rxjs",
       "community": 0,
@@ -1150,23 +1285,12 @@
       "label": "tslib",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "tslib",
       "community": 0,
       "community_name": "dependencies",
       "norm_label": "tslib"
-    },
-    {
-      "label": "architect",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L17",
-      "_origin": "ast",
-      "id": "angular_app_architect",
-      "community": 1,
-      "community_name": "development",
-      "norm_label": "architect"
     },
     {
       "label": "build",
@@ -1178,17 +1302,6 @@
       "community": 1,
       "community_name": "development",
       "norm_label": "build"
-    },
-    {
-      "label": "extract-i18n",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L89",
-      "_origin": "ast",
-      "id": "angular_architect_extract_i18n",
-      "community": 1,
-      "community_name": "development",
-      "norm_label": "extract-i18n"
     },
     {
       "label": "serve",
@@ -1356,61 +1469,6 @@
       "norm_label": "sourcemap"
     },
     {
-      "label": "builder",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L90",
-      "_origin": "ast",
-      "id": "angular_extract_i18n_builder",
-      "community": 1,
-      "community_name": "development",
-      "norm_label": "builder"
-    },
-    {
-      "label": "options",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L91",
-      "_origin": "ast",
-      "id": "angular_extract_i18n_options",
-      "community": 1,
-      "community_name": "development",
-      "norm_label": "options"
-    },
-    {
-      "label": "buildTarget",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L92",
-      "_origin": "ast",
-      "id": "angular_options_buildtarget",
-      "community": 1,
-      "community_name": "development",
-      "norm_label": "buildtarget"
-    },
-    {
-      "label": "setupFiles",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L100",
-      "_origin": "ast",
-      "id": "angular_options_setupfiles",
-      "community": 1,
-      "community_name": "development",
-      "norm_label": "setupfiles"
-    },
-    {
-      "label": "tsConfig",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L27",
-      "_origin": "ast",
-      "id": "angular_options_tsconfig",
-      "community": 1,
-      "community_name": "development",
-      "norm_label": "tsconfig"
-    },
-    {
       "label": "budgets",
       "file_type": "code",
       "source_file": "angular.json",
@@ -1508,28 +1566,6 @@
       "community": 1,
       "community_name": "development",
       "norm_label": "configurations"
-    },
-    {
-      "label": "options",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L97",
-      "_origin": "ast",
-      "id": "angular_test_options",
-      "community": 1,
-      "community_name": "development",
-      "norm_label": "options"
-    },
-    {
-      "label": "src/test-setup.ts",
-      "file_type": "concept",
-      "source_file": "angular.json",
-      "source_location": "L100",
-      "_origin": "ast",
-      "id": "ref_src_test_setup_ts",
-      "community": 1,
-      "community_name": "development",
-      "norm_label": "src/test-setup.ts"
     },
     {
       "label": "ExampleInstrumentedTest.java",
@@ -2003,6 +2039,17 @@
       "norm_label": "setparseroptionsproject"
     },
     {
+      "label": "architect",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "angular_app_architect",
+      "community": 2,
+      "community_name": "app",
+      "norm_label": "architect"
+    },
+    {
       "label": "prefix",
       "file_type": "code",
       "source_file": "angular.json",
@@ -2058,6 +2105,28 @@
       "norm_label": "sourceroot"
     },
     {
+      "label": "extract-i18n",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L89",
+      "_origin": "ast",
+      "id": "angular_architect_extract_i18n",
+      "community": 2,
+      "community_name": "app",
+      "norm_label": "extract-i18n"
+    },
+    {
+      "label": "lint",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L108",
+      "_origin": "ast",
+      "id": "angular_architect_lint",
+      "community": 2,
+      "community_name": "app",
+      "norm_label": "lint"
+    },
+    {
       "label": "schematicCollections",
       "file_type": "code",
       "source_file": "angular.json",
@@ -2067,6 +2136,17 @@
       "community": 2,
       "community_name": "app",
       "norm_label": "schematiccollections"
+    },
+    {
+      "label": "builder",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L90",
+      "_origin": "ast",
+      "id": "angular_extract_i18n_builder",
+      "community": 2,
+      "community_name": "app",
+      "norm_label": "builder"
     },
     {
       "label": "standalone",
@@ -2124,6 +2204,28 @@
       "norm_label": "cli"
     },
     {
+      "label": "builder",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "angular_lint_builder",
+      "community": 2,
+      "community_name": "app",
+      "norm_label": "builder"
+    },
+    {
+      "label": "options",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L110",
+      "_origin": "ast",
+      "id": "angular_lint_options",
+      "community": 2,
+      "community_name": "app",
+      "norm_label": "options"
+    },
+    {
       "label": "newProjectRoot",
       "file_type": "code",
       "source_file": "angular.json",
@@ -2133,6 +2235,17 @@
       "community": 2,
       "community_name": "app",
       "norm_label": "newprojectroot"
+    },
+    {
+      "label": "lintFilePatterns",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L111",
+      "_origin": "ast",
+      "id": "angular_options_lintfilepatterns",
+      "community": 2,
+      "community_name": "app",
+      "norm_label": "lintfilepatterns"
     },
     {
       "label": "projects",
@@ -2245,59 +2358,26 @@
       "norm_label": "@ionic/angular-toolkit"
     },
     {
-      "label": "app.component.ts",
-      "file_type": "code",
-      "source_file": "src/app/app.component.ts",
-      "source_location": "L1",
+      "label": "src/**/*.html",
+      "file_type": "concept",
+      "source_file": "angular.json",
+      "source_location": "L111",
       "_origin": "ast",
-      "id": "src_app_app_component",
-      "community": 20,
-      "community_name": "app.routes.ts",
-      "norm_label": "app.component.ts"
+      "id": "ref_src_html",
+      "community": 2,
+      "community_name": "app",
+      "norm_label": "src/**/*.html"
     },
     {
-      "label": "app.component.spec.ts",
-      "file_type": "code",
-      "source_file": "src/app/app.component.spec.ts",
-      "source_location": "L1",
+      "label": "src/**/*.ts",
+      "file_type": "concept",
+      "source_file": "angular.json",
+      "source_location": "L111",
       "_origin": "ast",
-      "id": "src_app_app_component_spec",
-      "community": 20,
-      "community_name": "app.routes.ts",
-      "norm_label": "app.component.spec.ts"
-    },
-    {
-      "label": "Component",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "id": "src_app_app_component_ts_component",
-      "community": 20,
-      "community_name": "app.routes.ts",
-      "norm_label": "component"
-    },
-    {
-      "label": "app.routes.ts",
-      "file_type": "code",
-      "source_file": "src/app/app.routes.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_app_app_routes",
-      "community": 20,
-      "community_name": "app.routes.ts",
-      "norm_label": "app.routes.ts"
-    },
-    {
-      "label": "routes",
-      "file_type": "code",
-      "source_file": "src/app/app.routes.ts",
-      "source_location": "L3",
-      "_origin": "ast",
-      "id": "src_app_app_routes_routes",
-      "community": 20,
-      "community_name": "app.routes.ts",
-      "norm_label": "routes"
+      "id": "ref_src_ts",
+      "community": 2,
+      "community_name": "app",
+      "norm_label": "src/**/*.ts"
     },
     {
       "label": "animals.ts",
@@ -2307,7 +2387,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_animals",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "animals.ts"
     },
     {
@@ -2318,7 +2398,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_animals_ts_injectable",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "injectable"
     },
     {
@@ -2329,7 +2409,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_detail_animal_detail_component",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "animal-detail.component.ts"
     },
     {
@@ -2340,7 +2420,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_detail_animal_detail_component_ts_component",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "component"
     },
     {
@@ -2351,7 +2431,7 @@
       "_origin": "ast",
       "id": "src_app_features_animals_home_home_component",
       "community": 20,
-      "community_name": "app.routes.ts",
+      "community_name": "Animals",
       "norm_label": "home.component.ts"
     },
     {
@@ -2362,6 +2442,83 @@
       "_origin": "ast",
       "id": "src_app_features_animals_home_home_component_ts_component",
       "community": 20,
+      "community_name": "Animals",
+      "norm_label": "component"
+    },
+    {
+      "label": "app.component.ts",
+      "file_type": "code",
+      "source_file": "src/app/app.component.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_app_component",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "app.component.ts"
+    },
+    {
+      "label": "app.component.spec.ts",
+      "file_type": "code",
+      "source_file": "src/app/app.component.spec.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_app_component_spec",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "app.component.spec.ts"
+    },
+    {
+      "label": "Component",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "src_app_app_component_ts_component",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "component"
+    },
+    {
+      "label": "app.routes.ts",
+      "file_type": "code",
+      "source_file": "src/app/app.routes.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_app_routes",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "app.routes.ts"
+    },
+    {
+      "label": "routes",
+      "file_type": "code",
+      "source_file": "src/app/app.routes.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "src_app_app_routes_routes",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "routes"
+    },
+    {
+      "label": "notifications.component.ts",
+      "file_type": "code",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_features_notifications_notifications_component",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "notifications.component.ts"
+    },
+    {
+      "label": "Component",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "src_app_features_notifications_notifications_component_ts_component",
+      "community": 21,
       "community_name": "app.routes.ts",
       "norm_label": "component"
     },
@@ -2372,7 +2529,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_features_profile_profile_component",
-      "community": 20,
+      "community": 21,
       "community_name": "app.routes.ts",
       "norm_label": "profile.component.ts"
     },
@@ -2383,9 +2540,53 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_app_features_profile_profile_component_ts_component",
-      "community": 20,
+      "community": 21,
       "community_name": "app.routes.ts",
       "norm_label": "component"
+    },
+    {
+      "label": "report-detail.component.ts",
+      "file_type": "code",
+      "source_file": "src/app/features/reports/report-detail.component.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_features_reports_report_detail_component",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "report-detail.component.ts"
+    },
+    {
+      "label": "Component",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "src_app_features_reports_report_detail_component_ts_component",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "component"
+    },
+    {
+      "label": "reports.ts",
+      "file_type": "code",
+      "source_file": "src/app/features/reports/reports.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_features_reports_reports",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "reports.ts"
+    },
+    {
+      "label": "reports",
+      "file_type": "code",
+      "source_file": "src/app/features/reports/reports.ts",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "src_app_features_reports_reports_reports",
+      "community": 21,
+      "community_name": "app.routes.ts",
+      "norm_label": "reports"
     },
     {
       "label": "main.ts",
@@ -2394,75 +2595,9 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_main",
-      "community": 20,
+      "community": 21,
       "community_name": "app.routes.ts",
       "norm_label": "main.ts"
-    },
-    {
-      "label": "lint",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L108",
-      "_origin": "ast",
-      "id": "angular_architect_lint",
-      "community": 21,
-      "community_name": "lint",
-      "norm_label": "lint"
-    },
-    {
-      "label": "builder",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L109",
-      "_origin": "ast",
-      "id": "angular_lint_builder",
-      "community": 21,
-      "community_name": "lint",
-      "norm_label": "builder"
-    },
-    {
-      "label": "options",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L110",
-      "_origin": "ast",
-      "id": "angular_lint_options",
-      "community": 21,
-      "community_name": "lint",
-      "norm_label": "options"
-    },
-    {
-      "label": "lintFilePatterns",
-      "file_type": "code",
-      "source_file": "angular.json",
-      "source_location": "L111",
-      "_origin": "ast",
-      "id": "angular_options_lintfilepatterns",
-      "community": 21,
-      "community_name": "lint",
-      "norm_label": "lintfilepatterns"
-    },
-    {
-      "label": "src/**/*.html",
-      "file_type": "concept",
-      "source_file": "angular.json",
-      "source_location": "L111",
-      "_origin": "ast",
-      "id": "ref_src_html",
-      "community": 21,
-      "community_name": "lint",
-      "norm_label": "src/**/*.html"
-    },
-    {
-      "label": "src/**/*.ts",
-      "file_type": "concept",
-      "source_file": "angular.json",
-      "source_location": "L111",
-      "_origin": "ast",
-      "id": "ref_src_ts",
-      "community": 21,
-      "community_name": "lint",
-      "norm_label": "src/**/*.ts"
     },
     {
       "label": "check-registration.cjs",
@@ -2717,7 +2852,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 3,
@@ -2728,7 +2863,7 @@
       "label": "@angular/build",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_devdependencies_angular_build",
       "community": 3,
@@ -2739,7 +2874,7 @@
       "label": "@angular/cli",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "package_devdependencies_angular_cli",
       "community": 3,
@@ -2750,7 +2885,7 @@
       "label": "@angular/compiler-cli",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "package_devdependencies_angular_compiler_cli",
       "community": 3,
@@ -2761,7 +2896,7 @@
       "label": "angular-eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "package_devdependencies_angular_eslint",
       "community": 3,
@@ -2772,7 +2907,7 @@
       "label": "@angular/language-service",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "package_devdependencies_angular_language_service",
       "community": 3,
@@ -2783,7 +2918,7 @@
       "label": "@capacitor/cli",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "package_devdependencies_capacitor_cli",
       "community": 3,
@@ -2794,7 +2929,7 @@
       "label": "eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
       "community": 3,
@@ -2805,7 +2940,7 @@
       "label": "@ionic/angular-toolkit",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "package_devdependencies_ionic_angular_toolkit",
       "community": 3,
@@ -2816,7 +2951,7 @@
       "label": "jsdom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "package_devdependencies_jsdom",
       "community": 3,
@@ -2827,7 +2962,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 3,
@@ -2838,7 +2973,7 @@
       "label": "typescript-eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L44",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "package_devdependencies_typescript_eslint",
       "community": 3,
@@ -2849,7 +2984,7 @@
       "label": "vitest",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L45",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "package_devdependencies_vitest",
       "community": 3,
@@ -2860,7 +2995,7 @@
       "label": "@angular/build",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "angular_build",
       "community": 3,
@@ -2871,7 +3006,7 @@
       "label": "@angular/compiler-cli",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "angular_compiler_cli",
       "community": 3,
@@ -2882,7 +3017,7 @@
       "label": "angular-eslint",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "angular_eslint",
       "community": 3,
@@ -2893,7 +3028,7 @@
       "label": "@angular/language-service",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "angular_language_service",
       "community": 3,
@@ -2904,7 +3039,7 @@
       "label": "@capacitor/cli",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "capacitor_cli",
       "community": 3,
@@ -2915,7 +3050,7 @@
       "label": "eslint",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "eslint",
       "community": 3,
@@ -2926,7 +3061,7 @@
       "label": "@ionic/angular-toolkit",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "ionic_angular_toolkit",
       "community": 3,
@@ -2937,7 +3072,7 @@
       "label": "jsdom",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "jsdom",
       "community": 3,
@@ -2948,7 +3083,7 @@
       "label": "@angular/cli",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "package_json_angular_cli",
       "community": 3,
@@ -2959,7 +3094,7 @@
       "label": "typescript",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "typescript",
       "community": 3,
@@ -2970,7 +3105,7 @@
       "label": "typescript-eslint",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L44",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "typescript_eslint",
       "community": 3,
@@ -2981,7 +3116,7 @@
       "label": "vitest",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L45",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "vitest",
       "community": 3,
@@ -3042,17 +3177,6 @@
       "community": 33,
       "community_name": "VerificationComponent",
       "norm_label": "governorates"
-    },
-    {
-      "label": "ROLES",
-      "file_type": "code",
-      "source_file": "src/app/auth/models/register.model.ts",
-      "source_location": "L14",
-      "_origin": "ast",
-      "id": "src_app_auth_models_register_model_roles",
-      "community": 33,
-      "community_name": "VerificationComponent",
-      "norm_label": "roles"
     },
     {
       "label": "verification.component.ts",
@@ -3143,12 +3267,67 @@
       "norm_label": "fs"
     },
     {
+      "label": "check-notifications-mobile.cjs",
+      "file_type": "code",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_check_notifications_mobile",
+      "community": 35,
+      "community_name": "check-notifications-mobile.cjs",
+      "norm_label": "check-notifications-mobile.cjs"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "scripts_check_notifications_mobile_assert",
+      "community": 35,
+      "community_name": "check-notifications-mobile.cjs",
+      "norm_label": "assert"
+    },
+    {
+      "label": "{ chromium }",
+      "file_type": "code",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_check_notifications_mobile_chromium",
+      "community": 35,
+      "community_name": "check-notifications-mobile.cjs",
+      "norm_label": "{ chromium }"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "scripts_check_notifications_mobile_fs",
+      "community": 35,
+      "community_name": "check-notifications-mobile.cjs",
+      "norm_label": "fs"
+    },
+    {
       "label": "options",
       "file_type": "code",
       "source_file": "angular.json",
       "source_location": "L20",
       "_origin": "ast",
       "id": "angular_build_options",
+      "community": 4,
+      "community_name": "options",
+      "norm_label": "options"
+    },
+    {
+      "label": "options",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L91",
+      "_origin": "ast",
+      "id": "angular_extract_i18n_options",
       "community": 4,
       "community_name": "options",
       "norm_label": "options"
@@ -3174,6 +3353,17 @@
       "community": 4,
       "community_name": "options",
       "norm_label": "browser"
+    },
+    {
+      "label": "buildTarget",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L92",
+      "_origin": "ast",
+      "id": "angular_options_buildtarget",
+      "community": 4,
+      "community_name": "options",
+      "norm_label": "buildtarget"
     },
     {
       "label": "index",
@@ -3231,6 +3421,17 @@
       "norm_label": "scripts"
     },
     {
+      "label": "setupFiles",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L100",
+      "_origin": "ast",
+      "id": "angular_options_setupfiles",
+      "community": 4,
+      "community_name": "options",
+      "norm_label": "setupfiles"
+    },
+    {
       "label": "styles",
       "file_type": "code",
       "source_file": "angular.json",
@@ -3240,6 +3441,17 @@
       "community": 4,
       "community_name": "options",
       "norm_label": "styles"
+    },
+    {
+      "label": "tsConfig",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "angular_options_tsconfig",
+      "community": 4,
+      "community_name": "options",
+      "norm_label": "tsconfig"
     },
     {
       "label": "base",
@@ -3264,6 +3476,17 @@
       "norm_label": "browser"
     },
     {
+      "label": "options",
+      "file_type": "code",
+      "source_file": "angular.json",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "angular_test_options",
+      "community": 4,
+      "community_name": "options",
+      "norm_label": "options"
+    },
+    {
       "label": "src/global.scss",
       "file_type": "concept",
       "source_file": "angular.json",
@@ -3273,6 +3496,17 @@
       "community": 4,
       "community_name": "options",
       "norm_label": "src/global.scss"
+    },
+    {
+      "label": "src/test-setup.ts",
+      "file_type": "concept",
+      "source_file": "angular.json",
+      "source_location": "L100",
+      "_origin": "ast",
+      "id": "ref_src_test_setup_ts",
+      "community": 4,
+      "community_name": "options",
+      "norm_label": "src/test-setup.ts"
     },
     {
       "label": "src/theme/variables.scss",
@@ -3311,7 +3545,7 @@
       "label": "description",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L47",
+      "source_location": "L48",
       "_origin": "ast",
       "id": "package_description",
       "community": 5,
@@ -3515,6 +3749,17 @@
       "community": 6,
       "community_name": "register.component.ts",
       "norm_label": "auth-response.model.ts"
+    },
+    {
+      "label": "ROLES",
+      "file_type": "code",
+      "source_file": "src/app/auth/models/register.model.ts",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "src_app_auth_models_register_model_roles",
+      "community": 6,
+      "community_name": "register.component.ts",
+      "norm_label": "roles"
     },
     {
       "label": "user-role.model.ts",
@@ -4245,6 +4490,18 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "source": "src_app_features_notifications_notifications_component_notificationscomponent",
+      "target": "src_app_features_notifications_notifications_component_ts_component",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
       "source_file": "src/app/features/profile/profile.component.ts",
       "source_location": "L7",
       "weight": 1.0,
@@ -4252,6 +4509,18 @@
       "_origin": "ast",
       "source": "src_app_features_profile_profile_component_profilecomponent",
       "target": "src_app_features_profile_profile_component_ts_component",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/features/reports/report-detail.component.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "decorator",
+      "_origin": "ast",
+      "source": "src_app_features_reports_report_detail_component_reportdetailcomponent",
+      "target": "src_app_features_reports_report_detail_component_ts_component",
       "confidence_score": 1.0
     },
     {
@@ -4538,6 +4807,18 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
+      "source": "package_dependencies_capacitor_geolocation",
+      "target": "capacitor_geolocation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
       "source": "package_dependencies_capacitor_haptics",
       "target": "capacitor_haptics",
       "confidence_score": 1.0
@@ -4546,7 +4827,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L27",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4558,7 +4839,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L28",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4570,7 +4851,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4582,7 +4863,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4594,7 +4875,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4606,7 +4887,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4618,7 +4899,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4630,7 +4911,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4642,7 +4923,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4654,7 +4935,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4666,7 +4947,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4678,7 +4959,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4690,7 +4971,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4702,7 +4983,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4714,7 +4995,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4726,7 +5007,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4738,7 +5019,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L44",
+      "source_location": "L45",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4750,7 +5031,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L45",
+      "source_location": "L46",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5098,6 +5379,18 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/app/features/reports/report-detail.component.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_reports_report_detail_component",
+      "target": "src_app_features_reports_reports_reports",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/main.ts",
       "source_location": "L6",
       "weight": 1.0,
@@ -5392,6 +5685,18 @@
       "_origin": "ast",
       "source": "src_app_features_profile_profile_component",
       "target": "src_app_auth_service_auth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/features/reports/report-detail.component.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_reports_report_detail_component",
+      "target": "src_app_features_reports_reports",
       "confidence_score": 1.0
     },
     {
@@ -6976,7 +7281,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package",
@@ -6998,7 +7303,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L47",
+      "source_location": "L48",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package",
@@ -7134,7 +7439,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
-      "target": "package_dependencies_capacitor_haptics",
+      "target": "package_dependencies_capacitor_geolocation",
       "confidence_score": 1.0
     },
     {
@@ -7145,7 +7450,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
-      "target": "package_dependencies_capacitor_keyboard",
+      "target": "package_dependencies_capacitor_haptics",
       "confidence_score": 1.0
     },
     {
@@ -7156,7 +7461,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
-      "target": "package_dependencies_capacitor_status_bar",
+      "target": "package_dependencies_capacitor_keyboard",
       "confidence_score": 1.0
     },
     {
@@ -7167,7 +7472,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
-      "target": "package_dependencies_ionic_angular",
+      "target": "package_dependencies_capacitor_status_bar",
       "confidence_score": 1.0
     },
     {
@@ -7178,7 +7483,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
-      "target": "package_dependencies_ionicons",
+      "target": "package_dependencies_ionic_angular",
       "confidence_score": 1.0
     },
     {
@@ -7189,7 +7494,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
-      "target": "package_dependencies_rxjs",
+      "target": "package_dependencies_ionicons",
       "confidence_score": 1.0
     },
     {
@@ -7200,18 +7505,18 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
-      "target": "package_dependencies_tslib",
+      "target": "package_dependencies_rxjs",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_angular_build",
+      "source": "package_dependencies",
+      "target": "package_dependencies_tslib",
       "confidence_score": 1.0
     },
     {
@@ -7222,7 +7527,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_angular_cli",
+      "target": "package_devdependencies_angular_build",
       "confidence_score": 1.0
     },
     {
@@ -7233,7 +7538,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_angular_compiler_cli",
+      "target": "package_devdependencies_angular_cli",
       "confidence_score": 1.0
     },
     {
@@ -7244,7 +7549,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_angular_language_service",
+      "target": "package_devdependencies_angular_compiler_cli",
       "confidence_score": 1.0
     },
     {
@@ -7255,7 +7560,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_capacitor_cli",
+      "target": "package_devdependencies_angular_language_service",
       "confidence_score": 1.0
     },
     {
@@ -7266,7 +7571,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_ionic_angular_toolkit",
+      "target": "package_devdependencies_capacitor_cli",
       "confidence_score": 1.0
     },
     {
@@ -7277,7 +7582,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_angular_eslint",
+      "target": "package_devdependencies_ionic_angular_toolkit",
       "confidence_score": 1.0
     },
     {
@@ -7288,7 +7593,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_eslint",
+      "target": "package_devdependencies_angular_eslint",
       "confidence_score": 1.0
     },
     {
@@ -7299,7 +7604,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_jsdom",
+      "target": "package_devdependencies_eslint",
       "confidence_score": 1.0
     },
     {
@@ -7310,7 +7615,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_typescript",
+      "target": "package_devdependencies_jsdom",
       "confidence_score": 1.0
     },
     {
@@ -7321,7 +7626,7 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
-      "target": "package_devdependencies_typescript_eslint",
+      "target": "package_devdependencies_typescript",
       "confidence_score": 1.0
     },
     {
@@ -7329,6 +7634,17 @@
       "confidence": "EXTRACTED",
       "source_file": "package.json",
       "source_location": "L45",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_typescript_eslint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L46",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -7509,6 +7825,61 @@
       "_origin": "ast",
       "source": "scripts_check_auth_mobile",
       "target": "scripts_check_auth_mobile_fs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_check_notifications_mobile",
+      "target": "scripts_check_notifications_mobile_chromium",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_check_notifications_mobile",
+      "target": "scripts_check_notifications_mobile_layout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_check_notifications_mobile",
+      "target": "scripts_check_notifications_mobile_assert",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_check_notifications_mobile",
+      "target": "scripts_check_notifications_mobile_opennotifications",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-notifications-mobile.cjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_check_notifications_mobile",
+      "target": "scripts_check_notifications_mobile_fs",
       "confidence_score": 1.0
     },
     {
@@ -7844,12 +8215,78 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_notifications_notifications_component",
+      "target": "src_app_features_notifications_notifications_component_notificationscomponent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_notifications_notifications_component",
+      "target": "src_app_features_notifications_notifications_component_notificationcategory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_notifications_notifications_component",
+      "target": "src_app_features_notifications_notifications_component_notificationitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/app/features/profile/profile.component.ts",
       "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_app_features_profile_profile_component",
       "target": "src_app_features_profile_profile_component_profilecomponent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/features/reports/report-detail.component.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_reports_report_detail_component",
+      "target": "src_app_features_reports_report_detail_component_reportdetailcomponent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/features/reports/reports.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_reports_reports",
+      "target": "src_app_features_reports_reports_reportdetail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/features/reports/reports.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_reports_reports",
+      "target": "src_app_features_reports_reports_reports",
       "confidence_score": 1.0
     },
     {
@@ -7938,7 +8375,25 @@
       "source_file": "src/app/app.routes.ts",
       "_origin": "ast",
       "source": "src_app_app_routes",
+      "target": "src_app_features_notifications_notifications_component",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "dynamic_import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/app.routes.ts",
+      "_origin": "ast",
+      "source": "src_app_app_routes",
       "target": "src_app_features_profile_profile_component",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "dynamic_import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/app.routes.ts",
+      "_origin": "ast",
+      "source": "src_app_app_routes",
+      "target": "src_app_features_reports_report_detail_component",
       "confidence_score": 1.0
     },
     {
@@ -8296,6 +8751,17 @@
     {
       "relation": "method",
       "confidence": "EXTRACTED",
+      "source_file": "src/app/features/notifications/notifications.component.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_notifications_notifications_component_notificationscomponent",
+      "target": "src_app_features_notifications_notifications_component_notificationscomponent_unavailable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
       "source_file": "src/app/features/profile/profile.component.ts",
       "source_location": "L31",
       "weight": 1.0,
@@ -8314,8 +8780,19 @@
       "source": "src_app_features_profile_profile_component_profilecomponent",
       "target": "src_app_features_profile_profile_component_profilecomponent_logout",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/features/reports/report-detail.component.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_features_reports_report_detail_component_reportdetailcomponent",
+      "target": "src_app_features_reports_report_detail_component_reportdetailcomponent_participate",
+      "confidence_score": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f246e7d7f7f2e286b994662941d5fccd917b8043"
+  "built_at_commit": "5b03e8bf9e4899248f0e3a81a46cf2f3d2e03bba"
 }

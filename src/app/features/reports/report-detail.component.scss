@@ -1,0 +1,25 @@
+:host { display: flex; flex-direction: column; font-family: Arial, Helvetica, sans-serif; color: var(--notification-ink); color-scheme: light; }
+ion-content { --background: #fff; --padding-top: var(--ion-safe-area-top, 0px); --padding-bottom: var(--ion-safe-area-bottom, 0px); --padding-start: var(--ion-safe-area-left, 0px); --padding-end: var(--ion-safe-area-right, 0px); }
+.report-page { max-width: 640px; margin: auto; padding: 12px 14px 24px; }
+.page-header { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; min-height: 72px; margin-bottom: 12px; }
+h1 { margin: 0; font-size: clamp(18px, 5vw, 23px); text-align: center; font-weight: 700; letter-spacing: -.6px; }
+ion-back-button { min-width: 44px; min-height: 44px; --color: var(--notification-ink); --padding-start: 0; --padding-end: 0; }
+.report-photo { position: relative; margin-bottom: 40px; }
+.report-photo img { display: block; width: 100%; aspect-ratio: 2.2; object-fit: cover; object-position: center 42%; border-radius: 16px; }
+.urgency { position: absolute; bottom: -18px; left: 8px; padding: 10px 16px; border-radius: 14px; background: var(--notification-urgent); color: #fff; font-size: 20px; font-weight: 700; }
+.report-copy { padding-inline: 8px; }
+h2 { margin: 0 0 12px; font-size: 28px; font-weight: 700; letter-spacing: -.6px; }
+.location { display: flex; gap: 10px; align-items: flex-start; font-size: 18px; line-height: 1.4; }
+.location > ion-icon { flex: 0 0 22px; font-size: 22px; color: var(--animal-red); margin-top: 1px; }
+.location p { margin: 0; }
+.location .distance { margin-top: 4px; color: var(--notification-muted); font-size: 17px; }
+.description { margin: 32px 0 22px; font-size: 18px; line-height: 1.55; white-space: pre-line; }
+.map-preview { display: grid; place-items: center; position: relative; height: clamp(120px, 34vw, 180px); overflow: hidden; border-radius: 16px; background: #eef0f2; }
+.map-streets { position: absolute; inset: -60%; transform: rotate(-24deg); background: repeating-linear-gradient(94deg, transparent 0 55px, #fff 56px 60px, #dfe3e7 61px 62px, transparent 63px 100px), repeating-linear-gradient(5deg, transparent 0 36px, #fff 37px 40px, #e2e6ea 41px 42px, transparent 43px 78px); }
+.map-streets::after { content: ''; position: absolute; inset: 20% 32%; border: 12px solid #fff; border-radius: 45%; transform: rotate(55deg); }
+.map-preview > ion-icon { position: relative; color: var(--notification-coral); font-size: 64px; filter: drop-shadow(0 2px 0 #fff); }
+ion-button { font-family: inherit; text-transform: none; letter-spacing: normal; --box-shadow: none; --background: var(--notification-blue); --color: #fff; }
+.participate { margin: 16px 0 0; min-height: 64px; --border-radius: 16px; font-size: 22px; font-weight: 700; }
+.not-found { padding: 32px 8px; text-align: center; }
+ion-button::part(native):focus-visible, ion-back-button::part(native):focus-visible { outline: 3px solid var(--notification-ink); outline-offset: -4px; }
+@media (min-width: 600px) { .report-page { padding-top: 24px; } .report-photo { margin-bottom: 44px; } }

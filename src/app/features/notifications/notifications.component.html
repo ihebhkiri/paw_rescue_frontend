@@ -1,0 +1,34 @@
+<ion-content>
+  <main class="notifications-page">
+    <header class="page-header">
+      <ion-back-button defaultHref="/home" text="" [icon]="icons.chevronBackOutline" aria-label="Retour" />
+      <h1>Notifications</h1>
+      <button class="icon-button" type="button" aria-label="Carte des signalements" (click)="unavailable('La carte des signalements')"><ion-icon [icon]="icons.mapOutline" aria-hidden="true" /></button>
+    </header>
+    <div class="filters" role="group" aria-label="Filtrer les notifications">
+      @for (filter of filters; track filter.value) {
+        <button type="button" [class.selected]="selectedFilter() === filter.value" [attr.aria-pressed]="selectedFilter() === filter.value" (click)="selectedFilter.set(filter.value)">{{ filter.label }}</button>
+      }
+    </div>
+    <ul class="notification-list" aria-label="Notifications">
+      @for (item of visibleItems(); track item.id) {
+        <li>
+          <button class="notification-row" type="button" [routerLink]="item.targetId ? ['/signalements', item.targetId] : null" (click)="!item.targetId && unavailable('Le détail de cette notification')" [attr.aria-label]="item.targetId ? 'Ouvrir le signalement : ' + item.title : item.title">
+            <span [class]="'notification-icon ' + item.tone"><ion-icon [icon]="item.icon" aria-hidden="true" /></span>
+            <span class="notification-copy"><strong>{{ item.title }}</strong><span class="subtitle">{{ item.message }}</span><span class="timestamp">{{ item.timestamp }}</span></span>
+          </button>
+        </li>
+      }
+    </ul>
+  </main>
+</ion-content>
+<ion-footer class="notifications-footer">
+  <nav aria-label="Navigation principale">
+    <a routerLink="/home"><ion-icon [icon]="icons.homeOutline" aria-hidden="true" /><span>Accueil</span></a>
+    <a routerLink="/home"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><span>Animaux</span></a>
+    <a routerLink="/notifications" aria-current="page"><ion-icon [icon]="icons.notifications" aria-hidden="true" /><span>Notifications</span></a>
+    <button type="button" (click)="unavailable('La liste des missions')"><ion-icon [icon]="icons.clipboardOutline" aria-hidden="true" /><span>Missions</span></button>
+    <a routerLink="/profile"><ion-icon [icon]="icons.personOutline" aria-hidden="true" /><span>Profil</span></a>
+  </nav>
+</ion-footer>
+<ion-toast [isOpen]="!!message()" [message]="message()" [duration]="3000" position="top" (didDismiss)="message.set('')" />
