@@ -1,9 +1,10 @@
+import { vi } from 'vitest';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthComponent } from './auth.component';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 
 describe('AuthComponent', () => {
   let fixture: ComponentFixture<AuthComponent>;
@@ -11,6 +12,7 @@ describe('AuthComponent', () => {
   let page: HTMLElement;
 
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({ imports: [AuthComponent], providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])] }).compileComponents();
     fixture = TestBed.createComponent(AuthComponent);
     component = fixture.componentInstance;
@@ -65,5 +67,25 @@ describe('AuthComponent', () => {
     expect(password.clearOnEdit).toBe(false);
     expect(page.querySelector<HTMLIonCheckboxElement>('ion-checkbox')!.disabled).toBe(true);
     expect(component.form.controls.rememberMe.disabled).toBe(true);
+  });
+  afterEach(() => {
+    TestBed.inject(HttpTestingController).verify();
+    localStorage.clear();
+    vi.restoreAllMocks();
+  });
+
+  it('persists the session before navigating to home after successful login', () => {
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockImplementation(async url => {
+      expect(url).toBe('/home');
+      expect(localStorage.getItem('access_token')).toBe('access-token');
+      return true;
+    });
+    component.form.patchValue({ email: 'person@example.com', password: 'password' });
+    component.submit();
+    TestBed.inject(HttpTestingController).expectOne(`${environment.authApiUrl}/token/`)
+      .flush({ access: 'access-token', refresh: 'refresh-token' });
+    expect(navigate).toHaveBeenCalledOnce();
+    expect(component.form.controls.password.value).toBe('');
+    expect(component.busy()).toBe(false);
   });
 });

@@ -8,10 +8,27 @@ import { SignupRequest } from '../models/auth-request.model';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly session = signal<LoginResponse | null>(null);
+  private readonly session = signal<LoginResponse | null>(this.restoreSession());
   readonly tokens = this.session.asReadonly();
 
-  logout(): void { this.session.set(null); }
+  getAccessToken(): string | null {
+    try { return localStorage.getItem('access_token'); }
+    catch { return null; }
+  }
+
+  private restoreSession(): LoginResponse | null {
+    try {
+      const access = this.getAccessToken();
+      const refresh = localStorage.getItem('refresh_token');
+      return access && refresh ? { access, refresh } : null;
+    } catch { return null; }
+  }
+
+  logout(): void {
+    this.session.set(null);
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+  }
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${environment.authApiUrl}/token/`, { email: email.trim(), password }).pipe(
@@ -21,7 +38,16 @@ export class AuthService {
         }
         return response;
       }),
-      tap(response => this.session.set(response)),
+      tap(response => {
+        try {
+          localStorage.setItem('refresh_token', response.refresh);
+          localStorage.setItem('access_token', response.access);
+        } catch (error) {
+          this.logout();
+          throw error;
+        }
+        this.session.set(response);
+      }),
     );
   }
 

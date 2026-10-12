@@ -5,7 +5,7 @@ import { AuthService } from './service/auth';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonButton, IonCheckbox, IonContent, IonIcon, IonInput, IonSpinner } from '@ionic/angular';
 import { AuthLayoutComponent } from './layout/auth-layout.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   arrowForwardOutline, eyeOffOutline, eyeOutline, lockClosedOutline, logoApple, mailOutline,
 } from 'ionicons/icons';
@@ -19,6 +19,7 @@ import {
 })
 export class AuthComponent {
   private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   readonly busy = signal(false);
   readonly icons = {
@@ -47,6 +48,7 @@ export class AuthComponent {
         this.form.controls.password.reset();
         this.passwordVisible.set(false);
         this.feedback.set('Connexion réussie.');
+        void this.router.navigateByUrl('/home');
       },
       error: (error: unknown) => this.feedback.set(this.auth.errorMessage(error)),
     });
