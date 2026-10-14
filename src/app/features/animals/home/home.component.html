@@ -1,12 +1,12 @@
 <ion-content class="home-content">
   <main class="home-page">
     <header class="location-row">
-      <ion-button class="location" fill="clear" (click)="message.set('Les animaux présentés se trouvent à Tunis, Tunisie.')" aria-label="Localisation : Tunis, Tunisie">
+      <ion-button class="location" fill="clear" (click)="showAll()" aria-label="Tous les refuges">
         <ion-icon slot="start" [icon]="icons.locationOutline" aria-hidden="true" />
-        Tunis, Tunisie <ion-icon slot="end" [icon]="icons.chevronDownOutline" aria-hidden="true" />
+        Tous les refuges
       </ion-button>
       <ion-button class="profile" fill="clear" aria-label="Mon profil" routerLink="/profile">
-        <ion-avatar><img src="assets/images/animals/avatar.webp" alt="" /></ion-avatar><span class="profile-dot" aria-hidden="true"></span>
+        <ion-icon slot="icon-only" [icon]="icons.personOutline" />
       </ion-button>
     </header>
 
@@ -18,7 +18,7 @@
     </div>
     @if (filtersOpen()) {
       <div class="filters" id="animal-filters">
-        <ion-checkbox [checked]="favoritesOnly()" (ionChange)="favoritesOnly.set($event.detail.checked)">Mes favoris uniquement</ion-checkbox>
+        <ion-checkbox [checked]="favoritesOnly()" (ionChange)="favoritesOnly.set($event.detail.checked)">Favoris de cette session uniquement</ion-checkbox>
       </div>
     }
     <div class="categories" role="group" aria-label="Type d’animal">
@@ -35,12 +35,18 @@
         <h1 id="animals-title">Animaux à adopter</h1>
         <ion-button class="see-all" fill="clear" (click)="showAll()">Voir tout <ion-icon slot="end" [icon]="icons.chevronForwardOutline" aria-hidden="true" /></ion-button>
       </div>
+      @if (loading()) {
+        <p role="status">Chargement des animaux…</p>
+      } @else if (error()) {
+        <p role="alert">{{ error() }}</p><ion-button (click)="load()">Réessayer</ion-button><ion-button fill="clear" routerLink="/auth">Connexion</ion-button>
+      } @else {
       <div class="animal-grid">
         @for (animal of visibleAnimals(); track animal.id) {
           <article class="animal-card">
             <a [routerLink]="['/animals', animal.id]" [attr.aria-label]="'Découvrir ' + animal.name">
-              <img class="animal-photo" [src]="animal.images[0]" [alt]="animal.name" [attr.loading]="$index < 4 ? 'eager' : 'lazy'" />
-              <div class="animal-info"><h2>{{ animal.name }}</h2><p>{{ animal.age }} <span>•</span> {{ animal.gender }} <span>•</span> {{ animal.type }}</p></div>
+              @if (animal.images.length) { <img class="animal-photo" [src]="animal.images[0]" [alt]="animal.name" [attr.loading]="$index < 4 ? 'eager' : 'lazy'" /> }
+              @else { <div class="animal-photo photo-placeholder"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><span>Photo non disponible</span></div> }
+              <div class="animal-info"><h2>{{ animal.name }}</h2><p>{{ animal.age }} <span>•</span> {{ animal.gender }} <span>•</span> {{ animal.species }}</p></div>
             </a>
             <ion-button class="favorite" fill="clear" [class.active]="animals.favorites().has(animal.id)" [attr.aria-label]="(animals.favorites().has(animal.id) ? 'Retirer des favoris : ' : 'Ajouter aux favoris : ') + animal.name" [attr.aria-pressed]="animals.favorites().has(animal.id)" (click)="animals.toggleFavorite(animal.id)">
               <ion-icon slot="icon-only" [icon]="animals.favorites().has(animal.id) ? icons.heart : icons.heartOutline" aria-hidden="true" />
@@ -50,6 +56,7 @@
           <div class="empty" role="status"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><h2>Aucun animal trouvé</h2><p>Essayez une autre recherche ou catégorie.</p><ion-button fill="clear" (click)="showAll()">Afficher tous les animaux</ion-button></div>
         }
       </div>
+      }
     </section>
   </main>
 </ion-content>
@@ -57,7 +64,7 @@
   <nav aria-label="Navigation principale">
     <a routerLink="/home" aria-current="page"><ion-icon [icon]="icons.home" aria-hidden="true" /><span>Accueil</span></a>
     <ion-button fill="clear" (click)="showAll()"><span class="nav-item"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><span>Animaux</span></span></ion-button>
-    <ion-button fill="clear" aria-label="Notifications, 2 non lues" routerLink="/notifications"><span class="nav-item"><span class="notification-icon"><ion-icon [icon]="icons.notificationsOutline" aria-hidden="true" /><ion-badge aria-hidden="true">2</ion-badge></span><span>Notifications</span></span></ion-button>
+    <ion-button fill="clear" aria-label="Notifications" routerLink="/notifications"><span class="nav-item"><span class="notification-icon"><ion-icon [icon]="icons.notificationsOutline" aria-hidden="true" /></span><span>Notifications</span></span></ion-button>
     <ion-button fill="clear" (click)="unavailable('Les missions')"><span class="nav-item"><ion-icon [icon]="icons.clipboardOutline" aria-hidden="true" /><span>Missions</span></span></ion-button>
     <ion-button fill="clear" routerLink="/profile"><span class="nav-item"><ion-icon [icon]="icons.personOutline" aria-hidden="true" /><span>Profil</span></span></ion-button>
   </nav>

@@ -8,6 +8,8 @@ ion-back-button { --color: var(--profile-icon); --icon-font-size: 30px; min-widt
 .identity { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
 ion-avatar { flex: 0 0 clamp(80px, 24vw, 100px); width: clamp(80px, 24vw, 100px); height: clamp(80px, 24vw, 100px); background: #fff4e8; }
 .identity-text { min-width: 0; flex: 1; }
+ion-avatar { display: grid; place-items: center; }
+ion-avatar > ion-icon { width: 55%; height: 55%; color: var(--animal-muted); }
 h1 { font-size: clamp(21px, 5.8vw, 26px); line-height: 1.2; font-weight: 700; letter-spacing: -.5px; margin: 0 0 6px; overflow-wrap: anywhere; }
 .identity p { color: #5c6783; font-size: clamp(18px, 5vw, 22px); margin: 0; }
 .edit { flex: 0 0 44px; width: 44px; height: 44px; margin: 0; --border-radius: 50%; --background: #f6f8fa; --color: var(--profile-icon); --padding-start: 0; --padding-end: 0; --box-shadow: none; }

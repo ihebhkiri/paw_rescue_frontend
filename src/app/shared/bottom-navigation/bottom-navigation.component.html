@@ -1,0 +1,10 @@
+<ion-footer>
+  <nav aria-label="Navigation principale">
+    <a routerLink="/home"><ion-icon [icon]="icons.homeOutline" aria-hidden="true" /><span>Accueil</span></a>
+    <a routerLink="/home"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><span>Animaux</span></a>
+    <a routerLink="/notifications" [attr.aria-current]="active() === 'notifications' ? 'page' : null"><ion-icon [icon]="icons.notificationsOutline" aria-hidden="true" /><span>Notifications</span></a>
+    <button type="button" (click)="message.set('La liste des missions n’est pas encore disponible.')"><ion-icon [icon]="icons.clipboardOutline" aria-hidden="true" /><span>Missions</span></button>
+    <a routerLink="/profile" [attr.aria-current]="active() === 'profile' ? 'page' : null"><ion-icon [icon]="icons.personOutline" aria-hidden="true" /><span>Profil</span></a>
+  </nav>
+</ion-footer>
+<ion-toast [isOpen]="!!message()" [message]="message()" [duration]="3000" (didDismiss)="message.set('')" />

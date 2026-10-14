@@ -6,8 +6,6 @@ import { environment } from '../../../environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
   const baseUrl = inject(DOCUMENT).baseURI;
-  console.log(request.url)
-
   const authUrl = new URL(`${environment.authApiUrl}/`, baseUrl);
   const apiUrl = new URL('../', authUrl);
   const requestUrl = new URL(request.url, baseUrl);

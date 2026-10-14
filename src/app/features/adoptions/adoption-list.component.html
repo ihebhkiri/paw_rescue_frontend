@@ -1,0 +1,32 @@
+<ion-content>
+  <main class="adoption-page">
+    <header class="page-header"><ion-back-button defaultHref="/profile" text="" aria-label="Retour au profil" /><h1>Demandes d’adoption</h1></header>
+    @if (loading()) {
+      <div role="status" aria-label="Chargement des demandes"><ion-skeleton-text [animated]="true" /><ion-skeleton-text [animated]="true" /><p>Chargement des demandes…</p></div>
+    } @else if (error()) {
+      <p role="alert">{{ error() }}</p><ion-button (click)="load()">Réessayer</ion-button><ion-button fill="clear" routerLink="/auth">Connexion</ion-button>
+    } @else if (!allowed()) {
+      <p role="status">Les demandes d’adoption sont réservées aux demandeurs et aux refuges.</p>
+    } @else {
+      <h2>{{ received() ? 'Demandes reçues' : 'Mes demandes' }}</h2>
+      <div class="filters" role="group" aria-label="Statut des demandes">
+        @for (filter of filters; track filter.value) {
+          <button type="button" [class.selected]="selected() === filter.value" [attr.aria-pressed]="selected() === filter.value" (click)="selected.set(filter.value)">{{ filter.label }}</button>
+        }
+      </div>
+      <ul class="requests">
+        @for (item of visible(); track item.id) {
+          <li><a class="request-card" [routerLink]="['/adoptions', item.id]">
+            @if (item.animal_details.photos?.[0]?.image; as photo) { <img [src]="photo" [alt]="item.animal_details.name" loading="lazy" /> }
+            @else { <span class="animal-placeholder"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /></span> }
+            <div class="card-copy"><h3>{{ item.animal_details.name }}</h3><p>{{ received() ? item.applicant_name : item.refuge_name }}</p><time>{{ item.created_at | date:'dd/MM/yyyy à HH:mm' }}</time><span [class]="'status ' + item.status">{{ labels[item.status] }}</span></div>
+            <ion-icon [icon]="icons.chevronForwardOutline" aria-hidden="true" />
+          </a></li>
+        } @empty {
+          <li class="empty" role="status"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><h3>Aucune demande {{ selected() === 'pending' ? 'en attente' : 'dans cet historique' }}</h3><p>{{ received() ? 'Les demandes pour vos animaux apparaîtront ici.' : 'Retrouvez ici les demandes envoyées aux refuges.' }}</p>@if (!received()) { <ion-button fill="clear" routerLink="/home">Voir les animaux</ion-button> }</li>
+        }
+      </ul>
+    }
+  </main>
+</ion-content>
+<app-bottom-navigation />

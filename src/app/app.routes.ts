@@ -2,6 +2,16 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'adoptions',
+    title: 'Demandes d’adoption — PawRescue',
+    loadComponent: () => import('./features/adoptions/adoption-list.component').then(m => m.AdoptionListComponent),
+  },
+  {
+    path: 'adoptions/:id',
+    title: 'Demande d’adoption — PawRescue',
+    loadComponent: () => import('./features/adoptions/adoption-detail.component').then(m => m.AdoptionDetailComponent),
+  },
+  {
     path: 'notifications',
     title: 'Notifications — PawRescue',
     loadComponent: () => import('./features/notifications/notifications.component').then(m => m.NotificationsComponent),

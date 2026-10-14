@@ -1,42 +1,71 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, linkedSignal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { AuthService } from '../../auth/service/auth';
 
 export type AnimalType = 'Chien' | 'Chat' | 'Autre';
-export interface Animal {
-  readonly id: string;
-  readonly name: string;
-  readonly age: string;
-  readonly gender: 'Mâle' | 'Femelle';
-  readonly type: AnimalType;
-  readonly images: readonly string[];
-  readonly vaccinated: boolean;
-  readonly sterilized: boolean;
-  readonly sociable: boolean;
-  readonly description: string;
-  readonly location: string;
-  readonly health: string;
-  readonly character: string;
-  readonly compatibility: string;
+export interface AnimalResponse {
+  id: number;
+  name: string;
+  species_name: string;
+  estimated_age_months: number | null;
+  sex: 'M' | 'F' | 'unknown';
+  behavior: string;
+  refuge_name?: string | null;
+  is_adoptable: boolean;
+  status?: string;
+  primary_photo?: string | null;
+  photos?: readonly { id: number; image: string; is_primary: boolean; order: number }[];
 }
 
-// Local demonstration catalogue; no adoption or account requests are sent.
-const ANIMALS: readonly Animal[] = [
-  { id: 'max', name: 'Max', age: '2 ans', gender: 'Mâle', type: 'Chien', images: ['assets/images/animals/max.webp', 'assets/images/animals/max-garden.webp'], vaccinated: true, sterilized: true, sociable: true, description: "Max est un chien très affectueux, il aime les promenades et s'entend bien avec les autres animaux. Il est calme, joueur et toujours heureux de rencontrer de nouvelles personnes.", location: 'Tunis, Tunisie', health: 'En bonne santé', character: 'Calme, joueur, affectueux', compatibility: 'Chiens, chats, enfants' },
-  { id: 'luna', name: 'Luna', age: '1 an', gender: 'Femelle', type: 'Chat', images: ['assets/images/animals/luna.webp'], vaccinated: true, sterilized: true, sociable: true, description: 'Luna est une petite chatte curieuse et douce. Elle aime les moments de calme et les jeux, et recherche un foyer attentionné.', location: 'Tunis, Tunisie', health: 'En bonne santé', character: 'Douce, curieuse, calme', compatibility: 'Chats, enfants' },
-  { id: 'rocky', name: 'Rocky', age: '3 ans', gender: 'Mâle', type: 'Chien', images: ['assets/images/animals/rocky.webp'], vaccinated: true, sterilized: true, sociable: true, description: 'Rocky est un compagnon plein de vie. Il adore les balades et les jeux en plein air, et apprécie la compagnie de sa famille.', location: 'Tunis, Tunisie', health: 'En bonne santé', character: 'Énergique, joueur, fidèle', compatibility: 'Chiens, enfants' },
-  { id: 'mimi', name: 'Mimi', age: '2 ans', gender: 'Femelle', type: 'Chat', images: ['assets/images/animals/mimi.webp'], vaccinated: true, sterilized: true, sociable: true, description: 'Mimi est une chatte affectueuse qui aime se reposer au soleil. Elle apprécie un environnement paisible et les caresses.', location: 'Tunis, Tunisie', health: 'En bonne santé', character: 'Affectueuse, calme', compatibility: 'Chats, enfants' },
-  { id: 'leo', name: 'Léo', age: '1 an', gender: 'Mâle', type: 'Chien', images: ['assets/images/animals/max.webp'], vaccinated: true, sterilized: false, sociable: true, description: 'Léo aime découvrir de nouveaux endroits et jouer. Il recherche une famille disponible pour partager ses promenades.', location: 'Tunis, Tunisie', health: 'En bonne santé', character: 'Joueur, curieux', compatibility: 'Chiens, enfants' },
-  { id: 'nala', name: 'Nala', age: '2 ans', gender: 'Femelle', type: 'Chat', images: ['assets/images/animals/luna.webp'], vaccinated: true, sterilized: true, sociable: true, description: 'Nala est une chatte attentive et tranquille. Elle recherche un foyer chaleureux où prendre ses marques à son rythme.', location: 'Tunis, Tunisie', health: 'En bonne santé', character: 'Calme, attentive', compatibility: 'Chats' },
-];
+export interface Animal {
+  readonly id: number;
+  readonly name: string;
+  readonly age: string;
+  readonly gender: 'Mâle' | 'Femelle' | 'Inconnu';
+  readonly type: AnimalType;
+  readonly species: string;
+  readonly images: readonly string[];
+  readonly refuge: string;
+  readonly character: string;
+  readonly adoptable: boolean;
+  readonly adoptionStatus: string;
+}
+
+function animalFromResponse(data: AnimalResponse): Animal {
+  const months = data.estimated_age_months;
+  const species = data.species_name.trim();
+  const name = species.toLocaleLowerCase('fr');
+  return {
+    id: data.id, name: data.name, species,
+    age: months == null ? 'Âge non renseigné' : `${months} mois`,
+    gender: data.sex === 'M' ? 'Mâle' : data.sex === 'F' ? 'Femelle' : 'Inconnu',
+    type: ['chien', 'chiens', 'dog'].includes(name) ? 'Chien' : ['chat', 'chats', 'cat'].includes(name) ? 'Chat' : 'Autre',
+    images: data.photos ? data.photos.map(photo => photo.image).filter(Boolean) : data.primary_photo ? [data.primary_photo] : [],
+    refuge: data.refuge_name || 'Refuge non renseigné',
+    character: data.behavior || 'Comportement non renseigné',
+    adoptable: data.is_adoptable,
+    adoptionStatus: data.is_adoptable ? 'Disponible à l’adoption' : data.status === 'adopted' ? 'Adopté' : 'Indisponible à l’adoption',
+  };
+}
 
 @Injectable({ providedIn: 'root' })
 export class Animals {
-  readonly all = ANIMALS;
-  readonly favorites = signal<ReadonlySet<string>>(new Set(['max']));
+  private readonly http = inject(HttpClient);
+  private readonly auth = inject(AuthService);
+  // Local favorites belong to the current session and reset when it changes.
+  readonly favorites = linkedSignal({ source: this.auth.tokens, computation: (): ReadonlySet<number> => new Set() });
 
-  find(id: string): Animal | undefined { return this.all.find(animal => animal.id === id); }
+  list() {
+    return this.http.get<AnimalResponse[]>(`${environment.apiUrl}/animals/adoptable/`).pipe(map(items => items.map(animalFromResponse)));
+  }
 
-  toggleFavorite(id: string): void {
-    if (!this.find(id)) return;
+  detail(id: string) {
+    return this.http.get<AnimalResponse>(`${environment.apiUrl}/animals/${id}/`).pipe(map(animalFromResponse));
+  }
+
+  toggleFavorite(id: number): void {
     this.favorites.update(current => {
       const next = new Set(current);
       if (next.has(id)) next.delete(id);

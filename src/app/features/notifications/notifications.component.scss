@@ -31,3 +31,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 button:focus-visible, a:focus-visible, ion-back-button::part(native):focus-visible { outline: 3px solid var(--animal-blue); outline-offset: -3px; }
 @media (min-width: 412px) { .filters { gap: 10px; } .filters button { font-size: 15px; } .notification-copy strong { font-size: 19px; } .subtitle { font-size: 18px; } }
 @media (min-width: 600px) { .notifications-page { padding-top: 24px; } .notification-row { padding-block: 28px; } }
+.notification-row.unread { background: var(--notification-selected); }
+.notification-row:disabled { cursor: wait; }
+.read-status { color: var(--notification-link); font-size: 14px; }
+.notification-copy { overflow-wrap: anywhere; }

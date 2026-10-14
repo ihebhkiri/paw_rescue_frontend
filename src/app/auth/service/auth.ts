@@ -4,6 +4,7 @@ import { map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoginResponse, SignupResponse } from '../models/auth-response.model';
 import { SignupRequest } from '../models/auth-request.model';
+import { CurrentUser } from '../models/current-user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -23,6 +24,8 @@ export class AuthService {
       return access && refresh ? { access, refresh } : null;
     } catch { return null; }
   }
+
+  currentUser() { return this.http.get<CurrentUser>(`${environment.authApiUrl}/me/`); }
 
   logout(): void {
     this.session.set(null);
@@ -63,6 +66,7 @@ export class AuthService {
 
   errorMessage(error: unknown): string {
     if (error instanceof HttpErrorResponse) {
+      if (error.status === 401) return 'Votre session a expiré. Veuillez vous reconnecter.';
       if (error.status === 0) return 'Le serveur est inaccessible. Vérifiez votre connexion et réessayez.';
       const body: unknown = error.error;
       if (error.status >= 400 && error.status < 500 && body && typeof body === 'object') {

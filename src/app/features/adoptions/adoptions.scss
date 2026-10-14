@@ -1,0 +1,38 @@
+:host { display: flex; flex-direction: column; color-scheme: light; font-family: Arial, Helvetica, sans-serif; color: var(--animal-ink); }
+ion-content { --background: #fff; --padding-top: var(--ion-safe-area-top, 0px); }
+.adoption-page { max-width: 640px; margin: auto; padding: 16px max(16px, var(--ion-safe-area-right, 0px)) 24px max(16px, var(--ion-safe-area-left, 0px)); }
+.page-header { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; min-height: 64px; margin-bottom: 24px; }
+h1 { margin: 0; text-align: center; font-size: 23px; letter-spacing: -.6px; }
+h2 { font-size: 22px; margin: 0 0 16px; }
+h3 { font-size: 18px; margin: 0 0 8px; }
+p { line-height: 1.5; overflow-wrap: anywhere; }
+ion-back-button { --color: var(--animal-text); min-width: 44px; min-height: 44px; }
+ion-button { min-height: 48px; --border-radius: 24px; --box-shadow: none; --color: var(--animal-blue); font: inherit; text-transform: none; letter-spacing: 0; }
+.filters { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 16px; }
+.filters button { flex: 0 0 auto; min-height: 44px; padding: 0 16px; border: 0; border-radius: 12px; background: var(--animal-soft); color: var(--animal-text); font: inherit; cursor: pointer; }
+.filters button.selected { background: var(--animal-blue); color: #fff; }
+.requests { list-style: none; margin: 0; padding: 0; }
+.requests li + li { margin-top: 16px; }
+.request-card { display: flex; align-items: center; gap: 16px; padding: 16px; border: 1px solid var(--notification-divider); border-radius: 16px; color: inherit; text-decoration: none; box-shadow: 0 3px 8px #213d6610; }
+.request-card img, .request-card .animal-placeholder { width: 64px; height: 72px; flex: 0 0 64px; border-radius: 12px; object-fit: cover; }
+.animal-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: var(--animal-soft); color: var(--animal-muted); }
+.animal-placeholder ion-icon { font-size: 40px; }
+.card-copy { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.card-copy p { color: var(--animal-text); margin: 0 0 8px; }
+time, .muted { color: var(--animal-muted); font-size: 14px; }
+.status { display: table; margin-top: 8px; padding: 8px 12px; border-radius: 16px; font-size: 14px; background: var(--animal-soft); color: var(--animal-text); }
+.status.pending { color: var(--notification-link); background: var(--notification-selected); }
+.status.approved { color: var(--auth-green); background: var(--auth-volunteer-bg); }
+.status.rejected { color: var(--auth-error); background: var(--auth-volunteer-bg); }
+.request-summary { margin-bottom: 24px; }
+.detail-photo { width: 100%; height: 200px; border-radius: 16px; object-fit: cover; margin-bottom: 24px; }
+.info-panel { border-top: 1px solid var(--notification-divider); padding-top: 24px; }
+.request-message { white-space: pre-wrap; }
+.actions { display: grid; gap: 8px; margin-block: 24px; }
+.accept { --background: var(--animal-green); --color: #fff; }
+.reject { --color: var(--auth-error); --border-color: var(--auth-error); }
+.empty { text-align: center; color: var(--animal-text); padding: 32px 8px; }
+.empty > ion-icon { font-size: 40px; margin-bottom: 16px; }
+ion-skeleton-text { height: 72px; border-radius: 16px; margin-bottom: 16px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--animal-blue); outline-offset: 3px; }
+@media (min-width: 768px) { .adoption-page { padding-top: 24px; } }

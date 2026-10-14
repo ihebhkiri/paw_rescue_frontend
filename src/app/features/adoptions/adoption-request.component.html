@@ -1,0 +1,30 @@
+@if (loading()) {
+  <div role="status" aria-label="Vérification des demandes"><ion-skeleton-text [animated]="true" /><p>Vérification des demandes…</p></div>
+} @else if (error()) {
+  <p role="alert">{{ error() }}</p><ion-button fill="clear" (click)="load()">Réessayer</ion-button><ion-button fill="clear" routerLink="/auth">Connexion</ion-button>
+} @else if (sent()) {
+  <section class="success" role="status"><h2>Demande d’adoption envoyée</h2><p>Votre demande a été transmise au refuge. Vous serez notifié dès qu’une réponse sera donnée.</p></section>
+  <ion-button class="primary" expand="block" routerLink="/adoptions">Voir mes demandes</ion-button>
+  <ion-button fill="clear" expand="block" routerLink="/home">Retour aux animaux</ion-button>
+} @else if (pending(); as request) {
+  <p class="pending" role="status">Demande en attente</p><ion-button fill="clear" expand="block" [routerLink]="['/adoptions', request.id]">Voir ma demande</ion-button>
+} @else if (animal().adoptable && requester()) {
+  <ion-button class="primary" expand="block" (click)="open()">Demander l’adoption</ion-button>
+} @else if (user()?.role === 'refuge' || user()?.role === 'admin') {
+  <ion-button fill="clear" expand="block" routerLink="/adoptions">Voir les demandes reçues</ion-button>
+}
+<ion-modal [isOpen]="modalOpen()" [canDismiss]="!sending()" (didDismiss)="modalOpen.set(false)" aria-label="Confirmer la demande d’adoption">
+  <ng-template>
+    <ion-header class="ion-no-border"><ion-toolbar><ion-title>Demande d’adoption</ion-title></ion-toolbar></ion-header>
+    <ion-content>
+      <form class="request-form" (submit)="$event.preventDefault(); submit()">
+        <h2>{{ animal().name }}</h2><p class="refuge">{{ animal().refuge }}</p>
+        <p>Présentez-vous au refuge pour préparer l’accueil de cet animal.</p>
+        <ion-textarea label="Message au refuge (optionnel)" labelPlacement="stacked" [autoGrow]="true" [rows]="4" [formControl]="message" [readonly]="sending()" />
+        @if (submitError()) { <p class="error" role="alert">{{ submitError() }}</p> }
+        <ion-button class="primary" expand="block" type="submit" [disabled]="sending()" [attr.aria-busy]="sending()">{{ sending() ? 'Envoi en cours…' : 'Envoyer la demande' }}</ion-button>
+        <ion-button expand="block" fill="clear" type="button" [disabled]="sending()" (click)="modalOpen.set(false)">Annuler</ion-button>
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>

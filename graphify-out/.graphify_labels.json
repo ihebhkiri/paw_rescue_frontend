@@ -5,11 +5,11 @@
   "3": "devDependencies",
   "4": "options",
   "5": "package.json",
-  "6": "register.component.ts",
+  "6": "auth.ts",
   "7": "Reproduction de la connexion PawRescue — plan",
   "8": "Inscription PawRescue en deux étapes — plan d’implémentation",
   "9": "Assets générés",
-  "10": "ExampleInstrumentedTest.java",
+  "10": "ExampleInstrumentedTest",
   "11": "eslint.config.js",
   "12": "capacitor.config.ts",
   "13": "research/2026-09-30-login-reference.md",
@@ -19,7 +19,7 @@
   "17": "RegisterComponent",
   "18": "Inscription — état actuel vérifié",
   "19": "Parcours professionnel — plan d’implémentation",
-  "20": "Animals",
+  "20": "lint",
   "21": "app.routes.ts",
   "22": "check-registration.cjs",
   "23": "research/2026-10-01-professional-verification.md",
@@ -32,7 +32,8 @@
   "30": "capacitor.settings.gradle",
   "31": "settings.gradle",
   "32": "variables.gradle",
-  "33": "VerificationComponent",
+  "33": "register.component.ts",
   "34": "check-profile-mobile.cjs",
-  "35": "check-notifications-mobile.cjs"
+  "35": "check-notifications-mobile.cjs",
+  "36": "ExampleUnitTest"
 }

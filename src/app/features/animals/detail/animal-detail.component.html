@@ -1,8 +1,13 @@
 <ion-content class="detail-content">
-  @if (animal(); as pet) {
+  @if (loading()) {
+    <main class="not-found"><p role="status">Chargement de la fiche…</p></main>
+  } @else if (error()) {
+    <main class="not-found"><p role="alert">{{ error() }}</p><ion-button (click)="load()">Réessayer</ion-button><ion-button fill="clear" routerLink="/auth">Connexion</ion-button></main>
+  } @else if (animal(); as pet) {
     <main class="animal-detail">
       <div class="hero">
-        <img class="hero-photo" [src]="pet.images[photoIndex()]" [alt]="pet.name + ' — photo ' + (photoIndex() + 1)" fetchpriority="high" />
+        @if (pet.images.length) { <img class="hero-photo" [src]="pet.images[photoIndex()]" [alt]="pet.name + ' — photo ' + (photoIndex() + 1)" fetchpriority="high" /> }
+        @else { <div class="hero-photo photo-placeholder"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><span>Photo non disponible</span></div> }
         <div class="hero-actions">
           <ion-back-button defaultHref="/home" text="" aria-label="Retour à l’accueil" />
           <div class="right-actions">
@@ -23,31 +28,23 @@
             }
           </div>
         }
-        <span class="photo-count" aria-live="polite">{{ photoIndex() + 1 }}/{{ pet.images.length }}</span>
+        @if (pet.images.length) { <span class="photo-count" aria-live="polite">{{ photoIndex() + 1 }}/{{ pet.images.length }}</span> }
       </div>
       <section class="detail-panel" aria-labelledby="animal-name">
         <h1 id="animal-name">{{ pet.name }}</h1>
         <div class="animal-meta">
           <span><ion-icon [icon]="icons.calendarOutline" />{{ pet.age }}</span>
-          <span><ion-icon [icon]="pet.gender === 'Mâle' ? icons.maleOutline : icons.femaleOutline" />{{ pet.gender }}</span>
-          <span><ion-icon [icon]="icons.pawOutline" />{{ pet.type }}</span>
+          <span>@if (pet.gender !== 'Inconnu') { <ion-icon [icon]="pet.gender === 'Mâle' ? icons.maleOutline : icons.femaleOutline" /> }{{ pet.gender }}</span>
+          <span><ion-icon [icon]="icons.pawOutline" />{{ pet.species }}</span>
         </div>
-        <div class="status-chips" aria-label="Informations de santé et de comportement">
-          @if (pet.vaccinated) { <ion-chip class="vaccinated"><ion-icon [icon]="icons.medicalOutline" /><span>Vacciné</span></ion-chip> }
-          @if (pet.sterilized) { <ion-chip class="sterilized"><ion-icon [icon]="icons.shieldCheckmarkOutline" /><span>Stérilisé</span></ion-chip> }
-          @if (pet.sociable) { <ion-chip class="sociable"><ion-icon [icon]="icons.peopleOutline" /><span>Sociable</span></ion-chip> }
-        </div>
-        <h2>À propos de {{ pet.gender === 'Femelle' ? 'elle' : 'lui' }}</h2>
-        <p class="description">{{ pet.description }}</p>
+        <h2>À propos de {{ pet.name }}</h2>
         <dl class="animal-facts">
-          <div><dt><ion-icon [icon]="icons.locationOutline" />Localisation</dt><dd>{{ pet.location }}</dd></div>
-          <div><dt><ion-icon [icon]="icons.heartOutline" />Santé</dt><dd>{{ pet.health }}</dd></div>
+          <div><dt><ion-icon [icon]="icons.locationOutline" />Refuge</dt><dd>{{ pet.refuge }}</dd></div>
           <div><dt><ion-icon [icon]="icons.documentTextOutline" />Caractère</dt><dd>{{ pet.character }}</dd></div>
-          <div><dt><ion-icon [icon]="icons.peopleOutline" />Compatible</dt><dd>{{ pet.compatibility }}</dd></div>
+          <div><dt><ion-icon [icon]="icons.pawOutline" />Adoption</dt><dd>{{ pet.adoptionStatus }}</dd></div>
         </dl>
-        <ion-button class="adopt-button" expand="block" (click)="message.set('Les demandes d’adoption ne sont pas encore disponibles.')">
-          <ion-icon slot="start" [icon]="icons.paw" />Demander l’adoption<ion-icon slot="end" [icon]="icons.arrowForwardOutline" />
-        </ion-button>
+        <p class="favorite-note">Les favoris sont conservés uniquement pendant cette session.</p>
+        <app-adoption-request [animal]="pet" />
       </section>
     </main>
   } @else {

@@ -1,0 +1,16 @@
+:host { display: block; }
+ion-button { min-height: 48px; --border-radius: 28px; --box-shadow: none; font: inherit; text-transform: none; letter-spacing: 0; }
+.primary { --background: var(--animal-green); --color: #fff; font-weight: 700; }
+ion-modal { --border-radius: 24px 24px 0 0; --height: min(600px, 92%); --width: min(100%, 640px); align-items: end; }
+ion-toolbar { --background: #fff; --color: var(--animal-ink); --min-height: 64px; }
+ion-title { font-family: Arial, sans-serif; font-size: 22px; }
+ion-content { --background: #fff; --color: var(--animal-ink); }
+.request-form { padding: 16px 24px calc(24px + var(--ion-safe-area-bottom, 0px)); font-family: Arial, sans-serif; }
+h2 { font-size: 22px; margin: 0 0 8px; overflow-wrap: anywhere; }
+p { color: var(--animal-text); line-height: 1.5; overflow-wrap: anywhere; }
+.refuge { margin-top: 0; }
+ion-textarea { margin: 24px 0; padding: 8px 16px; border: 1px solid var(--notification-divider); border-radius: 16px; --color: var(--animal-ink); }
+.error { color: var(--auth-error); }
+.pending { text-align: center; padding: 16px; border-radius: 16px; color: var(--notification-link); background: var(--notification-selected); font-weight: 700; }
+.success { padding-block: 16px; }
+ion-skeleton-text { height: 48px; border-radius: 24px; }

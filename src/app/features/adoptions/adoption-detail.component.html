@@ -1,0 +1,39 @@
+<ion-content>
+  <main class="adoption-page">
+    <header class="page-header"><ion-back-button defaultHref="/adoptions" text="" aria-label="Retour aux demandes" /><h1>Demande d’adoption</h1></header>
+    @if (loading()) {
+      <div role="status" aria-label="Chargement de la demande"><ion-skeleton-text [animated]="true" /><ion-skeleton-text [animated]="true" /><p>Chargement de la demande…</p></div>
+    } @else if (error()) {
+      <p role="alert">{{ error() }}</p><ion-button (click)="load()">Réessayer</ion-button><ion-button fill="clear" routerLink="/adoptions">Mes demandes</ion-button>
+    } @else if (item(); as request) {
+      <section class="request-summary">
+        @if (request.animal_details.photos?.[0]?.image; as photo) { <img class="detail-photo" [src]="photo" [alt]="request.animal_details.name" /> }
+        @else { <div class="detail-photo animal-placeholder"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><span>Photo non disponible</span></div> }
+        <h2>{{ request.animal_details.name }}</h2><p>{{ request.refuge_name }}</p>
+        <span [class]="'status ' + request.status" role="status">{{ labels[request.status] }}</span>
+        <p><ion-button fill="clear" [routerLink]="['/animals', request.animal]">Voir la fiche de l’animal</ion-button></p>
+      </section>
+      <section class="info-panel" aria-labelledby="applicant-title">
+        <h2 id="applicant-title">Demandeur</h2><p>{{ request.applicant_name }}</p>
+        @if (request.applicant_email) { <p class="muted">{{ request.applicant_email }}</p> }
+        @if (request.applicant_phone) { <p class="muted">{{ request.applicant_phone }}</p> }
+        <p class="muted">Envoyée le {{ request.created_at | date:'dd/MM/yyyy à HH:mm' }}</p>
+        <h3>Message</h3><p class="request-message">{{ request.message || 'Aucun message ajouté.' }}</p>
+        @if (request.review_note) { <h3>Réponse du refuge</h3><p class="request-message">{{ request.review_note }}</p> }
+      </section>
+      @if (request.status === 'pending') {
+        <section class="actions" aria-label="Actions sur la demande" [attr.aria-busy]="saving()">
+          @if (request.can_review) {
+            <ion-button class="accept" expand="block" [disabled]="saving() || confirming()" (click)="confirm('approve')">Accepter la demande</ion-button>
+            <ion-button class="reject" fill="outline" expand="block" [disabled]="saving() || confirming()" (click)="confirm('reject')">Refuser la demande</ion-button>
+          }
+          @if (request.can_cancel) { <ion-button class="reject" fill="outline" expand="block" [disabled]="saving() || confirming()" (click)="confirm('cancel')">Annuler ma demande</ion-button> }
+          @if (saving()) { <p role="status">Enregistrement de la décision…</p> }
+        </section>
+      }
+      <ion-button fill="clear" expand="block" routerLink="/adoptions">Voir les demandes</ion-button>
+    }
+  </main>
+</ion-content>
+<app-bottom-navigation />
+<ion-toast [isOpen]="!!message()" [message]="message()" [duration]="4500" (didDismiss)="message.set('')" />
