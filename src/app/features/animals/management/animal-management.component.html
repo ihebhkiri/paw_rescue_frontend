@@ -1,0 +1,38 @@
+<ion-content>
+  <main class="management-page">
+    <header><h1>Animaux</h1><ion-button fill="clear" routerLink="/notifications" aria-label="Notifications"><ion-icon slot="icon-only" [icon]="icons.notificationsOutline" /></ion-button></header>
+    @if (shelter()) {
+      <ion-segment mode="md" [value]="segment()" (ionChange)="segment.set($event.detail.value === 'mine' ? 'mine' : 'adoptable')">
+        <ion-segment-button value="mine">Mes animaux</ion-segment-button><ion-segment-button value="adoptable">À adopter</ion-segment-button>
+      </ion-segment>
+    } @else { <h2>À adopter</h2> }
+    <div class="search-row"><ion-searchbar mode="ios" placeholder="Rechercher un animal..." aria-label="Rechercher un animal" [value]="query()" (ionInput)="query.set($event.detail.value ?? '')" />
+      <ion-button class="filter" fill="clear" aria-label="Filtres" [attr.aria-expanded]="filtersOpen()" (click)="filtersOpen.set(!filtersOpen())"><ion-icon slot="icon-only" [icon]="icons.optionsOutline" /></ion-button>
+    </div>
+    @if (filtersOpen()) {
+      <div class="filters"><ion-select label="Espèce" interface="popover" [value]="species()" (ionChange)="species.set($event.detail.value)"><ion-select-option value="">Toutes</ion-select-option>@for (name of speciesNames(); track name) { <ion-select-option [value]="name">{{ name }}</ion-select-option> }</ion-select>
+      <ion-checkbox [checked]="favoritesOnly()" (ionChange)="favoritesOnly.set($event.detail.checked)">Favoris de cette session</ion-checkbox></div>
+    }
+    @if (shelter()) { <ion-button class="primary add" expand="block" routerLink="/animals/new"><ion-icon slot="start" [icon]="icons.addOutline" />Ajouter un animal</ion-button> }
+    @if (loading()) { <div role="status" aria-label="Chargement des animaux"><ion-skeleton-text [animated]="true" /><ion-skeleton-text [animated]="true" /><ion-skeleton-text [animated]="true" /></div> }
+    @else if (error()) { <p role="alert">{{ error() }}</p><ion-button fill="clear" (click)="load()">Réessayer</ion-button> }
+    @else {
+      <ul class="animal-list">
+        @for (animal of visible(); track animal.id) {
+          <li class="animal-row">
+            <a class="animal-link" [routerLink]="['/animals', animal.id]">
+              @if (animal.primary_photo || animal.photos?.[0]?.image; as photo) { <img [src]="photo" [alt]="animal.name" loading="lazy" /> } @else { <span class="photo-placeholder"><ion-icon [icon]="icons.pawOutline" /></span> }
+              <div><h3>{{ animal.name }}</h3><p>{{ animal.species_name }} · {{ age(animal.estimated_age_months) }}</p><ion-badge [class.available]="animal.is_adoptable">{{ animal.is_adoptable ? 'À adopter' : 'Non adoptable' }}</ion-badge></div>
+            </a>
+            <div class="row-actions"><ion-button fill="clear" [attr.aria-label]="'Favori : ' + animal.name" [attr.aria-pressed]="animals.favorites().has(animal.id)" (click)="animals.toggleFavorite(animal.id)"><ion-icon slot="icon-only" [icon]="animals.favorites().has(animal.id) ? icons.heart : icons.heartOutline" /></ion-button>
+              @if (shelter()) { <ion-button fill="clear" [attr.aria-label]="'Actions : ' + animal.name" [attr.aria-expanded]="menu() === animal.id" (click)="menu.set(menu() === animal.id ? null : animal.id)"><ion-icon slot="icon-only" [icon]="icons.ellipsisHorizontal" /></ion-button> }
+            </div>
+            @if (menu() === animal.id) { <div class="animal-menu"><ion-button fill="clear" [routerLink]="['/animals', animal.id, 'edit']">Modifier</ion-button><ion-button fill="clear" [disabled]="saving() !== null || (!animal.is_adoptable && animal.status !== 'in_shelter')" (click)="changeAvailability(animal)">{{ animal.is_adoptable ? 'Retirer de l’adoption' : 'Proposer à l’adoption' }}</ion-button></div> }
+          </li>
+        } @empty { <li class="empty"><ion-icon [icon]="icons.pawOutline" /><h3>Aucun animal pour le moment</h3><p>{{ query() || species() || favoritesOnly() ? 'Essayez de modifier vos filtres.' : shelter() ? 'Les animaux de votre refuge apparaîtront ici.' : 'Les animaux disponibles à l’adoption apparaîtront ici.' }}</p></li> }
+      </ul>
+    }
+  </main>
+</ion-content>
+<app-bottom-navigation active="animals" />
+<ion-toast [isOpen]="!!message()" [message]="message()" [duration]="3500" (didDismiss)="message.set('')" />

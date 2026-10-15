@@ -31,6 +31,7 @@
     }
     }
     <ion-list aria-label="Options du profil" lines="full">
+      @if (user()?.role === 'refuge') { <ion-item routerLink="/animals" [detail]="true" [detailIcon]="icons.chevronForwardOutline"><ion-icon slot="start" [icon]="icons.pawOutline" /><ion-label>Mes animaux</ion-label></ion-item> }
       @if (user()?.role === 'benevole' || user()?.role === 'citoyen' || user()?.role === 'refuge' || user()?.role === 'admin') {
         <ion-item routerLink="/adoptions" [detail]="true" [detailIcon]="icons.chevronForwardOutline">
           <ion-icon slot="start" [icon]="icons.pawOutline" aria-hidden="true" /><ion-label>Demandes d’adoption</ion-label>
@@ -47,4 +48,5 @@
     </ion-list>
   </main>
 </ion-content>
+<app-bottom-navigation active="profile" />
 <ion-toast [isOpen]="!!message()" [message]="message()" [duration]="2500" position="bottom" (didDismiss)="message.set('')" />

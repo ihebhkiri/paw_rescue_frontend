@@ -5,6 +5,19 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../auth/service/auth';
 
 export type AnimalType = 'Chien' | 'Chat' | 'Autre';
+export interface Species { id: number; name: string; }
+export interface ManagedAnimal extends AnimalResponse {
+  species: number;
+  breed: string;
+  weight_kg: string | null;
+  color: string;
+  size: 'small' | 'medium' | 'large' | '';
+  status: 'stray' | 'rescued' | 'in_shelter' | 'reserved' | 'adopted';
+}
+export function animalAge(months: number | null): string {
+  if (months === null) return 'Âge inconnu';
+  return months >= 12 && months % 12 === 0 ? `${months / 12} ${months === 12 ? 'an' : 'ans'}` : `${months} mois`;
+}
 export interface AnimalResponse {
   id: number;
   name: string;
@@ -56,6 +69,18 @@ export class Animals {
   private readonly auth = inject(AuthService);
   // Local favorites belong to the current session and reset when it changes.
   readonly favorites = linkedSignal({ source: this.auth.tokens, computation: (): ReadonlySet<number> => new Set() });
+  private readonly url = `${environment.apiUrl}/animals/`;
+
+  species() { return this.http.get<Species[]>(`${this.url}species/`); }
+  mine() { return this.http.get<ManagedAnimal[]>(this.url, { params: { mine: 'true' } }); }
+  managedDetail(id: string) { return this.http.get<ManagedAnimal>(`${this.url}${id}/`); }
+  catalogue() { return this.http.get<ManagedAnimal[]>(`${this.url}adoptable/`); }
+  save(data: FormData, id?: number) {
+    return id ? this.http.patch<ManagedAnimal>(`${this.url}${id}/`, data) : this.http.post<ManagedAnimal>(this.url, data);
+  }
+  availability(animal: ManagedAnimal) {
+    return this.http.post<ManagedAnimal>(`${this.url}${animal.id}/${animal.is_adoptable ? 'remove-from-adoption' : 'make-adoptable'}/`, {});
+  }
 
   list() {
     return this.http.get<AnimalResponse[]>(`${environment.apiUrl}/animals/adoptable/`).pipe(map(items => items.map(animalFromResponse)));

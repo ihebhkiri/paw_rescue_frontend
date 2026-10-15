@@ -8,6 +8,7 @@ import { chevronBackOutline, chevronDownOutline, chevronForwardOutline, clipboar
 import { AuthService } from '../../auth/service/auth';
 
 import { CurrentUser } from '../../auth/models/current-user.model';
+import { BottomNavigationComponent } from '../../shared/bottom-navigation/bottom-navigation.component';
 
 const ROLE_LABELS: Record<CurrentUser['role'], string> = {
   citoyen: 'Citoyen', benevole: 'Bénévole', veterinaire: 'Vétérinaire', refuge: 'Refuge', admin: 'Administrateur',
@@ -17,7 +18,7 @@ const ROLE_LABELS: Record<CurrentUser['role'], string> = {
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
-  imports: [RouterLink, IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonSelect, IonSelectOption, IonTitle, IonToast, IonToolbar],
+  imports: [BottomNavigationComponent, RouterLink, IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonSelect, IonSelectOption, IonTitle, IonToast, IonToolbar],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnDestroy {

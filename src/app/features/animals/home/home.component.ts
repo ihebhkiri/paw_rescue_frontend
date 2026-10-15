@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IonButton, IonCheckbox, IonContent, IonFooter, IonIcon, IonSearchbar, IonToast } from '@ionic/angular';
+import { IonButton, IonCheckbox, IonContent, IonIcon, IonSearchbar, IonToast } from '@ionic/angular';
+import { BottomNavigationComponent } from '../../../shared/bottom-navigation/bottom-navigation.component';
 import { home, pawOutline, notificationsOutline, clipboardOutline, personOutline, locationOutline, chevronDownOutline, chevronForwardOutline, optionsOutline, paw, heart, heartOutline } from 'ionicons/icons';
 import { Animal, Animals, AnimalType } from '../animals';
 import { Subscription, finalize } from 'rxjs';
@@ -10,7 +11,7 @@ import { AuthService } from '../../../auth/service/auth';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  imports: [RouterLink, IonButton, IonCheckbox, IonContent, IonFooter, IonIcon, IonSearchbar, IonToast],
+  imports: [BottomNavigationComponent, RouterLink, IonButton, IonCheckbox, IonContent, IonIcon, IonSearchbar, IonToast],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnDestroy {

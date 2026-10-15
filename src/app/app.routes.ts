@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  { path: 'animals', title: 'Animaux — PawRescue', loadComponent: () => import('./features/animals/management/animal-management.component').then(m => m.AnimalManagementComponent) },
+  { path: 'animals/new', title: 'Ajouter un animal — PawRescue', loadComponent: () => import('./features/animals/management/animal-form.component').then(m => m.AnimalFormComponent) },
+  { path: 'animals/:id/edit', title: 'Modifier un animal — PawRescue', loadComponent: () => import('./features/animals/management/animal-form.component').then(m => m.AnimalFormComponent) },
   {
     path: 'adoptions',
     title: 'Demandes d’adoption — PawRescue',
