@@ -35,7 +35,7 @@ describe('Shelter animal management', () => {
     return fixture;
   }
   function validForm(page: AnimalFormComponent) {
-    page.form.patchValue({ ...animal, weight_kg: 7.2 });
+    page.form.patchValue({ ...animal, health_notes: animal.health_notes ?? '', weight_kg: 7.2 });
     page.photos.set([{ url: '/preview.png', file: new File(['test'], 'cat.png', { type: 'image/png' }) }]);
   }
   it('requires a photo, valid fields and the final recap before making a single POST', () => {

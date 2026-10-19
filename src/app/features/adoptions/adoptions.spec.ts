@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { vi } from 'vitest';
 import { environment } from '../../../environments/environment';
@@ -164,6 +164,39 @@ describe('Adoption flow', () => {
     expect(fixture.nativeElement.textContent).not.toContain('Annuler ma demande');
   });
 
+  it('renders real applicant contacts, role, photo and a French date below the message', async () => {
+    const fixture = detail({ ...adoption, applicant_role: 'Bénévole', applicant_photo: '/media/avatar.jpg', applicant_phone: '+21612345678' });
+    await fixture.whenStable();
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.querySelector('.applicant-identity strong')?.textContent).toContain('Oussama');
+    expect(element.querySelector('.applicant-identity p')?.textContent).toContain('Bénévole');
+    expect(element.querySelector('ion-avatar img')?.getAttribute('src')).toBe('/media/avatar.jpg');
+    const phoneButton = element.querySelector<HTMLIonButtonElement>('.contact-button[aria-controls="applicant-phone"]')!;
+    const phone = element.querySelector<HTMLParagraphElement>('#applicant-phone')!;
+    expect(phone.hidden).toBe(true);
+    expect(phoneButton.href).toBeFalsy();
+    phoneButton.click();
+    fixture.detectChanges();
+    expect(phone.hidden).toBe(false);
+    expect(phone.textContent).toContain('+21612345678');
+    expect(phoneButton.getAttribute('aria-expanded')).toBe('true');
+    phoneButton.click();
+    fixture.detectChanges();
+    expect(phone.hidden).toBe(true);
+    expect(element.querySelector('.contact-button[aria-label="Ouvrir la conversation"]')).not.toBeNull();
+    expect(element.querySelector('.applicant-message + time')?.textContent).toMatch(/13 oct\. 2026 à \d{2}:00/);
+  });
+
+  it('handles missing contacts, photo, role and blank message without invented data', () => {
+    const fixture = detail({ ...adoption, applicant_email: ' ', message: '  ' });
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.querySelector('.contact-button[aria-controls="applicant-phone"]')).toBeNull();
+    expect(element.querySelector('#applicant-phone')).toBeNull();
+    expect(element.querySelector('ion-avatar ion-icon')).not.toBeNull();
+    expect(element.querySelector('.applicant-identity p')).toBeNull();
+    expect(element.querySelector('.applicant-message')?.textContent).toBe('Aucun message ajouté.');
+  });
+
   it('confirms a refuge decision and removes all decision actions after success', async () => {
     const fixture = detail({ ...adoption, can_review: true, can_cancel: false });
     const page = fixture.componentInstance;
@@ -186,5 +219,15 @@ describe('Adoption flow', () => {
     http.expectOne(`${url}11/`).flush({ ...adoption, status: 'cancelled', can_review: false, can_cancel: false });
     expect(page.item()?.status).toBe('cancelled');
     expect(page.message()).toContain('plus en attente');
+  });
+
+  it('opens the adoption conversation once and navigates to the returned ID', () => {
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    const page = detail().componentInstance; page.openChat(); page.openChat();
+    const request = http.expectOne(`${environment.apiUrl}/messaging/conversations/`);
+    expect(request.request.body).toEqual({ adoption_request: 11 });
+    request.flush({ id: 15 });
+    expect(navigate).toHaveBeenCalledWith(['/messages', 15]);
+    expect(page.openingChat()).toBe(false);
   });
 });

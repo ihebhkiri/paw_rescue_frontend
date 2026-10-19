@@ -5,7 +5,7 @@
 } @else if (sent()) {
   <section class="success" role="status"><h2>Demande d’adoption envoyée</h2><p>Votre demande a été transmise au refuge. Vous serez notifié dès qu’une réponse sera donnée.</p></section>
   <ion-button class="primary" expand="block" routerLink="/adoptions">Voir mes demandes</ion-button>
-  <ion-button fill="clear" expand="block" routerLink="/home">Retour aux animaux</ion-button>
+  <ion-button fill="clear" expand="block" routerLink="/animals">Retour aux animaux</ion-button>
 } @else if (pending(); as request) {
   <p class="pending" role="status">Demande en attente</p><ion-button fill="clear" expand="block" [routerLink]="['/adoptions', request.id]">Voir ma demande</ion-button>
 } @else if (animal().adoptable && requester()) {

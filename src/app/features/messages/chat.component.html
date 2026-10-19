@@ -1,0 +1,43 @@
+<ion-content>
+  <main class="messages-page">
+    <header class="chat-header"><ion-back-button defaultHref="/messages" text="" aria-label="Retour aux messages" />
+      @if (item(); as conversation) {
+        <ion-avatar>@if (conversation.photo) { <img [src]="conversation.photo" alt="" /> } @else { <ion-icon [icon]="icons.personCircleOutline" aria-hidden="true" /> }</ion-avatar>
+        <h1>{{ chat.name(conversation) }}</h1>
+      } @else { <h1>Conversation</h1> }
+    </header>
+    @if (loading()) { <ion-spinner aria-label="Chargement de la conversation" /> }
+    @if (chat.connection() !== 'connected') { <p class="muted" role="status">Temps réel indisponible. Les messages peuvent être envoyés ; reconnexion en cours.</p> }
+    @if (error()) { <p role="alert">{{ error() }}</p><ion-button fill="clear" (click)="load()">Actualiser</ion-button> }
+    @if (item(); as conversation) {
+      @if (conversation.adoption; as adoption) {
+        <a class="context" [routerLink]="['/adoptions', adoption.id]">
+          @if (adoption.photo) { <img [src]="adoption.photo" alt="" /> }
+          <span><strong>{{ adoption.animal_name }}</strong><br>Demande d’adoption · {{ labels[adoption.status] }}<br><span class="link">Voir la demande</span></span>
+        </a>
+      }
+      @if (conversation.status === 'pending') {
+        <section class="invitation"><p>Cette conversation doit être acceptée avant de pouvoir échanger.</p>
+          @if (conversation.needs_response) {
+            <ion-button [disabled]="saving()" (click)="decide('accept')">Accepter la conversation</ion-button>
+            <ion-button color="danger" fill="clear" [disabled]="saving()" (click)="decide('block')">Bloquer</ion-button>
+          } @else { <p class="muted">En attente de l’acceptation de votre interlocuteur.</p> }
+        </section>
+      }
+      @if (conversation.status === 'blocked') { <p role="status">Cette conversation est bloquée.</p> }
+      <ol class="chat-messages" aria-label="Historique des messages" aria-live="polite" aria-relevant="additions">
+        @for (message of conversation.messages; track message.id) {
+          <li [class.mine]="message.sender === chat.userId()"><p>{{ message.body }}</p><time [attr.datetime]="message.created_at">{{ message.created_at | date:'dd/MM à HH:mm' }}</time></li>
+        } @empty { <li class="empty">Aucun message pour le moment.</li> }
+      </ol>
+    }
+  </main>
+</ion-content>
+<ion-footer>
+  <form class="composer" (ngSubmit)="send()">
+    <ion-textarea name="message" aria-label="Écrire un message" placeholder="Écrire un message..." [autoGrow]="true" [ngModel]="draft()" (ngModelChange)="draft.set($event)" [disabled]="saving() || item()?.status !== 'accepted'" />
+    <ion-button type="submit" aria-label="Envoyer" [disabled]="saving() || !draft().trim() || item()?.status !== 'accepted'">
+      @if (saving()) { <ion-spinner aria-label="Envoi en cours" /> } @else { <ion-icon slot="icon-only" [icon]="icons.sendOutline" /> }
+    </ion-button>
+  </form>
+</ion-footer>

@@ -7,6 +7,7 @@ import { AuthService } from '../../auth/service/auth';
 export type AnimalType = 'Chien' | 'Chat' | 'Autre';
 export interface Species { id: number; name: string; }
 export interface ManagedAnimal extends AnimalResponse {
+  health_notes?: string | null;
   species: number;
   breed: string;
   weight_kg: string | null;

@@ -1,7 +1,7 @@
-:host { display: block; font-family: Arial, Helvetica, sans-serif; }
-ion-footer { background: #fff; border-top: 1px solid var(--notification-divider); box-shadow: none; padding-bottom: var(--ion-safe-area-bottom, 0px); }
-nav { display: grid; grid-template-columns: 1fr 1fr 1fr 1.25fr 1fr; max-width: 640px; margin: auto; padding: 6px max(8px, var(--ion-safe-area-right, 0px)) 8px max(8px, var(--ion-safe-area-left, 0px)); }
-a, button { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 7px; min-height: 70px; padding: 6px 0; text-decoration: none; color: var(--animal-text); font: inherit; font-size: 12px; border-radius: 16px; border: 0; background: transparent; cursor: pointer; }
+:host { display: block; font-family: Arial, sans-serif; }
+ion-footer { background: var(--auth-surface); border-top: 1px solid var(--notification-divider); box-shadow: none; padding-bottom: var(--ion-safe-area-bottom, 0px); }
+ion-tab-bar { max-width: 640px; margin: auto; height: 84px; --background: var(--auth-surface); border: 0; }
+ion-tab-button { --color: var(--animal-text); --color-selected: var(--animal-blue); font-size: 12px; }
 ion-icon { font-size: 28px; }
-[aria-current] { color: var(--shelter-green); font-weight: 700; }
-button:focus-visible, a:focus-visible { outline: 3px solid var(--animal-blue); outline-offset: -3px; }
+ion-label { margin-top: 7px; }
+ion-tab-button::part(native):focus-visible { outline: 3px solid var(--animal-blue); outline-offset: -3px; }

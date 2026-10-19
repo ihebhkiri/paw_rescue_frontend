@@ -67,6 +67,14 @@ describe('Dynamic profile', () => {
     http.expectNone(url);
   });
 
+  it('updates the avatar immediately without reloading the profile', () => {
+    const fixture = open(); http.expectOne(url).flush(user);
+    fixture.componentInstance.photoUpdated('/media/new.jpg'); fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('ion-avatar img').getAttribute('src')).toBe('/media/new.jpg');
+    expect(fixture.componentInstance.available()).toBe(true);
+    http.expectNone(url);
+  });
+
   it('shows session expiry, allows retry, and clears data and pending writes on departure', () => {
     const fixture = open();
     const page = fixture.componentInstance;

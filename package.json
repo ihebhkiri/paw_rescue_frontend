@@ -19,13 +19,18 @@
     "@angular/forms": "22.1.7",
     "@angular/platform-browser": "22.1.7",
     "@angular/router": "22.1.7",
+    "@capacitor-firebase/messaging": "^8.5.2",
     "@capacitor/android": "^8.5.2",
     "@capacitor/app": "8.1.1",
+    "@capacitor/camera": "^8.2.5",
     "@capacitor/core": "8.5.2",
+    "@capacitor/geolocation": "^8.2.4",
     "@capacitor/haptics": "8.0.2",
+    "@capacitor/ios": "^8.5.2",
     "@capacitor/keyboard": "8.0.5",
     "@capacitor/status-bar": "8.0.3",
     "@ionic/angular": "^9.0.0",
+    "firebase": "^12.19.0",
     "ionicons": "^8.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
@@ -44,5 +49,10 @@
     "typescript-eslint": "^8.61.0",
     "vitest": "~4.0.18"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "^1.13.6"
+    }
+  }
 }

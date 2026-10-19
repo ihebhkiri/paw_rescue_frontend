@@ -9,7 +9,7 @@
         @if (pet.images.length) { <img class="hero-photo" [src]="pet.images[photoIndex()]" [alt]="pet.name + ' — photo ' + (photoIndex() + 1)" fetchpriority="high" /> }
         @else { <div class="hero-photo photo-placeholder"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><span>Photo non disponible</span></div> }
         <div class="hero-actions">
-          <ion-back-button defaultHref="/home" text="" aria-label="Retour à l’accueil" />
+          <ion-back-button defaultHref="/animals" text="" aria-label="Retour aux animaux" />
           <div class="right-actions">
             <ion-button class="round-action favorite" fill="clear" [class.active]="animals.favorites().has(pet.id)"
               [attr.aria-label]="(animals.favorites().has(pet.id) ? 'Retirer des favoris : ' : 'Ajouter aux favoris : ') + pet.name"
@@ -48,7 +48,7 @@
       </section>
     </main>
   } @else {
-    <main class="not-found"><h1>Animal introuvable</h1><p>Cette fiche n’est pas disponible.</p><ion-button routerLink="/home">Retour à l’accueil</ion-button></main>
+    <main class="not-found"><h1>Animal introuvable</h1><p>Cette fiche n’est pas disponible.</p><ion-button routerLink="/animals">Retour aux animaux</ion-button></main>
   }
 </ion-content>
 <ion-toast [isOpen]="!!message()" [message]="message()" [duration]="3000" position="top" (didDismiss)="message.set('')" />

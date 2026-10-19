@@ -36,7 +36,7 @@ fs.mkdirSync(output, { recursive: true });
     }
     for (const width of [360, 390, 412, 430, 768]) {
       await page.setViewportSize({ width, height: 844 });
-      await open('/home');
+      await open('/animals');
       await layout(`${width}-home`);
       assert.equal(await page.locator('.animal-card').count(), 6);
       const columns = await page.locator('.animal-card').evaluateAll(cards => cards.slice(0, 2).map(card => card.getBoundingClientRect().top));
@@ -51,7 +51,7 @@ fs.mkdirSync(output, { recursive: true });
       console.log(`PASS: home/detail layout ${width}px`);
     }
     await page.setViewportSize({ width: 390, height: 844 });
-    await open('/home');
+    await open('/animals');
     await page.getByRole('button', { name: 'Chats', exact: true }).click();
     assert.equal(await page.locator('.animal-card').count(), 3);
     await page.getByRole('button', { name: 'Autres', exact: true }).click();
@@ -78,7 +78,7 @@ fs.mkdirSync(output, { recursive: true });
     await screen().getByRole('button', { name: 'Demander l’adoption' }).click();
     await page.locator('ion-toast').filter({ hasText: 'Les demandes d’adoption ne sont pas encore disponibles.' }).waitFor();
     await screen().locator('ion-back-button').click();
-    await page.waitForURL('**/home');
+    await page.waitForURL('**/animals');
     await page.locator('app-animal-detail').waitFor({ state: 'hidden' });
     await screen().getByRole('button', { name: 'Ajouter aux favoris : Max' }).waitFor();
     await page.setViewportSize({ width: 390, height: 480 });

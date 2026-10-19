@@ -184,11 +184,11 @@ call_command('runserver', '127.0.0.1:' + sys.argv[3], use_reloader=False, verbos
     console.log('PASS real Django rejection, result notification and applicant cancellation');
     assert.deepEqual(errors, [], 'no uncaught browser errors');
     console.log('PASS screenshots 360/768/1280px, no horizontal overflow');
-    await open(volunteer, '/animals', 'app-animal-management', 'À adopter');
+    await open(volunteer, '/animals/manage', 'app-animal-management', 'À adopter');
     assert.equal(await volunteer.getByRole('link', { name: 'Ajouter un animal', exact: true }).count(), 0);
     await open(volunteer, '/animals/new', 'app-animal-form', 'réservé aux refuges');
     const creations = () => calls.filter(call => call.method === 'POST' && call.path === '/api/animals/').length;
-    await open(refuge, '/animals', 'app-animal-management .animal-list', 'Luna');
+    await open(refuge, '/animals/manage', 'app-animal-management .animal-list', 'Luna');
     await screenshot(refuge, 'management-list');
     await refuge.getByRole('link', { name: 'Ajouter un animal', exact: true }).click();
     await refuge.locator('input[type=file]').waitFor({ state: 'attached' });

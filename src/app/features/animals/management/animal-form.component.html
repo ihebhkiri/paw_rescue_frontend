@@ -4,7 +4,7 @@
       <header><ion-button fill="clear" aria-label="Retour" [disabled]="saving()" (click)="back()"><ion-icon slot="icon-only" [icon]="icons.arrowBackOutline" /></ion-button><h1>{{ id() ? 'Modifier un animal' : 'Ajouter un animal' }}</h1></header>
     }
     @if (loading()) { <div role="status" aria-label="Chargement du formulaire"><ion-skeleton-text [animated]="true" /><ion-skeleton-text [animated]="true" /></div> }
-    @else if (loadError()) { <p class="error" role="alert">{{ loadError() }}</p><ion-button fill="clear" (click)="load()">Réessayer</ion-button><ion-button fill="clear" routerLink="/animals">Retour aux animaux</ion-button> }
+    @else if (loadError()) { <p class="error" role="alert">{{ loadError() }}</p><ion-button fill="clear" (click)="load()">Réessayer</ion-button><ion-button fill="clear" routerLink="/animals/manage">Retour aux animaux</ion-button> }
     @else if (saved(); as animal) {
       <section class="success" aria-live="polite">
         <div class="success-icon"><ion-icon [icon]="icons.checkmarkOutline" aria-hidden="true" /></div>
@@ -12,7 +12,7 @@
         <p>{{ animal.name }} {{ animal.is_adoptable ? 'est maintenant disponible à l’adoption.' : 'a été enregistré dans votre refuge et n’est pas proposé à l’adoption.' }}</p>
         <div class="success-card"><img [src]="animal.photos?.[0]?.image || photos()[0]?.url" [alt]="animal.name" /><div><h2>{{ animal.name }}</h2><p>{{ animal.species_name }} · {{ age(animal.estimated_age_months) }}</p><span class="badge" [class.unavailable]="!animal.is_adoptable">{{ animal.is_adoptable ? 'À adopter' : 'Non adoptable' }}</span></div></div>
         <ion-button class="primary" expand="block" [routerLink]="['/animals', animal.id]">Voir l’animal</ion-button>
-        <ion-button class="secondary" expand="block" routerLink="/animals">Retour aux animaux</ion-button>
+        <ion-button class="secondary" expand="block" routerLink="/animals/manage">Retour aux animaux</ion-button>
       </section>
     } @else if (allowed()) {
       <div class="progress" role="progressbar" [attr.aria-valuenow]="step() + 1" aria-valuemin="1" aria-valuemax="5" [attr.aria-valuetext]="steps[step()]" aria-label="Étapes de création">@for (label of steps; track label; let i = $index) { <span [class.done]="i <= step()"></span> }</div>
@@ -45,11 +45,13 @@
             <fieldset><legend>Taille *</legend><div class="choices">@for (size of [{value: 'small', label: 'Petite'}, {value: 'medium', label: 'Moyenne'}, {value: 'large', label: 'Grande'}]; track size.value) { <label [class.selected]="fields.size.value === size.value"><input type="radio" formControlName="size" [value]="size.value" />{{ size.label }}</label> }</div>@if (invalid('size')) { <p class="error">Choisissez une taille.</p> }</fieldset>
           }
           @case (2) {
+            <h2>Santé</h2><div class="field"><label class="field-label" id="health-label">Notes de santé (facultatif)</label><ion-textarea aria-labelledby="health-label" formControlName="health_notes" maxlength="2000" [rows]="3" placeholder="Besoins de soins et observations du refuge…" /><p class="hint">Notes internes au refuge, sans diagnostic automatique.</p></div>
             <div class="field"><label class="field-label" id="behavior-label">Comportement / Description *</label><ion-textarea aria-labelledby="behavior-label" mode="ios" formControlName="behavior" [rows]="7" [autoGrow]="true" maxlength="500" placeholder="Décrivez son caractère et ses besoins…" /><p class="counter">{{ fields.behavior.value.length }}/500</p>@if (invalid('behavior')) { <p class="error">Ajoutez une description de 1 à 500 caractères.</p> }</div>
             <label class="field-label" id="status-label">Statut actuel *</label><ion-select aria-labelledby="status-label" mode="ios" formControlName="status" interface="alert" cancelText="Annuler" okText="Choisir" (ionChange)="statusChanged()">@for (status of statuses; track status.value) { <ion-select-option [value]="status.value">{{ status.label }}</ion-select-option> }</ion-select>
             <p class="hint">L’animal sera automatiquement rattaché à votre refuge.</p>
           }
           @case (3) {
+            <h2>Refuge et localisation</h2><div class="info"><div><strong>{{ shelter()?.name || 'Votre refuge' }}</strong><p>{{ shelter()?.address || shelter()?.governorate || 'Adresse non renseignée dans votre profil' }}</p>@if (shelter()?.latitude != null && shelter()?.longitude != null) { <p>{{ shelter()?.latitude }}, {{ shelter()?.longitude }}</p> }</div></div><p class="hint">L’animal est rattaché au refuge de votre compte.</p>
             <ion-toggle mode="ios" formControlName="is_adoptable" justify="space-between">Disponibilité à l’adoption</ion-toggle>
             <p>Cet animal sera visible dans la section adoption.</p>
             @if (fields.status.value !== 'in_shelter') { <p class="error">Seul un animal au refuge peut être proposé à l’adoption. Revenez à l’étape précédente pour modifier son statut.</p> }
@@ -59,7 +61,7 @@
             <div class="summary-photo"><img [src]="photos()[0]?.url" [alt]="fields.name.value" /><ion-button size="small" class="modify" [disabled]="saving()" (click)="go(0)"><ion-icon slot="start" [icon]="icons.createOutline" />Modifier</ion-button></div>
             <div class="summary-title"><h2>Informations</h2><ion-button fill="clear" size="small" [disabled]="saving()" (click)="go(1)">Modifier</ion-button></div>
             <dl><div><dt>Nom</dt><dd>{{ fields.name.value }}</dd></div><div><dt>Espèce</dt><dd>{{ speciesName() }}</dd></div><div><dt>Race</dt><dd>{{ fields.breed.value }}</dd></div><div><dt>Âge</dt><dd>{{ age(fields.estimated_age_months.value) }}</dd></div><div><dt>Sexe</dt><dd>{{ fields.sex.value === 'F' ? 'Femelle' : fields.sex.value === 'M' ? 'Mâle' : 'Inconnu' }}</dd></div><div><dt>Poids</dt><dd>{{ fields.weight_kg.value === null ? 'Non renseigné' : fields.weight_kg.value + ' kg' }}</dd></div><div><dt>Taille</dt><dd>{{ fields.size.value === 'small' ? 'Petite' : fields.size.value === 'medium' ? 'Moyenne' : 'Grande' }}</dd></div><div><dt>Couleur</dt><dd>{{ fields.color.value || 'Non renseignée' }}</dd></div><div><dt>Statut</dt><dd>{{ statusLabel() }}</dd></div><div><dt>Disponible à l’adoption</dt><dd><span class="badge" [class.unavailable]="!fields.is_adoptable.value">{{ fields.is_adoptable.value ? 'Oui' : 'Non' }}</span></dd></div></dl>
-            <div class="summary-title"><h2>Description</h2><ion-button fill="clear" size="small" [disabled]="saving()" (click)="go(2)">Modifier</ion-button></div><p class="description">{{ fields.behavior.value }}</p>
+            <div class="summary-title"><h2>Description et santé</h2><ion-button fill="clear" size="small" [disabled]="saving()" (click)="go(2)">Modifier</ion-button></div><p class="description">{{ fields.behavior.value }}</p><p class="description">{{ fields.health_notes.value || 'Aucune note de santé' }}</p>
           }
         }
         @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
@@ -70,3 +72,5 @@
 @if (!loading() && allowed() && !saved()) {
   <footer><div class="buttons">@if (step() > 0) { <ion-button class="secondary" [disabled]="saving()" (click)="back()">Retour</ion-button> }<ion-button class="primary" [disabled]="saving() || !species().length" [attr.aria-busy]="saving()" (click)="next()">{{ saving() ? 'Enregistrement…' : step() === 4 ? (id() ? 'Enregistrer' : 'Créer l’animal') : step() === 3 ? 'Vérifier les informations' : 'Suivant' }}</ion-button></div></footer>
 }
+
+<app-bottom-navigation active="animals" />

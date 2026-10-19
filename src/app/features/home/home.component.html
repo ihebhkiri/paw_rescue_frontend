@@ -1,0 +1,53 @@
+<ion-content>
+  <main class="home-page">
+    <div class="hero">
+      <div class="hero-art" aria-hidden="true"></div>
+      <header class="topbar">
+        <button class="location" type="button" (click)="locate()" [disabled]="locating()"><ion-icon [icon]="icons.location" aria-hidden="true" /><span>{{ locating() ? 'Localisation…' : locationLabel() }}</span><ion-icon [icon]="icons.chevronDownOutline" aria-hidden="true" /></button>
+        <a class="bell" routerLink="/notifications" [attr.aria-label]="unread() ? 'Notifications non lues' : 'Notifications'"><ion-icon [icon]="icons.notificationsOutline" />@if (unread()) { <span class="unread"></span> }</a>
+      </header>
+      <div class="welcome"><h1>Bonjour{{ user()?.first_name ? ' ' + user()?.first_name : '' }} <span>👋</span></h1><p>Ensemble pour des animaux<br />en meilleure vie.</p></div>
+    </div>
+    @if (locationError()) { <p role="alert" class="error">{{ locationError() }}</p> }
+    @if (errors().user || errors().notifications) { <p class="error" role="alert">{{ errors().user || errors().notifications }} <button (click)="load()">Réessayer</button></p> }
+    <a class="report-action" routerLink="/signalements/nouveau"><span class="plus"><ion-icon [icon]="icons.addOutline" /></span><span><strong>Signaler un animal</strong><small>Un animal en danger ? Signale-le en quelques étapes.</small></span><ion-icon [icon]="icons.chevronForwardOutline" aria-hidden="true" /></a>
+
+    <section aria-labelledby="recent-title">
+      <div class="section-heading"><h2 id="recent-title">Signalements récents</h2><a routerLink="/signalements">Voir tout <ion-icon [icon]="icons.chevronForwardOutline" /></a></div>
+      @if (loading().reports) { <p role="status">Chargement des signalements…</p> }
+      @else if (errors().reports) { <p role="alert" class="error">{{ errors().reports }} <button (click)="load()">Réessayer</button></p> }
+      @else {
+        <div class="reports">@for (report of recent(); track report.id) {
+          <a class="report-card" [routerLink]="['/signalements', report.id]">
+            @if (report.photos[0]) { <img [src]="report.photos[0].image" [alt]="report.species_name" /> } @else { <div class="placeholder"><ion-icon [icon]="icons.pawOutline" /></div> }
+            <div class="report-info"><h3>{{ report.species_name }} {{ report.type === 'injured' ? 'blessé' : 'errant' }}</h3><p><ion-icon [icon]="icons.location" />{{ report.address_text || 'Lieu du signalement' }}@if (report.distance_km !== null) { · {{ report.distance_km | number:'1.0-1' }} km }</p>@if (report.created_at) { <p class="time"><ion-icon [icon]="icons.timeOutline" />{{ report.created_at | date:'dd/MM à HH:mm' }}</p> }</div>
+            <div class="report-side"><span class="badge" [class.urgent]="report.severity === 'high' || report.severity === 'critical'">{{ report.severity === 'high' || report.severity === 'critical' ? 'Urgent' : statusLabel(report.status) }}</span><ion-icon [icon]="icons.chevronForwardOutline" /></div>
+          </a>
+        } @empty { <p class="empty">Aucun signalement à afficher pour votre compte.</p> }</div>
+      }
+    </section>
+
+    <section aria-labelledby="shelters-title">
+      <div class="section-heading"><h2 id="shelters-title">Refuges proches</h2><a routerLink="/refuges" [queryParams]="point()">Voir tout <ion-icon [icon]="icons.chevronForwardOutline" /></a></div>
+      @if (!point()) { <button class="location-hint" (click)="locate()" [disabled]="locating()">Activer la localisation pour trier par proximité</button> }
+      @if (loading().shelters) { <p role="status">Chargement des refuges…</p> }
+      @else if (errors().shelters) { <p class="error" role="alert">{{ errors().shelters }} <button (click)="load()">Réessayer</button></p> }
+      @else { <div class="shelters">@for (shelter of refuges(); track shelter.id) {
+        <a class="shelter-card" [href]="shelterMap(shelter)" target="_blank" rel="noopener noreferrer" [attr.aria-label]="shelter.name + ' — ouvrir la carte'">
+          @if (shelter.logo) { <img [src]="shelter.logo" [alt]="shelter.name" loading="lazy" /> } @else { <div class="placeholder"><ion-icon [icon]="icons.pawOutline" /></div> }
+          <div><h3>{{ shelter.name }}</h3><p><ion-icon [icon]="icons.location" />{{ shelter.governorate || shelter.address }}@if (shelter.distance_km !== null) { · {{ shelter.distance_km | number:'1.0-1' }} km }</p><span class="badge">Voir sur la carte</span></div><ion-icon [icon]="icons.chevronForwardOutline" />
+        </a>
+      } @empty { <p class="empty">Aucun refuge disponible.</p> }</div> }
+    </section>
+
+    <section aria-labelledby="adopt-title">
+      <div class="section-heading"><h2 id="adopt-title">Animaux à adopter</h2><a routerLink="/animals">Voir tout <ion-icon [icon]="icons.chevronForwardOutline" /></a></div>
+      @if (loading().animals) { <p role="status">Chargement des animaux…</p> }
+      @else if (errors().animals) { <p class="error" role="alert">{{ errors().animals }} <button (click)="load()">Réessayer</button></p> }
+      @else { <div class="adoption-list">@for (animal of adoptable(); track animal.id) {
+        <article class="animal-card"><a [routerLink]="['/animals', animal.id]">@if (animal.images[0]) { <img [src]="animal.images[0]" [alt]="animal.name" loading="lazy" /> } @else { <div class="placeholder"><ion-icon [icon]="icons.pawOutline" /></div> }<div class="animal-info"><h3>{{ animal.name }}</h3><p>{{ animal.age }} · {{ animal.gender }}</p><span class="badge">À adopter</span></div></a><button class="favorite" (click)="animals.toggleFavorite(animal.id)" [attr.aria-label]="'Favori : ' + animal.name" [attr.aria-pressed]="animals.favorites().has(animal.id)"><ion-icon [icon]="animals.favorites().has(animal.id) ? icons.heart : icons.heartOutline" /></button></article>
+      } @empty { <p class="empty">Aucun animal disponible à l’adoption.</p> }</div> }
+    </section>
+  </main>
+</ion-content>
+<app-bottom-navigation active="home" />

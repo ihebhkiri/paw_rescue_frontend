@@ -14,11 +14,33 @@
         <p><ion-button fill="clear" [routerLink]="['/animals', request.animal]">Voir la fiche de l’animal</ion-button></p>
       </section>
       <section class="info-panel" aria-labelledby="applicant-title">
-        <h2 id="applicant-title">Demandeur</h2><p>{{ request.applicant_name }}</p>
-        @if (request.applicant_email) { <p class="muted">{{ request.applicant_email }}</p> }
-        @if (request.applicant_phone) { <p class="muted">{{ request.applicant_phone }}</p> }
-        <p class="muted">Envoyée le {{ request.created_at | date:'dd/MM/yyyy à HH:mm' }}</p>
-        <h3>Message</h3><p class="request-message">{{ request.message || 'Aucun message ajouté.' }}</p>
+        <h2 id="applicant-title">{{ isApplicant() ? 'Refuge' : 'Demandeur' }}</h2>
+        <ion-item class="applicant" lines="none">
+          <ion-avatar slot="start" class="applicant-avatar" aria-hidden="true">
+            @if (!isApplicant() && request.applicant_photo) { <img [src]="request.applicant_photo" alt="" /> }
+            @else { <ion-icon [icon]="icons.person" /> }
+          </ion-avatar>
+          <ion-label class="applicant-identity">
+            <strong>{{ isApplicant() ? request.refuge_name : request.applicant_name }}</strong>
+            @if (!isApplicant() && request.applicant_role) { <p>{{ request.applicant_role }}</p> }
+          </ion-label>
+          <div slot="end" class="applicant-contacts">
+            @if (!isApplicant() && request.applicant_phone.trim()) {
+              <ion-button class="contact-button" (click)="phoneVisible.set(!phoneVisible())" aria-label="Afficher ou masquer le numéro de téléphone" [attr.aria-expanded]="phoneVisible()" aria-controls="applicant-phone">
+                <ion-icon slot="icon-only" [icon]="icons.call" aria-hidden="true" />
+              </ion-button>
+            }
+              <ion-button class="contact-button" [disabled]="openingChat()" (click)="openChat()" aria-label="Ouvrir la conversation">
+                <ion-icon slot="icon-only" [icon]="icons.chatbubblesOutline" aria-hidden="true" />
+              </ion-button>
+          </div>
+        </ion-item>
+        @if (!isApplicant() && request.applicant_phone.trim(); as phone) {
+          <p id="applicant-phone" class="applicant-phone" [hidden]="!phoneVisible()">Téléphone : {{ phone }}</p>
+        }
+        <h3>Message</h3>
+        <p class="request-message applicant-message">{{ request.message.trim() ? request.message : 'Aucun message ajouté.' }}</p>
+        <time class="request-date" [attr.datetime]="request.created_at">{{ request.created_at | date:"d MMM y 'à' HH:mm":undefined:'fr' }}</time>
         @if (request.review_note) { <h3>Réponse du refuge</h3><p class="request-message">{{ request.review_note }}</p> }
       </section>
       @if (request.status === 'pending') {

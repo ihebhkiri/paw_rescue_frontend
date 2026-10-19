@@ -3,6 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  rescuePushEnabled: false,
+  websocketUrl: 'ws://localhost:8000/ws/messaging/',
   production: false,
   apiUrl: 'http://localhost:8000/api',
   authApiUrl: 'http://localhost:8000/api/auth',

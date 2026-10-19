@@ -13,7 +13,7 @@
       <div class="filters"><ion-select label="Espèce" interface="popover" [value]="species()" (ionChange)="species.set($event.detail.value)"><ion-select-option value="">Toutes</ion-select-option>@for (name of speciesNames(); track name) { <ion-select-option [value]="name">{{ name }}</ion-select-option> }</ion-select>
       <ion-checkbox [checked]="favoritesOnly()" (ionChange)="favoritesOnly.set($event.detail.checked)">Favoris de cette session</ion-checkbox></div>
     }
-    @if (shelter()) { <ion-button class="primary add" expand="block" routerLink="/animals/new"><ion-icon slot="start" [icon]="icons.addOutline" />Ajouter un animal</ion-button> }
+    @if (shelter()) { <ion-button class="primary add" expand="block" routerLink="/animals/add"><ion-icon slot="start" [icon]="icons.addOutline" />Ajouter un animal</ion-button> }
     @if (loading()) { <div role="status" aria-label="Chargement des animaux"><ion-skeleton-text [animated]="true" /><ion-skeleton-text [animated]="true" /><ion-skeleton-text [animated]="true" /></div> }
     @else if (error()) { <p role="alert">{{ error() }}</p><ion-button fill="clear" (click)="load()">Réessayer</ion-button> }
     @else {

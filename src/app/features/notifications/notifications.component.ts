@@ -16,7 +16,7 @@ export interface NotificationResponse {
   body: string;
   is_read: boolean;
   created_at: string;
-  data?: { adoption_id?: unknown };
+  data?: { adoption_id?: unknown; conversation_id?: unknown; report_id?: unknown };
 }
 interface NotificationItem extends NotificationResponse {
   category: NotificationCategory;
@@ -102,6 +102,16 @@ export class NotificationsComponent implements OnDestroy {
   }
 
   private openAdoption(item: NotificationResponse): boolean {
+    const reportId = item.data?.report_id;
+    if (['new_report', 'new_emergency', 'mission_assigned'].includes(item.type) && typeof reportId === 'number' && Number.isSafeInteger(reportId) && reportId > 0) {
+      void this.router.navigate(['/signalements', reportId]);
+      return true;
+    }
+    const conversationId = item.data?.conversation_id;
+    if (['new_message', 'request_accepted', 'conversation_blocked'].includes(item.type) && typeof conversationId === 'number' && Number.isSafeInteger(conversationId) && conversationId > 0) {
+      void this.router.navigate(['/messages', conversationId]);
+      return true;
+    }
     const id = item.data?.adoption_id;
     if (item.type !== 'adoption_update' || typeof id !== 'number' || !Number.isSafeInteger(id) || id <= 0) return false;
     void this.router.navigate(['/adoptions', id]);

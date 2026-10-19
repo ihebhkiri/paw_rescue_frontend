@@ -1,0 +1,58 @@
+.applicant {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --background: transparent;
+  --color: var(--animal-ink);
+  margin-bottom: 24px;
+}
+
+.applicant-avatar {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-inline-end: 16px;
+  background: var(--notification-selected);
+  color: var(--animal-blue);
+  overflow: hidden;
+
+  ion-icon { font-size: 32px; }
+}
+
+.applicant-identity {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+
+  strong { display: block; font-size: 16px; }
+  p { margin-top: 4px; color: var(--animal-muted); font-size: 14px; }
+}
+
+.applicant-contacts { display: flex; gap: 8px; margin-inline-start: 8px; }
+
+.applicant-phone { margin: -8px 0 24px; color: var(--animal-text); text-align: right; }
+
+ion-button.contact-button {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  margin: 0;
+  --border-radius: 50%;
+  --padding-start: 0;
+  --padding-end: 0;
+  --background: var(--notification-selected);
+  --color: var(--animal-blue);
+
+  ion-icon { font-size: 20px; }
+  &::part(native):focus-visible { outline: 2px solid var(--animal-blue); outline-offset: -3px; }
+}
+
+.applicant-message {
+  margin: 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--animal-soft);
+  color: var(--animal-text);
+}
+
+.request-date { display: block; margin: 16px 0 24px; text-align: right; }

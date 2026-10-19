@@ -16,6 +16,8 @@ export interface AdoptionRequest {
   applicant_name: string;
   applicant_email: string;
   applicant_phone: string;
+  applicant_role?: string;
+  applicant_photo?: string | null;
   refuge: number;
   refuge_name: string;
   message: string;

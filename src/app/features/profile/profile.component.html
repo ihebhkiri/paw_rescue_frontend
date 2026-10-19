@@ -13,9 +13,12 @@
     }
     @if (user(); as currentUser) {
     <section class="identity" aria-label="Profil utilisateur">
-      <ion-avatar>@if (currentUser.photo) { <img [src]="currentUser.photo" alt="" /> } @else { <ion-icon [icon]="icons.personOutline" aria-hidden="true" /> }</ion-avatar>
+      <button class="avatar-button" type="button" aria-label="Modifier la photo de profil" (click)="photoEditor.open()">
+        <ion-avatar>@if (currentUser.photo) { <img [src]="currentUser.photo" alt="" /> } @else { <ion-icon [icon]="icons.personOutline" aria-hidden="true" /> }</ion-avatar>
+        <span class="camera-badge"><ion-icon [icon]="icons.cameraOutline" aria-hidden="true" /></span>
+      </button>
+      <app-profile-photo #photoEditor (updated)="photoUpdated($event)" />
       <div class="identity-text"><h1>{{ name() }}</h1><p>{{ role() }}</p></div>
-      <ion-button class="edit" fill="clear" aria-label="Modifier le profil" (click)="unavailable('Modifier le profil')"><ion-icon slot="icon-only" [icon]="icons.pencil" /></ion-button>
     </section>
     @if (currentUser.role === 'benevole' && available() !== undefined) {
     <section class="availability" aria-labelledby="availability-title" [attr.aria-busy]="saving()">
@@ -31,7 +34,9 @@
     }
     }
     <ion-list aria-label="Options du profil" lines="full">
-      @if (user()?.role === 'refuge') { <ion-item routerLink="/animals" [detail]="true" [detailIcon]="icons.chevronForwardOutline"><ion-icon slot="start" [icon]="icons.pawOutline" /><ion-label>Mes animaux</ion-label></ion-item> }
+      <ion-item routerLink="/signalements" [detail]="true"><ion-icon slot="start" [icon]="icons.pawOutline" /><ion-label>Signalements et missions</ion-label></ion-item>
+      <ion-item routerLink="/notifications" [detail]="true"><ion-icon slot="start" [icon]="icons.notificationsOutline" /><ion-label>Mes notifications</ion-label></ion-item>
+      @if (user()?.role === 'refuge') { <ion-item routerLink="/animals/manage" [detail]="true" [detailIcon]="icons.chevronForwardOutline"><ion-icon slot="start" [icon]="icons.pawOutline" /><ion-label>Mes animaux</ion-label></ion-item> }
       @if (user()?.role === 'benevole' || user()?.role === 'citoyen' || user()?.role === 'refuge' || user()?.role === 'admin') {
         <ion-item routerLink="/adoptions" [detail]="true" [detailIcon]="icons.chevronForwardOutline">
           <ion-icon slot="start" [icon]="icons.pawOutline" aria-hidden="true" /><ion-label>Demandes d’adoption</ion-label>

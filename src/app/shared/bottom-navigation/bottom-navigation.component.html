@@ -1,9 +1,9 @@
 <ion-footer>
-  <nav aria-label="Navigation principale">
-    <a routerLink="/home" [attr.aria-current]="active() === 'home' ? 'page' : null"><ion-icon [icon]="icons.homeOutline" aria-hidden="true" /><span>Accueil</span></a>
-    <a routerLink="/animals" [attr.aria-current]="active() === 'animals' ? 'page' : null"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><span>Animaux</span></a>
-    <a routerLink="/adoptions" [attr.aria-current]="active() === 'adoptions' ? 'page' : null"><ion-icon [icon]="icons.clipboardOutline" aria-hidden="true" /><span>Demandes</span></a>
-    <a routerLink="/notifications" [attr.aria-current]="active() === 'notifications' ? 'page' : null"><ion-icon [icon]="icons.notificationsOutline" aria-hidden="true" /><span>Notifications</span></a>
-    <a routerLink="/profile" [attr.aria-current]="active() === 'profile' ? 'page' : null"><ion-icon [icon]="icons.personOutline" aria-hidden="true" /><span>Profil</span></a>
-  </nav>
+  <ion-tab-bar aria-label="Navigation principale">
+    <ion-tab-button tab="home" routerLink="/home" [selected]="active() === 'home'"><ion-icon [icon]="icons.homeOutline" aria-hidden="true" /><ion-label>Accueil</ion-label></ion-tab-button>
+    <ion-tab-button tab="animals" routerLink="/animals" [selected]="active() === 'animals'"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><ion-label>Animaux</ion-label></ion-tab-button>
+    <ion-tab-button tab="missions" routerLink="/signalements" [selected]="active() === 'missions'"><ion-icon [icon]="icons.clipboardOutline" aria-hidden="true" /><ion-label>Missions</ion-label></ion-tab-button>
+    <ion-tab-button tab="messages" routerLink="/messages" [selected]="active() === 'messages'"><ion-icon [icon]="icons.chatbubblesOutline" aria-hidden="true" /><ion-label>Messages</ion-label>@if (chat.unread()) { <ion-badge color="danger" [attr.aria-label]="chat.unread() + ' messages non lus'">{{ chat.unread() }}</ion-badge> }</ion-tab-button>
+    <ion-tab-button tab="profile" routerLink="/profile" [selected]="active() === 'profile'"><ion-icon [icon]="icons.personOutline" aria-hidden="true" /><ion-label>Profil</ion-label></ion-tab-button>
+  </ion-tab-bar>
 </ion-footer>

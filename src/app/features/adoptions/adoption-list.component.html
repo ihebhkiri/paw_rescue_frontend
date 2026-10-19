@@ -23,7 +23,7 @@
             <ion-icon [icon]="icons.chevronForwardOutline" aria-hidden="true" />
           </a></li>
         } @empty {
-          <li class="empty" role="status"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><h3>Aucune demande {{ selected() === 'pending' ? 'en attente' : 'dans cet historique' }}</h3><p>{{ received() ? 'Les demandes pour vos animaux apparaîtront ici.' : 'Retrouvez ici les demandes envoyées aux refuges.' }}</p>@if (!received()) { <ion-button fill="clear" routerLink="/home">Voir les animaux</ion-button> }</li>
+          <li class="empty" role="status"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /><h3>Aucune demande {{ selected() === 'pending' ? 'en attente' : 'dans cet historique' }}</h3><p>{{ received() ? 'Les demandes pour vos animaux apparaîtront ici.' : 'Retrouvez ici les demandes envoyées aux refuges.' }}</p>@if (!received()) { <ion-button fill="clear" routerLink="/animals">Voir les animaux</ion-button> }</li>
         }
       </ul>
     }

@@ -1,0 +1,10 @@
+<ion-content><main>
+  <header><ion-back-button defaultHref="/home" text="" /><h1>Refuges{{ point() ? ' proches' : '' }}</h1></header>
+  <ion-button fill="outline" (click)="locate()" [disabled]="locating()">{{ locating() ? 'Localisation…' : 'Trier autour de moi' }}</ion-button>
+  @if (error()) { <p role="alert">{{ error() }}</p><ion-button (click)="load()">Réessayer</ion-button> }
+  @if (loading()) { <p role="status">Chargement des refuges…</p> }
+  @else { <div class="list">@for (shelter of items(); track shelter.id) { <article>
+    @if (shelter.logo) { <img [src]="shelter.logo" [alt]="shelter.name" loading="lazy" /> }
+    <div><h2>{{ shelter.name }}</h2><p>{{ shelter.address || shelter.governorate || 'Adresse non renseignée' }}</p>@if (shelter.distance_km !== null) { <p>{{ shelter.distance_km | number:'1.0-1' }} km à vol d’oiseau</p> }<p>{{ shelter.description }}</p><a [href]="map(shelter)" target="_blank" rel="noopener noreferrer">Voir sur la carte</a></div>
+  </article> } @empty { @if (!error()) { <p>Aucun refuge disponible.</p> } }</div> }
+</main></ion-content><app-bottom-navigation active="home" />

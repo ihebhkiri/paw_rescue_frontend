@@ -4,11 +4,13 @@ import { Router, RouterLink } from '@angular/router';
 import { finalize, Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonSelect, IonSelectOption, IonTitle, IonToast, IonToolbar } from '@ionic/angular';
-import { chevronBackOutline, chevronDownOutline, chevronForwardOutline, clipboardOutline, helpCircleOutline, logOutOutline, pawOutline, pencil, personOutline, settingsOutline } from 'ionicons/icons';
+import { chevronBackOutline, chevronDownOutline, chevronForwardOutline, helpCircleOutline, logOutOutline, pawOutline, pencil, personOutline, settingsOutline } from 'ionicons/icons';
 import { AuthService } from '../../auth/service/auth';
 
 import { CurrentUser } from '../../auth/models/current-user.model';
 import { BottomNavigationComponent } from '../../shared/bottom-navigation/bottom-navigation.component';
+import { ProfilePhotoComponent } from './profile-photo.component';
+import { cameraOutline, notificationsOutline } from 'ionicons/icons';
 
 const ROLE_LABELS: Record<CurrentUser['role'], string> = {
   citoyen: 'Citoyen', benevole: 'Bénévole', veterinaire: 'Vétérinaire', refuge: 'Refuge', admin: 'Administrateur',
@@ -18,7 +20,7 @@ const ROLE_LABELS: Record<CurrentUser['role'], string> = {
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
-  imports: [BottomNavigationComponent, RouterLink, IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonSelect, IonSelectOption, IonTitle, IonToast, IonToolbar],
+  imports: [ProfilePhotoComponent, BottomNavigationComponent, RouterLink, IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonSelect, IonSelectOption, IonTitle, IonToast, IonToolbar],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnDestroy {
@@ -38,10 +40,9 @@ export class ProfileComponent implements OnDestroy {
   readonly saving = signal(false);
   readonly error = signal('');
   readonly message = signal('');
-  readonly icons = { chevronBackOutline, chevronDownOutline, chevronForwardOutline, logOutOutline, pencil, personOutline, pawOutline };
+  readonly icons = { notificationsOutline, cameraOutline, chevronBackOutline, chevronDownOutline, chevronForwardOutline, logOutOutline, pencil, personOutline, pawOutline };
   readonly menu = [
     { label: 'Mes informations', icon: personOutline },
-    { label: 'Mes missions', icon: clipboardOutline },
     { label: 'Paramètres', icon: settingsOutline },
     { label: 'Aide', icon: helpCircleOutline },
   ];
@@ -78,6 +79,11 @@ export class ProfileComponent implements OnDestroy {
   }
 
   unavailable(label: string): void { this.message.set(`${label} : cette fonctionnalité n’est pas encore disponible.`); }
+
+  photoUpdated(photo: string): void {
+    this.user.update(user => user ? { ...user, photo } : null);
+    this.message.set('Photo de profil mise à jour !');
+  }
 
   logout(): void {
     this.ionViewWillLeave();

@@ -65,7 +65,7 @@ const server = http.createServer((request, response) => {
     for (const width of [360, 768, 1280]) {
       await page.setViewportSize({ width, height: 900 });
       for (const [route, selector, text, name] of [
-        ['/home', 'app-home .animal-card', 'Nala', 'home'],
+        ['/animals', 'app-home .animal-card', 'Nala', 'home'],
         ['/animals/21', 'app-animal-detail h1', 'Nala', 'animal'],
         ['/profile', 'app-profile h1', 'Nora Test', 'profile'],
         ['/notifications', 'app-notifications .notification-row', 'Message du refuge', 'notifications'],
@@ -102,7 +102,7 @@ const server = http.createServer((request, response) => {
     await page.locator('ion-toast').evaluate(element => element.dismiss());
     const readsBeforeReturn = profileReads;
     await page.locator('app-profile ion-back-button').click();
-    await page.waitForURL('**/home');
+    await page.waitForURL('**/animals');
     await page.locator('app-home .profile').click();
     await page.waitForURL('**/profile');
     await page.locator('app-profile h1').filter({ hasText: 'Nora Test' }).waitFor();
@@ -116,7 +116,7 @@ const server = http.createServer((request, response) => {
     console.log('PASS persisted notification read, no demo navigation');
     await open('/animals/999', 'app-animal-detail', 'Animal introuvable');
     failList = true;
-    await open('/home', 'app-home [role="alert"]', 'échoué');
+    await open('/animals', 'app-home [role="alert"]', 'échoué');
     failList = false;
     await page.getByRole('button', { name: 'Réessayer', exact: true }).click();
     await page.locator('.animal-card').filter({ hasText: 'Nala' }).waitFor();
@@ -125,7 +125,7 @@ const server = http.createServer((request, response) => {
     animal.sex = 'unknown';
     animal.name = 'Unnomparticulièrementlongsansespaces';
     animal.species_name = 'Espèce non renseignée';
-    for (const [route, selector] of [['/home', 'app-home'], ['/animals/21', 'app-animal-detail']]) {
+    for (const [route, selector] of [['/animals', 'app-home'], ['/animals/21', 'app-animal-detail']]) {
       await open(route, selector, animal.name);
       const dimensions = await page.locator(`${selector} ion-content`).evaluate(async element => {
         const area = await element.getScrollElement();

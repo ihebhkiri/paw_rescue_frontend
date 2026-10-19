@@ -1,24 +1,33 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnChanges, OnDestroy, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, input, OnChanges, OnDestroy, signal } from '@angular/core';
+import { DatePipe, registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
-import { IonBackButton, IonButton, IonContent, IonIcon, IonSkeletonText, IonToast, AlertController } from '@ionic/angular';
-import { pawOutline } from 'ionicons/icons';
+import { Router, RouterLink } from '@angular/router';
+import { IonAvatar, IonItem, IonLabel, IonBackButton, IonButton, IonContent, IonIcon, IonSkeletonText, IonToast, AlertController } from '@ionic/angular';
+import { call, chatbubblesOutline, person, pawOutline } from 'ionicons/icons';
+import { Messaging } from '../messages/messaging';
 import { finalize, Subscription } from 'rxjs';
 import { AuthService } from '../../auth/service/auth';
 import { Adoptions, AdoptionRequest, AdoptionAction, ADOPTION_LABELS } from './adoptions';
 import { BottomNavigationComponent } from '../../shared/bottom-navigation/bottom-navigation.component';
 
+registerLocaleData(localeFr);
+
 @Component({
   selector: 'app-adoption-detail',
   templateUrl: './adoption-detail.component.html',
-  styleUrl: './adoptions.scss',
-  imports: [DatePipe, RouterLink, IonBackButton, IonButton, IonContent, IonIcon, IonSkeletonText, IonToast, BottomNavigationComponent],
+  styleUrls: ['./adoptions.scss', './adoption-detail.component.scss'],
+  imports: [DatePipe, RouterLink, IonAvatar, IonItem, IonLabel, IonBackButton, IonButton, IonContent, IonIcon, IonSkeletonText, IonToast, BottomNavigationComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdoptionDetailComponent implements OnChanges, OnDestroy {
   readonly id = input.required<string>();
   private readonly api = inject(Adoptions);
+  private readonly chat = inject(Messaging);
+  private readonly router = inject(Router);
+  private conversationRequest?: Subscription;
+  readonly openingChat = signal(false);
+  readonly isApplicant = computed(() => this.item()?.applicant === this.chat.userId());
   private readonly auth = inject(AuthService);
   private readonly alerts = inject(AlertController);
   private request?: Subscription;
@@ -31,12 +40,14 @@ export class AdoptionDetailComponent implements OnChanges, OnDestroy {
   readonly confirming = signal(false);
   readonly error = signal('');
   readonly message = signal('');
+  readonly phoneVisible = signal(false);
   readonly labels = ADOPTION_LABELS;
-  readonly icons = { pawOutline };
+  readonly icons = { pawOutline, call, chatbubblesOutline, person };
 
   ionViewWillEnter(): void { this.active = true; this.load(); }
   ionViewWillLeave(): void {
     this.active = false;
+    this.conversationRequest?.unsubscribe();
     this.request?.unsubscribe(); this.mutation?.unsubscribe();
     void this.alert?.dismiss(); this.item.set(null); this.message.set('');
   }
@@ -44,6 +55,8 @@ export class AdoptionDetailComponent implements OnChanges, OnDestroy {
   ngOnDestroy(): void { this.ionViewWillLeave(); }
 
   load(): void {
+    this.conversationRequest?.unsubscribe();
+    this.phoneVisible.set(false);
     this.request?.unsubscribe();
     this.item.set(null); this.error.set('');
     if (!/^[1-9]\d*$/.test(this.id())) { this.loading.set(false); this.error.set('Demande introuvable.'); return; }
@@ -71,6 +84,16 @@ export class AdoptionDetailComponent implements OnChanges, OnDestroy {
       const result = await this.alert.onDidDismiss();
       if (result.role === 'confirm' && this.active && this.item()?.id === item.id) this.decide(item, action);
     } finally { this.confirming.set(false); }
+  }
+
+  openChat(): void {
+    const item = this.item();
+    if (!item || this.openingChat()) return;
+    this.openingChat.set(true);
+    this.conversationRequest = this.chat.openAdoption(item.id).pipe(finalize(() => this.openingChat.set(false))).subscribe({
+      next: conversation => { void this.router.navigate(['/messages', conversation.id]); },
+      error: error => this.message.set(this.auth.errorMessage(error)),
+    });
   }
 
   private decide(item: AdoptionRequest, action: AdoptionAction): void {

@@ -1,0 +1,31 @@
+<ion-modal [isOpen]="step() !== 'closed'" [canDismiss]="!saving() && !picking()" (didDismiss)="close()" aria-labelledby="photo-title">
+  <ng-template>
+    <section class="photo-sheet" [attr.aria-busy]="saving() || picking()">
+      <h2 id="photo-title">{{ step() === 'source' ? 'Modifier la photo de profil' : step() === 'preview' ? 'Prévisualiser la photo' : 'Valider la photo' }}</h2>
+      @if (step() === 'source') {
+        <button class="source" (click)="choose(sources.Camera)" [disabled]="picking()">
+          <ion-icon [icon]="icons.cameraOutline" aria-hidden="true" /><span>Prendre une photo<small>Avec la caméra</small></span>
+        </button>
+        <button class="source" (click)="choose(sources.Photos)" [disabled]="picking()">
+          <ion-icon [icon]="icons.imageOutline" aria-hidden="true" /><span>Choisir depuis la galerie<small>Depuis vos photos</small></span>
+        </button>
+      } @else {
+        <img class="preview" [src]="preview()" alt="Aperçu circulaire de votre nouvelle photo de profil" />
+        <p class="hint">L’image est centrée et recadrée en carré. La zone circulaire sera visible sur votre profil.</p>
+        @if (step() === 'preview') {
+          <ion-button expand="block" fill="outline" (click)="choose()" [disabled]="picking()">Reprendre</ion-button>
+          <ion-button expand="block" (click)="step.set('confirm')" [disabled]="picking()">Utiliser cette photo</ion-button>
+        } @else {
+          <ion-button expand="block" fill="outline" (click)="step.set('preview'); error.set('')" [disabled]="saving()">Retour</ion-button>
+          <ion-button expand="block" (click)="validate()" [disabled]="saving()">
+            @if (saving()) { <ion-spinner name="crescent" aria-hidden="true" /> }
+            {{ saving() ? 'Enregistrement…' : 'Valider' }}
+          </ion-button>
+        }
+      }
+      @if (picking()) { <p role="status"><ion-spinner name="crescent" aria-hidden="true" /> Préparation de la photo…</p> }
+      @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+      <ion-button class="cancel" fill="clear" expand="block" (click)="close()" [disabled]="saving() || picking()"><ion-icon slot="start" [icon]="icons.closeOutline" aria-hidden="true" />Annuler</ion-button>
+    </section>
+  </ng-template>
+</ion-modal>

@@ -1,27 +1,29 @@
 <ion-content>
-  <main class="report-page">
-    <header class="page-header">
-      <ion-back-button defaultHref="/notifications" text="" [icon]="icons.chevronBackOutline" aria-label="Retour aux notifications" />
-      <h1>Détail du signalement</h1>
-    </header>
+  <main class="rescue-page">
+    <header><ion-back-button defaultHref="/signalements" text="" aria-label="Retour aux missions" /><h1>Détail du signalement</h1></header>
+    @if (loading()) { <p role="status">Chargement…</p> }
+    @if (error()) { <div role="alert" class="error">{{ error() }} <ion-button fill="clear" (click)="load()" [disabled]="saving()">Actualiser</ion-button></div> }
     @if (report(); as detail) {
-      <div class="report-photo">
-        <img [src]="detail.image" alt="Chat gris tigré en extérieur" />
-        @if (detail.urgency === 'URGENT') { <span class="urgency">Urgent</span> }
-      </div>
-      <section class="report-copy" aria-labelledby="report-title">
-        <h2 id="report-title">{{ detail.title }}</h2>
-        <div class="location"><ion-icon [icon]="icons.location" aria-hidden="true" /><div><p>{{ detail.address }}</p><p class="distance">{{ detail.distance }}</p></div></div>
-        <p class="description">{{ detail.description }}</p>
-      </section>
-      <div class="map-preview" role="img" [attr.aria-label]="'Carte indicative, non interactive : ' + detail.address">
-        <span class="map-streets" aria-hidden="true"></span>
-        <ion-icon [icon]="icons.location" aria-hidden="true" />
-      </div>
-      <ion-button class="participate" expand="block" (click)="participate()">Participer à la mission</ion-button>
-    } @else {
-      <section class="not-found" role="status"><h2>Signalement introuvable</h2><p>Ce signalement n’est pas disponible.</p><ion-button routerLink="/notifications">Retour aux notifications</ion-button></section>
+      @if (detail.photos[0]; as photo) { <img class="animal-photo" [src]="photo.image" [alt]="detail.species_name + ' signalé'" /> }
+      <div class="badges">@if (detail.severity === 'critical') { <span class="badge urgent">Urgent</span> }<span class="badge">{{ statusLabel(detail.status) }}</span></div>
+      <h2>{{ detail.species_name }} {{ detail.type === 'injured' ? 'blessé' : 'errant' }}</h2>
+      <p>{{ detail.address_text || 'Position GPS du signalement' }}<br><small>{{ detail.latitude }}, {{ detail.longitude }}</small></p>
+      @if (detail.distance_km !== null) { <p class="muted">À {{ detail.distance_km }} km à vol d’oiseau</p> }
+      <p class="description">{{ detail.description }}</p>
+      @if (map(); as url) { <iframe class="map" title="Carte de localisation du signalement" [src]="url" loading="lazy" referrerpolicy="no-referrer"></iframe> }
+      @if (canRespond()) {
+        <div class="actions"><ion-button fill="outline" (click)="respond('refused')" [disabled]="saving()">Refuser</ion-button><ion-button (click)="confirming.set(true)" [disabled]="saving()">{{ saving() ? 'Enregistrement…' : 'Accepter la mission' }}</ion-button></div>
+      } @else if (canComplete()) {
+        <p role="status" class="success">Cette mission vous est attribuée.</p>
+        <ion-button expand="block" [href]="itinerary()" target="_blank" rel="noopener noreferrer">Démarrer l’itinéraire</ion-button>
+        <ion-button expand="block" (click)="confirmingCompletion.set(true)" [disabled]="saving() || confirmingCompletion()">{{ saving() ? 'Enregistrement…' : 'Terminer la mission' }}</ion-button>
+      } @else if (detail.mission?.status === 'completed') {
+        <p role="status" class="success">Mission terminée — animal secouru.</p>
+        @if (detail.mission.completed_at; as completedAt) { <p>Terminée le {{ completedAt | date:'dd/MM/yyyy à HH:mm' }}</p> }
+      } @else if (detail.mission?.status === 'accepted') { <p role="status">Cette mission a déjà été acceptée par un bénévole.</p> }
     }
+    <a routerLink="/signalements">Voir les signalements et missions</a>
   </main>
 </ion-content>
-<ion-toast [isOpen]="!!message()" [message]="message()" [duration]="4500" position="top" (didDismiss)="message.set('')" />
+<ion-alert [isOpen]="confirming()" header="Accepter cette mission ?" message="Vous vous engagez à prendre en charge ce signalement." [buttons]="acceptButtons" (didDismiss)="confirming.set(false)" />
+<ion-alert [isOpen]="confirmingCompletion()" header="Terminer cette mission ?" message="Confirmez que l’intervention a réussi et que l’animal est en sécurité. Le signalement sera marqué Secouru. Si l’animal est introuvable ou l’intervention impossible, gardez la mission active." [buttons]="completeButtons" (didDismiss)="confirmingCompletion.set(false)" />

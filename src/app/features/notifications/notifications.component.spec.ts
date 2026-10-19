@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
+import { vi } from 'vitest';
 import { NotificationsComponent, NotificationResponse } from './notifications.component';
 import { environment } from '../../../environments/environment';
 
@@ -29,7 +30,7 @@ describe('Dynamic notifications', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.textContent).toContain('Un message réel');
     expect(fixture.nativeElement.textContent).toContain('2026');
-    expect(fixture.nativeElement.querySelector('[href*="signalements"]')).toBeNull();
+    expect(fixture.nativeElement.querySelector('main [href*="signalements"]')).toBeNull();
     page.selectedFilter.set('MESSAGE');
     expect(page.visibleItems().map(value => value.id)).toEqual([12]);
     page.selectedFilter.set('SYSTEM');
@@ -65,6 +66,15 @@ describe('Dynamic notifications', () => {
     http.expectOne(`${url}12/read/`).flush({ ...item, is_read: true });
   });
 
+  it('opens the exact message conversation after marking its notification read', () => {
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    const page = open().componentInstance;
+    const notification = { ...item, data: { conversation_id: 15 } };
+    http.expectOne(url).flush([notification]); page.markRead(page.items()[0]);
+    http.expectOne(`${url}12/read/`).flush({ ...notification, is_read: true });
+    expect(navigate).toHaveBeenCalledWith(['/messages', 15]);
+  });
+
   it('distinguishes empty and error states, and reloads on reentry', () => {
     const fixture = open();
     const page = fixture.componentInstance;
@@ -82,5 +92,14 @@ describe('Dynamic notifications', () => {
     const pending = http.expectOne(url);
     fixture.destroy();
     expect(pending.cancelled).toBe(true);
+  });
+
+  it('opens the actual report from a rescue notification', () => {
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    const page = open().componentInstance;
+    const notification = { ...item, type: 'new_report', data: { report_id: 42 } };
+    http.expectOne(url).flush([notification]); page.markRead(page.items()[0]);
+    http.expectOne(`${url}12/read/`).flush({ ...notification, is_read: true });
+    expect(navigate).toHaveBeenCalledWith(['/signalements', 42]);
   });
 });

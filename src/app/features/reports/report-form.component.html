@@ -1,0 +1,26 @@
+<ion-content><main class="rescue-page">
+  <header><ion-back-button defaultHref="/signalements" text="" aria-label="Retour" /><h1>Nouveau signalement</h1></header>
+  @if (error()) { <p role="alert" class="error">{{ error() }}</p> }
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    @if (preview()) { <img class="animal-photo" [src]="preview()" alt="Photo sélectionnée de l’animal" /> }
+    @if (native) {
+      <div class="actions"><ion-button type="button" fill="outline" (click)="choose(sources.Camera)" [disabled]="picking() || saving()">Caméra</ion-button><ion-button type="button" fill="outline" (click)="choose(sources.Photos)" [disabled]="picking() || saving()">Galerie</ion-button></div>
+    } @else { <label>Photo de l’animal<input type="file" accept="image/jpeg,image/png,image/webp" (change)="selectFile($event)" [disabled]="saving()" /></label> }
+    @if (submitted() && !preview()) { <p role="alert" class="error">Ajoutez une photo de l’animal.</p> }
+    <label>Type d’animal<select formControlName="species" required><option [ngValue]="null">Choisir une espèce</option>@for (item of species(); track item.id) { <option [ngValue]="item.id">{{ item.name }}</option> }</select></label>
+    @if (!species().length) { <p>Aucune espèce chargée.</p><ion-button type="button" fill="clear" (click)="loadSpecies()">Recharger les espèces</ion-button> }
+    <label>Situation<select formControlName="type"><option value="injured">Animal blessé</option><option value="stray">Animal errant</option></select></label>
+    @if (form.controls.type.value === 'injured') { <label>Gravité<select formControlName="severity"><option value="mild">Légère</option><option value="moderate">Modérée</option><option value="critical">Critique — urgent</option></select></label> }
+    <label>Description<textarea formControlName="description" required maxlength="5000" placeholder="Décrivez l’animal, son état et les repères utiles."></textarea></label>
+    @if (submitted() && form.invalid) { <p role="alert" class="error">Choisissez une espèce et renseignez une description.</p> }
+    <label>Repère ou adresse (facultatif)<input formControlName="address_text" maxlength="255" /></label>
+    <section class="location-box" aria-label="Position GPS">
+      @if (position(); as point) { <p>Position détectée : {{ point.latitude }}, {{ point.longitude }}</p> }
+      @if (locating()) { <p role="status">Recherche de votre position…</p> }
+      @if (gpsError()) { <p role="alert">{{ gpsError() }}</p> }
+      @if (submitted() && !position()) { <p role="alert">Une position GPS est nécessaire pour envoyer le signalement.</p> }
+      <ion-button type="button" fill="outline" (click)="locate()" [disabled]="locating() || saving()">Actualiser ma position</ion-button>
+    </section>
+    <ion-button type="submit" expand="block" [disabled]="saving() || picking()">{{ saving() ? 'Envoi…' : 'Signaler' }}</ion-button>
+  </form>
+</main></ion-content>

@@ -1,0 +1,36 @@
+<ion-content>
+  <main class="missions-page">
+    <header class="mission-hero"><div class="hero-art" aria-hidden="true"></div><div class="hero-copy"><h1>Missions</h1><p>Participez aux missions et aidez<br class="wide-break" /> les animaux en besoin.</p></div></header>
+    @if (user()?.role === 'benevole') {
+      <div class="segments" role="group" aria-label="État des missions">@for (segment of segments; track segment.id) {
+        <button type="button" [class.active]="selected() === segment.id" [attr.aria-pressed]="selected() === segment.id" (click)="selected.set(segment.id)"><ion-icon [icon]="segment.icon" aria-hidden="true" /><span>{{ segment.label }}</span></button>
+      }</div>
+      <label class="search"><ion-icon [icon]="icons.searchOutline" aria-hidden="true" /><input #searchInput type="search" aria-label="Rechercher une mission" placeholder="Rechercher une mission..." [value]="query()" (input)="query.set(searchInput.value)" /></label>
+    }
+    @if (loading()) { <p class="state" role="status">Chargement des missions…</p> }
+    @else if (error()) { <div class="state error" role="alert"><p>{{ error() }}</p><ion-button (click)="load()">Réessayer</ion-button></div> }
+    @else if (user()?.role === 'benevole') {
+      <div class="missions-list">@for (item of visible(); track item.id) {
+        <article class="mission-card">
+          @if (item.photos[0]; as photo) { <img class="animal-photo" [src]="photo.image" [alt]="item.species_name" [attr.loading]="$index < 3 ? 'eager' : 'lazy'" /> }
+          @else { <div class="animal-photo placeholder" role="img" aria-label="Photo non disponible"><ion-icon [icon]="icons.pawOutline" /></div> }
+          <div class="mission-info"><span class="badge" [class]="'badge ' + item.tone">{{ item.badge }}</span><h2>{{ item.title }}</h2><p class="location"><ion-icon [icon]="icons.locationOutline" aria-hidden="true" /><span>{{ item.address_text || 'Lieu non renseigné' }}@if (item.distance) { · {{ item.distance }} }</span></p><p class="date" [attr.aria-label]="(selected() === 'completed' ? 'Terminée le ' : 'Créée le ') + item.date"><ion-icon [icon]="icons.calendarOutline" aria-hidden="true" />{{ item.date }}</p></div>
+          <ion-icon class="chevron" [icon]="icons.chevronForwardOutline" aria-hidden="true" />
+          <a class="view-mission" [routerLink]="['/signalements', item.id]" [attr.aria-label]="'Voir la mission : ' + item.title">Voir la mission</a>
+        </article>
+      } @empty { <p class="state" role="status">{{ query().trim() ? 'Aucune mission ne correspond à votre recherche.' : selected() === 'mine' ? 'Vous n’avez pas de mission en cours.' : selected() === 'completed' ? 'Vous n’avez pas encore de mission terminée.' : 'Aucune mission disponible pour le moment.' }}</p> }</div>
+    }
+    @if (!loading() && !error() && (personal().length || user()?.role !== 'benevole')) {
+      <section class="personal"><h2>{{ user()?.role === 'refuge' ? 'Signalements de votre refuge' : 'Mes signalements' }}</h2>
+        @for (item of personal(); track item.id) { <a [routerLink]="['/signalements', item.id]"><span>{{ item.species_name }} {{ item.type === 'injured' ? 'blessé' : 'errant' }}<small>{{ statusLabel(item.status) }}</small></span><ion-icon [icon]="icons.chevronForwardOutline" /></a> }
+        @empty { <p role="status">Aucun signalement pour le moment.</p> }
+      </section>
+    }
+    <details class="tools"><summary>Actions et préférences</summary><div class="tool-actions"><ion-button fill="outline" routerLink="/signalements/nouveau">Signaler un animal</ion-button><ion-button fill="clear" (click)="load()" [disabled]="loading()">Actualiser la liste</ion-button>
+      @if (user()?.role === 'benevole') { <ion-button fill="clear" (click)="locate()" [disabled]="locating() || loading()">{{ locating() ? 'Localisation…' : 'Mettre à jour ma position' }}</ion-button><a routerLink="/profile">Ma disponibilité</a>@if (push.native) { <ion-button fill="clear" (click)="push.enable()" [disabled]="push.busy()">Activer les notifications push</ion-button> } }
+    </div></details>
+    @if (message()) { <p class="success" role="status">{{ message() }}</p> }
+    @if (push.message()) { <p role="status">{{ push.message() }}</p> }
+  </main>
+</ion-content>
+<app-bottom-navigation active="missions" />

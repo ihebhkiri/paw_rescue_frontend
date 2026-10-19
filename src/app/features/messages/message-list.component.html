@@ -1,0 +1,23 @@
+<ion-content>
+  <main class="messages-page">
+    <h1>Messages</h1>
+    <ion-searchbar placeholder="Rechercher une conversation..." aria-label="Rechercher une conversation" [value]="query()" (ionInput)="query.set($event.detail.value || '')" />
+    @if (chat.connection() !== 'connected') { <p class="muted" role="status">{{ chat.connection() === 'connecting' ? 'Connexion au temps réel…' : 'Temps réel indisponible. Reconnexion en cours…' }}</p> }
+    @if (chat.error()) { <p role="alert">{{ chat.error() }}</p><ion-button fill="clear" (click)="chat.refresh()">Réessayer</ion-button> }
+    @if (chat.loading() && !chat.items().length) { <ion-spinner aria-label="Chargement des conversations" /> }
+    <ion-list lines="full">
+      @for (item of visible(); track item.id) {
+        <ion-item [routerLink]="['/messages', item.id]" [detail]="true">
+          <ion-avatar slot="start">@if (item.photo) { <img [src]="item.photo" alt="" /> } @else { <ion-icon [icon]="icon" aria-hidden="true" /> }</ion-avatar>
+          <ion-label><h2>{{ chat.name(item) }}</h2>
+            @if (item.adoption; as adoption) { <p>{{ adoption.animal_name }} · {{ labels[adoption.status] }}</p> }
+            <p>{{ item.last_message?.body || (item.status === 'pending' ? 'Demande de conversation en attente' : 'Aucun message') }}</p>
+            <time [attr.datetime]="item.last_message?.created_at || item.updated_at">{{ (item.last_message?.created_at || item.updated_at) | date:'dd/MM à HH:mm' }}</time>
+          </ion-label>
+          @if (item.unread_count) { <ion-badge slot="end" color="danger" [attr.aria-label]="item.unread_count + ' messages non lus'">{{ item.unread_count }}</ion-badge> }
+        </ion-item>
+      } @empty { @if (!chat.loading() && !chat.error()) { <p class="empty">{{ query() ? 'Aucune conversation trouvée.' : 'Vous n’avez pas encore de conversation.' }}</p> } }
+    </ion-list>
+  </main>
+</ion-content>
+<app-bottom-navigation active="messages" />

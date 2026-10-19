@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RescuePush } from './features/reports/rescue-push';
 import { IonApp, IonRouterOutlet } from '@ionic/angular';
 
 @Component({
@@ -7,5 +8,5 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor() {}
+  private readonly rescuePush = inject(RescuePush);
 }

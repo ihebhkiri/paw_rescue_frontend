@@ -27,6 +27,12 @@ export class AuthService {
 
   currentUser() { return this.http.get<CurrentUser>(`${environment.authApiUrl}/me/`); }
 
+  uploadPhoto(file: File) {
+    const data = new FormData();
+    data.append('photo', file);
+    return this.http.patch<CurrentUser>(`${environment.authApiUrl}/me/`, data);
+  }
+
   logout(): void {
     this.session.set(null);
     localStorage.removeItem('access_token');
