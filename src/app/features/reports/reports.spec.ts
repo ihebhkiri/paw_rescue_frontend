@@ -94,6 +94,25 @@ describe('Rescue workflow', () => {
     expect(fixture.nativeElement.textContent).not.toContain('Aucune mission disponible');
   });
 
+  it('filters refuge reports and sorts unknown dates last without changing the source', () => {
+    const page = TestBed.createComponent(ReportListComponent).componentInstance;
+    page.items.set([
+      { ...report, id: 1, status: 'rescued', created_at: '2026-10-12T10:00:00Z' },
+      { ...report, id: 2, status: 'pending', created_at: '2026-10-11T10:00:00Z' },
+      { ...report, id: 3, status: 'rescued', created_at: 'invalid' },
+    ]);
+    expect(page.refugeFilters().map(item => item.count)).toEqual([3, 2, 1]);
+    expect(page.refugeCards().map(item => item.id)).toEqual([1, 2, 3]);
+    page.oldestFirst.set(true);
+    expect(page.refugeCards().map(item => item.id)).toEqual([2, 1, 3]);
+    page.refugeFilter.set('rescued');
+    expect(page.refugeCards().map(item => item.id)).toEqual([1, 3]);
+    expect(page.refugeCards()[1].date).toBe('Date non renseignée');
+    page.refugeFilter.set('pending');
+    expect(page.refugeCards().map(item => item.id)).toEqual([2]);
+    expect(page.items().map(item => item.id)).toEqual([1, 2, 3]);
+  });
+
   it('uses exact coordinates for Maps and validates push identifiers', () => {
     expect(mapsUrl({ latitude: 0, longitude: -179 })).toContain('destination=0,-179');
     expect(reportIdFromPush({ report_id: '42' })).toBe(42);

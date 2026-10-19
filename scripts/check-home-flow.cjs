@@ -49,13 +49,19 @@ citizen.save()
 owner = User.objects.create_user(username='shelter', email='shelter@rescue.test', password='RescueTest123!', role='refuge')
 refuge = Refuge.objects.create(user=owner, name='Refuge Les Pattes Heureuses', is_verified=True, governorate='Ariana', address='Ariana, Tunisie', latitude=36.82, longitude=10.18)
 for index, name in enumerate(['Luna', 'Rocky', 'Mimi', 'Max']):
-    animal = Animal.objects.create(name=name, species=species, refuge=refuge, estimated_age_months=24, sex='F', is_adoptable=True, breed='Croisée', size='small', behavior='Calme et sociable')
+    animal = Animal.objects.create(name=name, species=species, refuge=refuge, estimated_age_months=24, sex='F', status='in_shelter', is_adoptable=True, breed='Croisée', size='small', behavior='Calme et sociable')
     with open(os.path.join(sys.argv[4], name.lower() + '.webp'), 'rb') as photo:
         AnimalPhoto.objects.create(animal=animal, image=File(photo, name=name.lower()+'.webp'), is_primary=True)
 for index, name in enumerate(['luna', 'rocky', 'mimi']):
-    report = Report.objects.create(reporter=citizen, species=species, type='injured' if index == 0 else 'stray', severity='critical' if index == 0 else 'mild', description='Animal près du parc', latitude=36.81, longitude=10.18, address_text=['Ariana', 'La Marsa', 'Tunis Centre'][index])
+    report = Report.objects.create(reporter=citizen, species=species, type='injured' if index == 0 else 'stray', severity='critical' if index == 0 else 'mild', description='Animal près du parc', latitude=36.81, longitude=10.18, address_text=['Ariana', 'La Marsa', 'Tunis Centre'][index], assigned_refuge=refuge)
     with open(os.path.join(sys.argv[4], name + '.webp'), 'rb') as photo:
         ReportPhoto.objects.create(report=report, image=File(photo, name=name+'.webp'))
+from adoptions.models import AdoptionRequest
+for animal in Animal.objects.filter(refuge=refuge)[:2]:
+    AdoptionRequest.objects.create(animal=animal, applicant=citizen, refuge=refuge, message='Accueil adapté')
+foreign_owner = User.objects.create_user(username='foreign', role='refuge')
+foreign_refuge = Refuge.objects.create(user=foreign_owner, name='Autre refuge', is_verified=True)
+Animal.objects.create(name='Animal étranger', species=species, refuge=foreign_refuge, status='in_shelter')
 call_command('runserver', '127.0.0.1:' + sys.argv[3], use_reloader=False, verbosity=0)
 `);
   const python = process.env.ADOPTION_PYTHON || path.join(backend, '.venv/Scripts/python.exe');
@@ -149,6 +155,28 @@ call_command('runserver', '127.0.0.1:' + sys.argv[3], use_reloader=False, verbos
     await citizen.goto(base + '/refuges?latitude=36.8123&longitude=10.1923');
     await citizen.getByRole('heading', { name: 'Refuge Les Pattes Heureuses' }).waitFor();
     const owner = await login('shelter@rescue.test');
+    await owner.goto(base + '/home');
+    await owner.locator('app-refuge-home .animal').first().waitFor();
+    assert.deepEqual(await owner.locator('.stat strong').allTextContents(), ['3', '4', '2', '0']);
+    assert.ok(!(await owner.locator('app-refuge-home').innerText()).includes('Animal étranger'));
+    await owner.waitForFunction(() => [...document.querySelectorAll('app-refuge-home img')].every(img => img.complete && img.naturalWidth));
+    for (const width of [360, 768, 940]) {
+      await owner.setViewportSize({ width, height: 1672 });
+      assert.ok(await owner.locator('app-refuge-home ion-content').evaluate(async el => { const scroll = await el.getScrollElement(); return scroll.scrollWidth <= scroll.clientWidth; }));
+      await owner.screenshot({ path: path.join(output, 'refuge-home-' + width + '.png') });
+    }
+    for (const [selector, route] of [['.actions a:nth-child(1)', '/animals/add'], ['.actions a:nth-child(2)', '/signalements'], ['.actions a:nth-child(3)', '/adoptions'], ['.bell', '/notifications'], ['.location', '/profile']]) {
+      await owner.locator('app-refuge-home ' + selector).click();
+      await owner.waitForURL(base + route);
+      await owner.goto(base + '/home');
+      await owner.locator('app-refuge-home .animal').first().waitFor();
+    }
+    for (const selector of ['.report', '.compact', '.animal .card']) {
+      await owner.locator('app-refuge-home ' + selector).first().click();
+      await owner.waitForURL(/\/(signalements|adoptions|animals)\/\d+$/);
+      await owner.goto(base + '/home');
+      await owner.locator('app-refuge-home .animal').first().waitFor();
+    }
     await owner.goto(base + '/animals/new');
     await owner.waitForURL(base + '/animals/add');
     await owner.getByRole('heading', { name: 'Ajouter un animal' }).waitFor();

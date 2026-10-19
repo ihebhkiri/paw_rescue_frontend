@@ -1,3 +1,4 @@
+import { RefugeHomeComponent } from './refuge-home.component';
 import { ChangeDetectionStrategy, Component, computed, inject, OnDestroy, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -16,7 +17,7 @@ import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-landing-home', templateUrl: './home.component.html', styleUrl: './home.component.scss',
-  imports: [RouterLink, DatePipe, DecimalPipe, IonContent, IonIcon, BottomNavigationComponent],
+  imports: [RefugeHomeComponent, RouterLink, DatePipe, DecimalPipe, IonContent, IonIcon, BottomNavigationComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnDestroy {
@@ -43,14 +44,16 @@ export class HomeComponent implements OnDestroy {
   readonly statusLabel = statusLabel;
   readonly shelterMap = shelterMap;
   ionViewWillEnter(): void { this.load(); }
-  ionViewWillLeave(): void { this.generation++; this.requests.unsubscribe(); this.shelterRequest?.unsubscribe(); this.locating.set(false); }
+  ionViewWillLeave(): void { this.generation++; this.requests.unsubscribe(); this.shelterRequest?.unsubscribe(); this.locating.set(false); this.user.set(null); }
   ngOnDestroy(): void { this.ionViewWillLeave(); }
   load(): void {
     this.ionViewWillLeave(); this.requests = new Subscription();
     this.user.set(null); this.recent.set([]); this.adoptable.set([]); this.unread.set(false);
     this.errors.set({ user: '', reports: '', animals: '', shelters: '', notifications: '' });
     this.loading.set({ reports: true, animals: true, shelters: true });
-    this.requests.add(this.auth.currentUser().subscribe({ next: user => this.user.set(user), error: (e: unknown) => this.fail('user', e) }));
+    this.requests.add(this.auth.currentUser().subscribe({ next: user => { this.user.set(user); if (user.role !== 'refuge') this.loadPublic(); }, error: (e: unknown) => this.fail('user', e) }));
+  }
+  private loadPublic(): void {
     this.requests.add(this.reports.list().pipe(finalize(() => this.done('reports'))).subscribe({
       next: items => this.recent.set([...items].sort((a, b) => (b.created_at ?? '').localeCompare(a.created_at ?? '')).slice(0, 3)), error: (e: unknown) => this.fail('reports', e),
     }));

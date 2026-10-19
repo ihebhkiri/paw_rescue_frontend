@@ -1,4 +1,4 @@
-import { clipboardOutline, personOutline, checkmarkOutline, searchOutline, locationOutline, calendarOutline, chevronForwardOutline, pawOutline } from 'ionicons/icons';
+import { clipboardOutline, personOutline, checkmarkOutline, searchOutline, locationOutline, calendarOutline, chevronForwardOutline, pawOutline, addOutline, heart, heartOutline, timeOutline, listOutline, optionsOutline, warningOutline, leafOutline } from 'ionicons/icons';
 import { BottomNavigationComponent } from '../../shared/bottom-navigation/bottom-navigation.component';
 import { ChangeDetectionStrategy, Component, computed, inject, signal, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -28,7 +28,7 @@ export class ReportListComponent implements OnDestroy {
   readonly statusLabel = statusLabel;
   readonly selected = signal<'available' | 'mine' | 'completed'>('available');
   readonly query = signal('');
-  readonly icons = { clipboardOutline, personOutline, checkmarkOutline, searchOutline, locationOutline, calendarOutline, chevronForwardOutline, pawOutline };
+  readonly icons = { clipboardOutline, personOutline, checkmarkOutline, searchOutline, locationOutline, calendarOutline, chevronForwardOutline, pawOutline, addOutline, heart, heartOutline, timeOutline, listOutline, optionsOutline, warningOutline, leafOutline };
   readonly segments = [{ id: 'available', label: 'Disponibles', icon: clipboardOutline }, { id: 'mine', label: 'Mes missions', icon: personOutline }, { id: 'completed', label: 'Terminées', icon: checkmarkOutline }] as const;
   readonly cards = computed(() => this.items().map(item => ({
     ...item,
@@ -48,6 +48,26 @@ export class ReportListComponent implements OnDestroy {
     });
   });
   readonly personal = computed(() => this.items().filter(item => this.user()?.role !== 'benevole' || item.reporter === this.user()?.id));
+  readonly refugeFilter = signal<'all' | 'rescued' | 'pending'>('all');
+  readonly oldestFirst = signal(false);
+  readonly refugeFilters = computed(() => [
+    { id: 'all' as const, label: 'Tous', count: this.items().length },
+    { id: 'rescued' as const, label: 'Secouru', count: this.items().filter(item => item.status === 'rescued').length },
+    { id: 'pending' as const, label: 'En attente', count: this.items().filter(item => item.status === 'pending').length },
+  ]);
+  readonly refugeCards = computed(() => this.items()
+    .filter(item => this.refugeFilter() === 'all' || item.status === this.refugeFilter())
+    .map(item => {
+      const timestamp = Date.parse(item.created_at ?? '');
+      const species = ({ cat: 'Chat', dog: 'Chien' } as Record<string, string>)[item.species_name.toLowerCase()] ?? item.species_name;
+      return { ...item, species, title: species + (item.type === 'injured' ? ' blessé' : ' errant'), timestamp,
+        date: Number.isFinite(timestamp) ? new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(timestamp) : 'Date non renseignée' };
+    })
+    .sort((a, b) => {
+      if (!Number.isFinite(a.timestamp)) return Number.isFinite(b.timestamp) ? 1 : b.id - a.id;
+      if (!Number.isFinite(b.timestamp)) return -1;
+      return (this.oldestFirst() ? a.timestamp - b.timestamp : b.timestamp - a.timestamp) || b.id - a.id;
+    }));
   private dateLabel(value?: string | null): string {
     if (!value) return 'Date non renseignée';
     const date = new Date(value);

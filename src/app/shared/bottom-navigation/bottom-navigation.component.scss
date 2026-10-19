@@ -5,3 +5,12 @@ ion-tab-button { --color: var(--animal-text); --color-selected: var(--animal-blu
 ion-icon { font-size: 28px; }
 ion-label { margin-top: 7px; }
 ion-tab-button::part(native):focus-visible { outline: 3px solid var(--animal-blue); outline-offset: -3px; }
+:host(.refuge-navigation) ion-tab-bar { max-width: 1230px; height: 108px; padding: 10px 24px; }
+:host(.refuge-navigation) ion-tab-button { max-width: none; border-radius: 36px; font-size: 16px; }
+:host(.refuge-navigation) ion-tab-button.tab-selected { background: #e7f1ff; }
+:host(.refuge-navigation) ion-icon { font-size: 34px; }
+@media (max-width: 599px) { :host(.refuge-navigation) ion-tab-bar { height: 76px; padding: 6px; }:host(.refuge-navigation) ion-tab-button { font-size: 11px; border-radius: 22px; }:host(.refuge-navigation) ion-icon { font-size: 25px; } }
+:host(.refuge-home-navigation) ion-tab-bar { max-width: 960px; height: 112px; padding: 10px 0; }
+:host(.refuge-home-navigation) ion-tab-button { max-width: none; font-size: 17px; }
+:host(.refuge-home-navigation) ion-icon { font-size: 36px; }
+@media(max-width: 599px) { :host(.refuge-home-navigation) ion-tab-bar { height: 76px; }:host(.refuge-home-navigation) ion-tab-button { font-size: 11px; }:host(.refuge-home-navigation) ion-icon { font-size: 26px; } }

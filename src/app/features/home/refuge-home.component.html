@@ -1,0 +1,37 @@
+<ion-content>
+  <main>
+    <header class="hero">
+      <div class="art" aria-hidden="true"></div><ion-icon class="decor-paw" [icon]="icons.paw" aria-hidden="true" /><ion-icon class="decor-heart" [icon]="icons.heartOutline" aria-hidden="true" />
+      <div class="topbar"><a class="location" routerLink="/profile" aria-label="Voir la localisation du refuge"><ion-icon [icon]="icons.location" aria-hidden="true" />{{ user().profile?.governorate || user().profile?.address || 'Localisation à renseigner' }}<ion-icon [icon]="icons.chevronDownOutline" aria-hidden="true" /></a><a class="bell" routerLink="/notifications" [attr.aria-label]="unread() ? 'Notifications non lues' : 'Notifications'"><ion-icon [icon]="icons.notificationsOutline" aria-hidden="true" />@if (unread()) { <span class="unread"></span> }</a></div>
+      <div class="welcome"><h1>Bonjour {{ user().profile?.name || 'votre refuge' }} 👋</h1><p>Gérez les signalements, les animaux accueillis<br />et les demandes d’adoption.</p></div>
+    </header>
+    @if (errors().notifications) { <p class="error" role="alert">{{ errors().notifications }} <button (click)="load()">Réessayer</button></p> }
+    <div class="stats" aria-label="Statistiques du refuge">@for (stat of stats(); track stat.label) { <div [class]="'stat ' + stat.tone"><ion-icon [icon]="stat.icon" aria-hidden="true" /><div><strong>{{ stat.count ?? '—' }}</strong><span>{{ stat.label }}</span></div></div> }</div>
+    <section class="quick"><h2>Actions rapides</h2><p>Accédez rapidement aux tâches principales de votre refuge.</p><div class="actions"><a routerLink="/animals/add"><ion-icon [icon]="icons.addOutline" aria-hidden="true" />Ajouter un animal</a><a routerLink="/signalements"><ion-icon [icon]="icons.clipboardOutline" aria-hidden="true" />Voir les signalements</a><a routerLink="/adoptions"><ion-icon [icon]="icons.heart" aria-hidden="true" />Demandes d’adoption</a></div></section>
+    <section aria-labelledby="priority-title"><div class="heading"><h2 id="priority-title">Signalements prioritaires</h2><a routerLink="/signalements">Voir tout <ion-icon [icon]="icons.chevronForwardOutline" aria-hidden="true" /></a></div>
+      @if (errors().reports) { <p class="error" role="alert">{{ errors().reports }} <button (click)="load()">Réessayer</button></p> }
+      @else if (reportsData() === null) { <p role="status">Chargement des signalements…</p> }
+      @else { <div class="reports">@for (report of priority(); track report.id) { <a class="card report" [routerLink]="['/signalements', report.id]">
+        @if (report.photos[0]) { <img [src]="report.photos[0].image" [alt]="report.species_name" /> } @else { <div class="photo placeholder" aria-label="Photo non disponible"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /></div> }
+        <div class="info"><h3>{{ report.species_name }} {{ report.type === 'injured' ? 'blessé' : 'errant' }}</h3><p><ion-icon [icon]="icons.location" aria-hidden="true" />{{ report.address_text || 'Lieu non renseigné' }}</p><p><ion-icon [icon]="icons.timeOutline" aria-hidden="true" />{{ report.time }}</p></div><span class="badge" [class.urgent]="report.severity === 'critical'">{{ report.severity === 'critical' ? 'Urgent' : statusLabel(report.status) }}</span><ion-icon class="chevron" [icon]="icons.chevronForwardOutline" aria-hidden="true" />
+      </a> } @empty { <p class="empty">Aucun signalement à traiter.</p> }</div> }
+    </section>
+    <section aria-labelledby="requests-title"><div class="heading"><h2 id="requests-title">Demandes d’adoption à traiter</h2><a routerLink="/adoptions">Voir tout <ion-icon [icon]="icons.chevronForwardOutline" aria-hidden="true" /></a></div>
+      @if (errors().adoptions) { <p class="error" role="alert">{{ errors().adoptions }} <button (click)="load()">Réessayer</button></p> }
+      @else if (adoptionsData() === null) { <p role="status">Chargement des demandes…</p> }
+      @else { <div class="two-columns">@for (request of pendingAdoptions().slice(0, 2); track request.id) { <a class="card compact" [routerLink]="['/adoptions', request.id]">
+        @if (request.animal_details.primary_photo || request.animal_details.photos?.[0]?.image; as photo) { <img [src]="photo" [alt]="request.animal_details.name" loading="lazy" /> } @else { <div class="photo placeholder" aria-label="Photo non disponible"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /></div> }
+        <div class="info"><h3>{{ request.animal_details.name }}</h3><p>Demande de {{ request.applicant_name }}</p><span class="badge waiting">{{ adoptionLabels[request.status] }}</span></div><ion-icon class="chevron" [icon]="icons.chevronForwardOutline" aria-hidden="true" />
+      </a> } @empty { <p class="empty">Aucune demande en attente.</p> }</div> }
+    </section>
+    <section aria-labelledby="animals-title"><div class="heading"><h2 id="animals-title">Animaux de votre refuge</h2><a routerLink="/animals/manage">Voir tout <ion-icon [icon]="icons.chevronForwardOutline" aria-hidden="true" /></a></div>
+      @if (errors().animals) { <p class="error" role="alert">{{ errors().animals }} <button (click)="load()">Réessayer</button></p> }
+      @else if (animalsData() === null) { <p role="status">Chargement des animaux…</p> }
+      @else { <div class="two-columns">@for (animal of housed().slice(0, 2); track animal.id) { <article class="animal"><a class="card compact" [routerLink]="['/animals', animal.id]">
+        @if (animal.primary_photo || animal.photos?.[0]?.image; as photo) { <img [src]="photo" [alt]="animal.name" loading="lazy" /> } @else { <div class="photo placeholder" aria-label="Photo non disponible"><ion-icon [icon]="icons.pawOutline" aria-hidden="true" /></div> }
+        <div class="info"><h3>{{ animal.name }}</h3><p>{{ animalAge(animal.estimated_age_months) }} · {{ animal.sex === 'F' ? 'Femelle' : animal.sex === 'M' ? 'Mâle' : 'Sexe non renseigné' }}</p><span class="badge">{{ animal.status === 'reserved' ? 'Réservé' : 'Au refuge' }}</span></div><ion-icon class="chevron" [icon]="icons.chevronForwardOutline" aria-hidden="true" />
+      </a><button class="favorite" [attr.aria-label]="'Favori : ' + animal.name" [attr.aria-pressed]="animals.favorites().has(animal.id)" (click)="animals.toggleFavorite(animal.id)"><ion-icon [icon]="animals.favorites().has(animal.id) ? icons.heart : icons.heartOutline" aria-hidden="true" /></button></article> } @empty { <p class="empty">Aucun animal hébergé actuellement.</p> }</div> }
+    </section>
+  </main>
+</ion-content>
+<app-bottom-navigation active="home" class="refuge-home-navigation" />

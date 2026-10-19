@@ -1,3 +1,5 @@
+@if (user(); as currentUser) {
+@if (currentUser.role === 'refuge') { <app-refuge-home [user]="currentUser" /> } @else {
 <ion-content>
   <main class="home-page">
     <div class="hero">
@@ -51,3 +53,6 @@
   </main>
 </ion-content>
 <app-bottom-navigation active="home" />
+
+}
+} @else { <ion-content><p class="state" role="status">{{ errors().user || 'Chargement de votre accueil…' }}</p>@if (errors().user) { <button (click)="load()">Réessayer</button> }</ion-content> }

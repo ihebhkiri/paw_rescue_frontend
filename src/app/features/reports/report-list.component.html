@@ -1,5 +1,39 @@
 <ion-content>
-  <main class="missions-page">
+  <main class="missions-page" [class.refuge-page]="user()?.role === 'refuge'">
+    @if (user()?.role === 'refuge') {
+      <header class="refuge-hero">
+        <div class="hero-art" aria-hidden="true"></div>
+        <ion-icon class="decorative-paw" [icon]="icons.pawOutline" aria-hidden="true" />
+        <ion-icon class="decorative-heart" [icon]="icons.heartOutline" aria-hidden="true" />
+        <div class="refuge-copy"><span class="overline">MISSIONS</span><h1>Participez aux missions</h1><p>Aidez les animaux en besoin et<br />faites la différence.</p>
+          <a class="report-cta" routerLink="/signalements/nouveau"><ion-icon [icon]="icons.addOutline" aria-hidden="true" />Signaler un animal</a>
+          <small>Chaque signalement peut sauver une vie <ion-icon [icon]="icons.heart" aria-hidden="true" /></small>
+        </div>
+      </header>
+      <div class="refuge-filters">
+        <div class="filter-buttons" role="group" aria-label="État des signalements">
+          @for (filter of refugeFilters(); track filter.id) {
+            <button type="button" [class.active]="refugeFilter() === filter.id" [attr.aria-pressed]="refugeFilter() === filter.id" (click)="refugeFilter.set(filter.id)">
+              <ion-icon [icon]="filter.id === 'all' ? icons.listOutline : filter.id === 'rescued' ? icons.heart : icons.timeOutline" [class]="filter.id" aria-hidden="true" />{{ filter.label }}<span>{{ filter.count }}</span>
+            </button>
+          }
+        </div>
+        <label class="sort"><ion-icon [icon]="icons.optionsOutline" aria-hidden="true" /><select #sort aria-label="Trier les signalements" [value]="oldestFirst() ? 'oldest' : 'newest'" (change)="oldestFirst.set(sort.value === 'oldest')"><option value="newest">Plus récents</option><option value="oldest">Plus anciens</option></select></label>
+      </div>
+      <section class="refuge-reports" aria-labelledby="refuge-title"><h2 id="refuge-title">Signalements de votre refuge</h2>
+        @for (item of refugeCards(); track item.id) {
+          <a class="refuge-card" [routerLink]="['/signalements', item.id]">
+            @if (item.photos[0]; as photo) { <img [src]="photo.image" [alt]="item.species" [attr.loading]="$index < 3 ? 'eager' : 'lazy'" /> }
+            @else { <div class="refuge-photo placeholder" role="img" aria-label="Photo non disponible"><ion-icon [icon]="icons.pawOutline" /></div> }
+            <div class="refuge-info"><h3>{{ item.title }}</h3><p><ion-icon [icon]="icons.locationOutline" aria-hidden="true" />{{ item.address_text || 'Lieu non renseigné' }}</p><p><ion-icon [icon]="icons.calendarOutline" aria-hidden="true" />{{ item.date }}</p><p class="description">{{ item.description }}</p>
+              <div class="tags"><span><ion-icon [icon]="icons.pawOutline" aria-hidden="true" />{{ item.species }}</span><span [class.injury]="item.type === 'injured'" [class.stray]="item.type === 'stray'"><ion-icon [icon]="item.type === 'injured' ? icons.warningOutline : icons.leafOutline" aria-hidden="true" />{{ item.type === 'injured' ? 'Blessure' : 'Errance' }}</span></div>
+            </div>
+            <span class="report-status" [class.rescued]="item.status === 'rescued'" [class.pending]="item.status === 'pending'"><ion-icon [icon]="item.status === 'rescued' ? icons.heart : icons.timeOutline" aria-hidden="true" />{{ statusLabel(item.status) }}</span>
+            <ion-icon class="report-chevron" [icon]="icons.chevronForwardOutline" aria-hidden="true" />
+          </a>
+        } @empty { <p class="state" role="status">Aucun signalement{{ refugeFilter() === 'all' ? '' : refugeFilter() === 'rescued' ? ' secouru' : ' en attente' }} pour le moment.</p> }
+      </section>
+    } @else {
     <header class="mission-hero"><div class="hero-art" aria-hidden="true"></div><div class="hero-copy"><h1>Missions</h1><p>Participez aux missions et aidez<br class="wide-break" /> les animaux en besoin.</p></div></header>
     @if (user()?.role === 'benevole') {
       <div class="segments" role="group" aria-label="État des missions">@for (segment of segments; track segment.id) {
@@ -29,8 +63,9 @@
     <details class="tools"><summary>Actions et préférences</summary><div class="tool-actions"><ion-button fill="outline" routerLink="/signalements/nouveau">Signaler un animal</ion-button><ion-button fill="clear" (click)="load()" [disabled]="loading()">Actualiser la liste</ion-button>
       @if (user()?.role === 'benevole') { <ion-button fill="clear" (click)="locate()" [disabled]="locating() || loading()">{{ locating() ? 'Localisation…' : 'Mettre à jour ma position' }}</ion-button><a routerLink="/profile">Ma disponibilité</a>@if (push.native) { <ion-button fill="clear" (click)="push.enable()" [disabled]="push.busy()">Activer les notifications push</ion-button> } }
     </div></details>
+    }
     @if (message()) { <p class="success" role="status">{{ message() }}</p> }
     @if (push.message()) { <p role="status">{{ push.message() }}</p> }
   </main>
 </ion-content>
-<app-bottom-navigation active="missions" />
+<app-bottom-navigation active="missions" [class.refuge-navigation]="user()?.role === 'refuge'" />

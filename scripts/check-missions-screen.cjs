@@ -53,7 +53,7 @@ for index, name in enumerate(['Luna', 'Rocky', 'Mimi', 'Max']):
     with open(os.path.join(sys.argv[4], name.lower() + '.webp'), 'rb') as photo:
         AnimalPhoto.objects.create(animal=animal, image=File(photo, name=name.lower()+'.webp'), is_primary=True)
 for index, name in enumerate(['luna', 'rocky', 'mimi']):
-    report = Report.objects.create(reporter=citizen, species=species, type='injured' if index == 0 else 'stray', severity='critical' if index == 0 else 'mild', description='Animal près du parc', latitude=36.81, longitude=10.18, address_text=['Ariana', 'La Marsa', 'Tunis Centre'][index])
+    report = Report.objects.create(reporter=citizen, species=species, type='injured' if index == 0 else 'stray', severity='critical' if index == 0 else 'mild', description='Animal près du parc', latitude=36.81, longitude=10.18, address_text=['Ariana', 'La Marsa', 'Tunis Centre'][index], assigned_refuge=refuge, status='pending' if index == 1 else 'rescued')
     with open(os.path.join(sys.argv[4], name + '.webp'), 'rb') as photo:
         ReportPhoto.objects.create(report=report, image=File(photo, name=name+'.webp'))
 from missions.models import Mission, MissionResponse
@@ -126,6 +126,31 @@ call_command('runserver', '127.0.0.1:' + sys.argv[3], use_reloader=False, verbos
       page.on('pageerror', error => errors.push(error.message));
       return page;
     }
+    const shelter = await login('shelter@rescue.test');
+    await shelter.goto(base + '/signalements');
+    await shelter.locator('.refuge-card').first().waitFor();
+    assert.equal(await shelter.locator('.refuge-card').count(), 3);
+    await shelter.waitForFunction(() => [...document.querySelectorAll('.refuge-card img')].every(img => img.complete && img.naturalWidth));
+    for (const width of [360, 768, 1234]) {
+      await shelter.setViewportSize({ width, height: 1274 });
+      assert.ok(await shelter.locator('app-report-list ion-content').evaluate(async el => { const scroll = await el.getScrollElement(); return scroll.scrollWidth <= scroll.clientWidth; }));
+      await shelter.screenshot({ path: path.join(output, 'refuge-' + width + '.png'), fullPage: true });
+    }
+    await shelter.getByRole('button', { name: 'Secouru 2', exact: true }).click();
+    await shelter.waitForFunction(() => document.querySelectorAll('.refuge-card').length === 2);
+    await shelter.getByRole('button', { name: 'En attente 1', exact: true }).click();
+    await shelter.waitForFunction(() => document.querySelectorAll('.refuge-card').length === 1);
+    await shelter.getByRole('button', { name: 'Tous 3', exact: true }).click();
+    await shelter.waitForFunction(() => document.querySelectorAll('.refuge-card').length === 3);
+    const newest = await shelter.locator('.refuge-card').first().getAttribute('href');
+    await shelter.getByRole('combobox').selectOption('oldest');
+    await shelter.waitForFunction(newest => document.querySelector('.refuge-card').getAttribute('href') !== newest, newest);
+    await shelter.locator('.refuge-card').first().click();
+    await shelter.waitForURL(/\/signalements\/\d+$/);
+    await shelter.locator('app-report-detail ion-back-button').click();
+    await shelter.waitForURL(base + '/signalements');
+    await shelter.locator('.report-cta').click();
+    await shelter.waitForURL(base + '/signalements/nouveau');
     const page = await login('a@rescue.test');
     page.setDefaultTimeout(20000);
     await page.goto(base + '/signalements');
